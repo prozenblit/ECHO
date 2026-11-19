@@ -20,6 +20,11 @@
   .screen-runs-ownership .runs-content { align-items: flex-start; }
   .screen-runs-ownership .panel--side { position: sticky; top: calc(var(--layout-header-height) + var(--space-24)); align-self: flex-start; box-sizing: border-box; height: calc(100vh - var(--layout-header-height) - var(--space-24) - var(--space-24)); overflow: auto; }
   .muted { color: var(--color-text-secondary); }
+  .run-view { display: contents; }
+  .run-view[hidden] { display: none; }
+  /* page scrollbar hidden (wheel, keys and touch still scroll): it appeared and pushed the page sideways */
+  html { scrollbar-width: none; }
+  html::-webkit-scrollbar { display: none; }
 </style>
 </head><body>
 <div data-screen="runs" hidden>
@@ -32,9 +37,10 @@
   <main class="screen__content runs-content">
     <div class="panel panel--side">
       <span class="panel__caption">Recent Runs</span>
-      <div class="row-card row-card--run row-card--fill is-active" style="flex-wrap:wrap;row-gap:var(--space-6)"><div class="row-card__main stack--g2"><span class="type-title-12">CEDAR LOOP, INC.</span><span class="type-label-10 text-secondary">Needs analyst</span></div><span class="type-numeral-14 text-accent">54%</span><span class="pill pill--danger" style="flex:1 0 100%;justify-content:flex-start;gap:var(--space-4)">Risk High · 1 factor · provisional</span></div>
-      <div class="row-card row-card--run row-card--fill"><div class="row-card__main stack--g2"><span class="type-title-12">ALDER PEAK PTY LTD</span><span class="type-label-10 text-secondary">Needs analyst</span></div><span class="type-numeral-14 text-accent">50%</span></div>
+      <div class="row-card row-card--run row-card--fill is-active" data-run-id="cedar" style="flex-wrap:wrap;row-gap:var(--space-6);cursor:pointer"><div class="row-card__main stack--g2"><span class="type-title-12">CEDAR LOOP, INC.</span><span class="type-label-10 text-secondary">Needs analyst</span></div><span class="type-numeral-14 text-accent">54%</span><span class="pill pill--danger" style="flex:1 0 100%;justify-content:flex-start;gap:var(--space-4)">Risk High · 1 factor · provisional</span></div>
+      <div class="row-card row-card--run row-card--fill" data-run-id="alder" style="cursor:pointer"><div class="row-card__main stack--g2"><span class="type-title-12">ALDER PEAK PTY LTD</span><span class="type-label-10 text-secondary">Awaiting review</span></div><span class="type-numeral-14 text-accent">97%</span></div>
     </div>
+<div class="run-view" data-run="cedar">
     <div class="runs-main">
       <div class="panel panel--gradient summary-card" style="width:1196px">
         <div class="summary-steps">
@@ -1263,6 +1269,1080 @@ Factor 12 (High-Risk Third Country nexus (UBO, ownership entities, directors)) w
         </div>
       </div>
     </div>
+</div>
+<div class="run-view" data-run="alder" hidden>
+    <div class="runs-main">
+      <div class="panel panel--gradient summary-card" style="width:1196px">
+        <div class="summary-steps">
+          <div class="donut">
+            <div class="donut__label"><span class="donut__value text-accent">97<span class="numeral-light">%</span></span><span class="donut__caption text-success">140 out of 144</span></div>
+            <span class="donut__dyn" style="--pct:97"></span>
+          </div>
+          <div class="summary-info">
+            <div class="summary-info__head">
+              <span class="type-heading-16">ALDER PEAK PTY LTD</span>
+              <div class="hstack hstack--g16">
+                <button type="button" class="btn btn--outline btn--has-icon"><span class="icon icon--download"></span><span class="btn__label">Checklist.docx</span></button>
+                <button type="button" class="btn btn--cta">Re-Run KYC Check</button>
+              </div>
+            </div>
+            <div class="open-issues">
+              <span class="panel__caption">Still Open:</span>
+              <div class="open-issues__cols">
+                <div class="open-issues__col">
+                  <span class="open-issues__line text-warning">1 review decision</span>
+                  <span class="open-issues__line text-warning">1 second approval (4-eyes)</span>
+                </div>
+                <div class="open-issues__col">
+                  <span class="open-issues__line text-label">1 ownership gap accepted with a reason</span>
+                  <span class="open-issues__line text-label">2 values accepted from one source</span>
+                </div>
+                <div class="open-issues__col">
+                  <span class="open-issues__line text-label">4 drafts accepted by the analyst</span>
+                  <span class="open-issues__line text-label">Sent for review on 13 Nov 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stepper" style="width:1130px">
+          <i class="stepper__line stepper__line--1 stepper__line--brand"></i>
+          <i class="stepper__line stepper__line--2 stepper__line--brand"></i>
+          <i class="stepper__line stepper__line--3 stepper__line--brand"></i>
+          <i class="stepper__line stepper__line--4 stepper__line--to-current"></i>
+          <i class="stepper__line stepper__line--5"></i>
+          <i class="stepper__line stepper__line--6"></i>
+          <div class="stepper__step stepper__step--1"><div class="step__icon step__icon--done"></div><span class="step__label text-accent">Triggered</span></div>
+          <div class="stepper__step stepper__step--2"><div class="step__icon step__icon--done"></div><span class="step__label text-accent">Gathering documents</span></div>
+          <div class="stepper__step stepper__step--3"><div class="step__icon step__icon--done"></div><span class="step__label text-accent">ECHO processing</span></div>
+          <div class="stepper__step stepper__step--4"><div class="step__icon step__icon--done"></div><span class="step__label text-accent">Needs analyst</span></div>
+          <div class="stepper__step stepper__step--5"><div class="step__icon step__icon--current"></div><span class="step__label text-warning">Awaiting review</span></div>
+          <div class="stepper__step stepper__step--6"><div class="step__icon step__icon--pending"></div><span class="step__label text-muted">Awaiting 4-eyes</span></div>
+          <div class="stepper__step stepper__step--7"><div class="step__icon step__icon--pending"></div><span class="step__label text-muted">Approved</span></div>
+        </div>
+      </div>
+      <div class="runs-lower">
+        <div class="filter-list" style="max-width:218px">
+          <div class="filter-item is-active" data-page="overview" data-name="Overview"><span>Overview</span></div>
+          <div class="filter-item" data-page="general" data-name="General information"><span>General information</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="business" data-name="Business"><span>Business</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="regulation" data-name="Regulation"><span>Regulation</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="ownership" data-name="Ownership"><span>Ownership</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="funds" data-name="Funds and wealth"><span>Funds and wealth</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="financials" data-name="Financials"><span>Financials</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="trading" data-name="Trading"><span>Trading</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="comments" data-name="Comments"><span>Comments</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="wallets" data-name="Wallets"><span>Wallets</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="country" data-name="Country risk"><span>Country risk</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="documents" data-name="Documents provided"><span>Documents provided</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="risk" data-name="Risk rating"><span>Risk rating</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item" data-page="files" data-name="Files"><span>Files</span><span class="dots"><span class="dot dot--success"></span></span></div>
+          <div class="filter-item filter-item--plain" data-page="activity" data-name="Activity"><span>Activity</span></div>
+        </div>
+        <div class="page-wrap" style="flex:1;min-width:0">
+        <div class="runs-stack" data-page-section="overview">
+          <div class="panel panel--gradient detail-card">
+            <div class="detail-title">
+              <div class="stack stack--g4"><span class="detail-title__title">Review and approval</span><span class="detail-title__sub">The analyst finished on 13 November 2026 and sent the run for review. A reviewer who is not an assignee of this run decides next.</span></div>
+              <span class="toggle-field"><button type="button" class="toggle" role="switch" aria-checked="false"></button><span>Show personal details</span></span>
+            </div>
+            <div class="notice notice--info">
+              <div class="notice__headline">This run is waiting for a review decision. After the first approval it goes to a second approver (4-eyes).</div>
+              <div class="type-paragraph-12 text-label">All 9 parties have a World-Check report.<br>
+No wallet needs an exposure assessment.<br>
+The ownership structure has no open gaps; 1 gap was accepted with a reason by Dev Analyst.<br>
+The risk rating is Medium (no factor ticked).<br>
+Factor 12 (High-Risk Third Country nexus (UBO, ownership entities, directors)) was cleared by Dev Analyst: no owner or director lives in a high-risk country.</div>
+            </div>
+            <div class="hstack hstack--g16"><button type="button" class="btn btn--cta">Approve and send to 4-eyes</button><button type="button" class="btn btn--outline"><span class="btn__label">Send back to the analyst</span></button></div>
+            <div class="detail-card__note">Only a reviewer who is not an assignee of this run can decide.</div>
+          </div>
+          <div class="panel panel--gradient detail-card detail-card--flush">
+            <div class="detail-title"><span class="detail-title__title">What you need to do</span></div>
+            <div class="action-list">
+<div class="action-row"><div class="action-row__main"><span class="dot dot--warning"></span><span>Read the reason for the 1 ownership gap the analyst accepted</span></div><span class="action-row__link" data-goto="Ownership">Go to Ownership &gt; </span></div>
+<div class="action-row"><div class="action-row__main"><span class="dot dot--warning"></span><span>Check the 2 values accepted from only one source</span></div><span class="action-row__link" data-goto="General information">Go to General information &gt; </span></div>
+<div class="action-row"><div class="action-row__main"><span class="dot dot--warning"></span><span>Confirm the risk rating: Medium, with all 25 factors decided</span></div><span class="action-row__link" data-goto="Risk rating">Go to Risk rating &gt; </span></div>
+<div class="action-row"><div class="action-row__main"><span class="dot dot--warning"></span><span>Approve the run or send it back to the analyst</span></div></div>
+            </div>
+            <div class="detail-card__note">Still to come: the second approver's decision (4-eyes). Then the run is Approved.</div>
+          </div>
+        </div>
+        <section class="panel gi" data-page-section="business" hidden>
+          <div class="gi-head">
+            <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Business</h2>
+              <span class="type-label-10 muted">6 of 6 need nothing from you. Click an item for why it has its status; click a source to see the page.</span></div>
+            <span class="toggle-field"><button type="button" class="toggle" role="switch" aria-checked="false"></button><span>Show personal details</span></span>
+          </div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="History of the company">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>History of the company</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: a short history of the company. It was incorporated in New South Wales, is owned by two founders, a family trust and a seed investor and was formed to offer payment and trading services to institutional clients. Operations started the same year, with the team building its technology and onboarding the first institutional relationships and banking counterparties.</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.4 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Declared</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Declared by the client</span><span class="field-row__why">Taken from the client's own form; no document is needed for this field.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Description of activities">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Description of activities</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: a description of what the company does. It arranges currency conversions and cross-border transfers and offers digital-asset on-ramp and off-ramp services through vetted liquidity providers. It does not take retail deposits and does not operate as a deposit-taking institution.</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.4 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Declared</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Declared by the client</span><span class="field-row__why">Taken from the client's own form; no document is needed for this field.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Type of customers onboarded">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Type of customers onboarded</span></div>
+        <div class="field-row__main"><div class="field-row__value">Institutional</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.4 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Declared</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Declared by the client</span><span class="field-row__why">Taken from the client's own form; no document is needed for this field.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Is the entity operational?">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Is the entity operational?</span></div>
+        <div class="field-row__main"><div class="field-row__value">Yes</div><div class="chips"><button type="button" class="chip" data-source>Financial statements p.8 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Incumbency / good standing p.1 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Financial statements p.8 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Account opening form p.4 · image</button><button type="button" class="chip" data-source>Financial statements p.1 · text <span class="chip__ok">✓</span></button></div></div>
+        <div class="field-row__status"><span class="pill pill--success">Confirmed</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Confirmed</span><span class="field-row__why">The sources agree on this value.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Purpose of the relationship">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Purpose of the relationship</span></div>
+        <div class="field-row__main"><div class="field-row__value">Spot trading of digital assets for institutional clients, mainly conversions between Bitcoin, stablecoins and fiat (AUD)</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.4 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Declared</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Declared by the client</span><span class="field-row__why">Taken from the client's own form; no document is needed for this field.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Countries of business">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Countries of business</span></div>
+        <div class="field-row__main"><div class="field-row__value">Australia; New Zealand</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.5 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Declared</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Declared by the client</span><span class="field-row__why">Taken from the client's own form; no document is needed for this field.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+            </div></div>
+        </section>
+        <section class="panel gi" data-page-section="regulation" hidden>
+          <div class="gi-head">
+            <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Regulation</h2>
+              <span class="type-label-10 muted">6 of 6 need nothing from you. Click an item for why it has its status; click a source to see the page.</span></div>
+            <span class="toggle-field"><button type="button" class="toggle" role="switch" aria-checked="false"></button><span>Show personal details</span></span>
+          </div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="Licensing / registration number">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Licensing / registration number <span class="field-row__req">*</span></span></div>
+        <div class="field-row__main"><div class="field-row__value">MSB Registration Number {REG_NUMBER_1} (evidence of regulation and the Account Opening Form); NMLS ID {REG_NUMBER_2} (evidence of regulation)</div><div class="chips"><button type="button" class="chip" data-source>Evidence of regulation p.1 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Account opening form p.5 · image</button><button type="button" class="chip" data-source>Evidence of regulation p.1 · image</button></div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Accepted ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Accepted by the analyst</span><span class="field-row__why">Dev Analyst accepted this value from its single source and left a comment.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Evidence of regulation (documents or weblinks)">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Evidence of regulation (documents or weblinks)</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: a transcript of a financial regulator's registration page for the company, showing an initial registration with signature and received dates. No web address is shown on the page.<br><br>Sample text: a licensing register page for the company showing its identifier and one active state licence with no regulatory actions. The page shows no extract or print date and no register URL.</div><div class="chips"><button type="button" class="chip" data-source>Evidence of regulation p.1 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Evidence of regulation p.1 · image</button></div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Accepted ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Draft accepted</span><span class="field-row__why">Dev Analyst accepted ECHO's draft.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Proceedings in the last 10 years">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Proceedings in the last 10 years <span class="field-row__req">*</span></span></div>
+        <div class="field-row__main"><div class="field-row__value">No</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.5 · image</button></div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Accepted ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Accepted by the analyst</span><span class="field-row__why">Dev Analyst accepted this value from its single source and left a comment.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+            </div></div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="Authorised or regulated?">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Authorised or regulated? <span class="field-row__req">*</span></span></div>
+        <div class="field-row__main"><div class="field-row__value">Yes</div><div class="chips"><button type="button" class="chip" data-source>Evidence of regulation p.1 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Account opening form p.5 · image</button><button type="button" class="chip" data-source>Evidence of regulation p.1 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--success">Confirmed</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Confirmed</span><span class="field-row__why">The sources agree on this value.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Regulator and category">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Regulator and category</span></div>
+        <div class="field-row__main"><div class="field-row__value">Federal financial regulator - money services business (money transmitter) (evidence of regulation and the Account Opening Form); State - money transmitter licence (evidence of regulation and the Account Opening Form)</div><div class="chips"><button type="button" class="chip" data-source>Evidence of regulation p.1 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Account opening form p.5 · image</button><button type="button" class="chip" data-source>Evidence of regulation p.1 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--success">Confirmed</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Confirmed</span><span class="field-row__why">The sources agree on this value.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="If not regulated, rationale">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>If not regulated, rationale</span></div>
+        <div class="field-row__main"><div class="field-row__value is-empty">—</div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Not applicable</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Not applicable</span><span class="field-row__why">This field does not apply to this client.</span></div>
+      </div>
+            </div></div>
+        </section>
+        <section class="panel gi" data-page-section="funds" hidden>
+          <div class="gi-head">
+            <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Source of funds and wealth</h2>
+              <span class="type-label-10 muted">2 of 2 need nothing from you. Click an item for why it has its status; click a source to see the page.</span></div>
+            <span class="toggle-field"><button type="button" class="toggle" role="switch" aria-checked="false"></button><span>Show personal details</span></span>
+          </div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="Source of funds: information and evidence">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Source of funds: information and evidence</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: a bank statement for the company's settlement account for one month, showing credits from internal transfers and debits from outgoing wires, with the balance before and after.<br><br>Sample text: a balance sheet at a half-year date showing cash, crypto assets, receivables, liabilities and equity. No currency is stated.<br><br>Sample text: annual accounts showing net operating revenue made up of commission income and payment revenue, net income for the year and cash held as bank demand deposits.<br><br>Sample text: the account opening form states that funds come from client transaction fees and commissions and from capital contributions from the parent company. No figures or dates are given.</div><div class="chips"><button type="button" class="chip" data-source>Financial statements p.11 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Financial statements p.5 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Account opening form p.7 · image</button><button type="button" class="chip" data-source>Financial statements p.1 · text <span class="chip__ok">✓</span></button></div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Accepted ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Draft accepted</span><span class="field-row__why">Dev Analyst accepted ECHO's draft.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Source of wealth: information and evidence (per UBO)">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Source of wealth: information and evidence (per UBO)</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: both founders built their wealth by selling a software business in 2019 and by later investments. Supported by a signed wealth statement and a bank statement for each of them.</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Resolved by the analyst</span><span class="field-row__why">Dev Analyst completed this from the evidence the client sent later.</span></div>
+      </div>
+            </div></div>
+        </section>
+        <section class="panel gi" data-page-section="financials" hidden>
+          <div class="gi-head">
+            <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Financials</h2>
+              <span class="type-label-10 muted">2 of 2 need nothing from you. Click an item for why it has its status; click a source to see the page.</span></div>
+            <span class="toggle-field"><button type="button" class="toggle" role="switch" aria-checked="false"></button><span>Show personal details</span></span>
+          </div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="Accounts: period, auditor, currency">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Accounts: period, auditor, currency</span></div>
+        <div class="field-row__main"><div class="field-row__value">Year ended 2026-06-30; auditor: Sample Audit Partners; currency: AUD</div><div class="chips"><button type="button" class="chip" data-source>Financial statements p.3 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Financial statements p.3 · text <span class="chip__ok">✓</span></button></div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Resolved by the analyst</span><span class="field-row__why">Dev Analyst chose the value from the sources.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Analysis of the accounts">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Analysis of the accounts</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: a single-page balance sheet at a half-year date with no income statement, so revenue and profit are not shown. It lists total assets, mainly cash, and total liabilities, mainly amounts payable to clients, with the equity made up of share capital and retained earnings.<br><br>Sample text: annual accounts for the year to 31 December showing net operating revenue and net income against the previous year. No audit report or going-concern note is included. The ownership notes differ from each other, and the statement of changes in equity does not match the balance sheet.<br><br>Sample text: a statement of operations for the six months to 30 June showing total revenue, cost of services, operating income, income tax and net income. No balance sheet or audit opinion is shown.</div><div class="chips"><button type="button" class="chip" data-source>Financial statements p.12 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Financial statements p.12 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Financial statements p.1 · text <span class="chip__ok">✓</span></button></div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Accepted ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Draft accepted</span><span class="field-row__why">Dev Analyst accepted ECHO's draft.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+            </div></div>
+          <div class="field-group">
+            <div class="stack stack--g4"><span class="detail-title__title">Key financial figures</span><span class="type-label-10 muted">Year to 30 Jun 2026 · AUD · audited by Sample Audit Partners</span>
+              <span class="type-label-10 muted">As printed in the accounts, in their own units; brackets are negatives. ECHO checks the arithmetic but never adds anything up. Click a figure to see its page.</span></div>
+            <div class="data-table data-table--fig" style="--table-cols: 1.6fr 1fr 1fr 0.7fr 1.1fr">
+    <div class="data-table__row data-table__row--head"><div class="data-table__cell"></div><div class="data-table__cell data-table__cell--num">Year to 31 Dec 2025</div><div class="data-table__cell data-table__cell--num">Year to 31 Dec 2024</div><div class="data-table__cell data-table__cell--num">Change</div><div class="data-table__cell data-table__cell--num">Interim to 30 Jun 2026<span class="fin-sub">shown, not compared</span></div></div>
+    <div class="data-table__row"><div class="fin-group">Income statement</div></div>
+    <div class="data-table__row"><div class="data-table__cell"><span class="fin-label">Revenue</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Revenue · 2025">6,100<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Revenue · 2024">3,400<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">+79%</span></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">2,400</span></div></div>
+    <div class="data-table__row"><div class="data-table__cell"><span class="fin-label">Cost of sales</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Cost of sales · 2025">(1,800)<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Cost of sales · 2024">(900)<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">+100%</span></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">(120)</span></div></div>
+    <div class="data-table__row"><div class="data-table__cell"><span class="fin-label">Gross profit</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Gross profit · 2025">4,300<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Gross profit · 2024">2,500<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">+72%</span></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">2,280</span></div></div>
+    <div class="data-table__row"><div class="data-table__cell"><span class="fin-label">Net profit or loss</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Net profit or loss · 2025">4,100<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Net profit or loss · 2024">2,450<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">1,800</span></div></div>
+    <div class="data-table__row"><div class="fin-group">Balance sheet</div></div>
+    <div class="data-table__row"><div class="data-table__cell"><span class="fin-label">Total current assets</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Total current assets · 2025">6,500<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Total current assets · 2024">2,480<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">+162%</span></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">38,700</span></div></div>
+    <div class="data-table__row"><div class="data-table__cell"><span class="fin-label">Total assets</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Total assets · 2025">6,700<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Total assets · 2024">2,480<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">+170%</span></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">39,000</span></div></div>
+    <div class="data-table__row"><div class="data-table__cell"><span class="fin-label">Total current liabilities</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Total current liabilities · 2025">300<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Total current liabilities · 2024">300<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">30,600</span></div></div>
+    <div class="data-table__row"><div class="data-table__cell"><span class="fin-label">Total liabilities</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Total liabilities · 2025">200<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Total liabilities · 2024">12<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">30,600</span></div></div>
+    <div class="data-table__row"><div class="data-table__cell"><span class="fin-label">Net assets</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Net assets · 2025">6,500<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Net assets · 2024">2,470<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"></div><div class="data-table__cell data-table__cell--num"><span class="fin-plain">8,400</span></div></div>
+            </div>
+            <div class="fin-legend"><span><span class="dot dot--success"></span>confirmed</span><span><span class="dot dot--success"></span>one source, unclear, not found or arithmetic to check</span><span><span class="dot dot--success"></span>sources disagree</span></div>
+          </div>
+          <div class="field-group">
+            <div class="stack stack--g4"><span class="detail-title__title">Bank statements</span>
+              <span class="type-label-10 muted">Balances as printed on each statement. ECHO checks that opening + credits − debits = closing, and that the statements cover enough months.</span></div>
+            <div class="data-table data-table--fig" style="--table-cols: 1.4fr 1.4fr 1fr 1fr 1fr 1fr">
+              <div class="data-table__row data-table__row--head"><div class="data-table__cell">Account</div><div class="data-table__cell">Period</div><div class="data-table__cell data-table__cell--num">Opening balance</div><div class="data-table__cell data-table__cell--num">Total credits</div><div class="data-table__cell data-table__cell--num">Total debits</div><div class="data-table__cell data-table__cell--num">Closing balance</div></div>
+              <div class="data-table__row"><div class="data-table__cell"><span class="fin-label">Sample Bank ••0000 AUD</span></div><div class="data-table__cell"><span class="fin-label">1 Aug 2026 – 31 Oct 2026</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Opening balance">23,000.00<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Total credits">9,750,000.00<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Total debits">9,770,000.00<span class="dot dot--success"></span></button></div><div class="data-table__cell data-table__cell--num"><button type="button" class="fin-num" data-field="Closing balance">1,000.00<span class="dot dot--success"></span></button></div></div>
+            </div>
+            <div class="notice notice--info"><div class="notice__row"><span>The statements cover 01 Aug 2026 to 31 Oct 2026: three consecutive months.</span></div></div>
+            <div class="fin-legend"><span><span class="dot dot--success"></span>confirmed</span><span><span class="dot dot--success"></span>one source, unclear, not found or arithmetic to check</span><span><span class="dot dot--success"></span>sources disagree</span></div>
+          </div>
+        </section>
+        <section class="panel gi" data-page-section="trading" hidden>
+          <div class="gi-head">
+            <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Trading with Orbis</h2>
+              <span class="type-label-10 muted">4 of 4 need nothing from you. Click an item for why it has its status; click a source to see the page.</span></div>
+            <span class="toggle-field"><button type="button" class="toggle" role="switch" aria-checked="false"></button><span>Show personal details</span></span>
+          </div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="Orbis services used">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Orbis services used</span></div>
+        <div class="field-row__main"><div class="field-row__value">Spot trading of digital assets for institutional clients, mainly conversions between Bitcoin, stablecoins and fiat (AUD)</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.8 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Declared</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Declared by the client</span><span class="field-row__why">Taken from the client's own form; no document is needed for this field.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Crypto assets expected">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Crypto assets expected</span></div>
+        <div class="field-row__main"><div class="field-row__value">USDC; BTC</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.8 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Declared</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Declared by the client</span><span class="field-row__why">Taken from the client's own form; no document is needed for this field.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Monthly trading volume">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Monthly trading volume</span></div>
+        <div class="field-row__main"><div class="field-row__value">12M AUD monthly</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.8 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Declared</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Declared by the client</span><span class="field-row__why">Taken from the client's own form; no document is needed for this field.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Frequency of trades">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Frequency of trades</span></div>
+        <div class="field-row__main"><div class="field-row__value">20 trades per month</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.8 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Declared</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Declared by the client</span><span class="field-row__why">Taken from the client's own form; no document is needed for this field.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+            </div></div>
+        </section>
+        <section class="panel gi" data-page-section="comments" hidden>
+          <div class="gi-head">
+            <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">AML/KYC comments</h2>
+              <span class="type-label-10 muted">4 of 4 need nothing from you. Click an item for why it has its status; click a source to see the page.</span></div>
+            <span class="toggle-field"><button type="button" class="toggle" role="switch" aria-checked="false"></button><span>Show personal details</span></span>
+          </div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="AML / KYC policy information">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>AML / KYC policy information</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: the company's anti-money-laundering compliance programme, a multi-page document with a version history approved by the board. Risk assessment is covered in one section with weighted factors and a client score mapped to low, medium and high tiers, with an annual review. Customer due diligence, politically exposed person screening and ongoing monitoring each have their own section. Enhanced due diligence is triggered by a high score or specific events. A dedicated suspicious-activity reporting section is not on the pages shown.<br><br>Sample text: a sanctions compliance programme document. It is a sanctions-only programme and not a full AML/KYC policy. It covers a sanctions risk assessment and screening of entities, owners and account users, with periodic rescreening and monthly wallet monitoring. Suspicious-activity reporting is not covered.</div><div class="chips"><button type="button" class="chip" data-source>AML policy p.1 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>AML policy p.1 · text <span class="chip__ok">✓</span></button></div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Accepted ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Draft accepted</span><span class="field-row__why">Dev Analyst accepted ECHO's draft.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="World-Check: general comments">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>World-Check: general comments</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: no adverse results for the company, its owners or its directors.</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Resolved by the analyst</span><span class="field-row__why">Dev Analyst completed this from the evidence the client sent later.</span></div>
+      </div>
+      <div class="field-row is-interactive" data-label="PEPs: comments">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>PEPs: comments <span class="field-row__req">*</span></span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: none of the owners or directors is a politically exposed person.</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Resolved by the analyst</span><span class="field-row__why">Dev Analyst completed this from the evidence the client sent later.</span></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Media check: comments">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Media check: comments <span class="field-row__req">*</span></span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: no adverse media found for the company, its owners or its directors.</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Written by the analyst</span><span class="field-row__why">Dev Analyst wrote this field.</span></div>
+      </div>
+            </div></div>
+        </section>
+        <section class="panel gi" data-page-section="wallets" hidden>
+          <div class="gi-head">
+            <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Wallets</h2>
+              <span class="type-label-10 muted">1 wallet seen in the pack, 0 with something to check. Addresses and checksums are checked by code. Risk figures are shown as each report gives them, never re-scored. Elliptic screens every wallet whose address was read from a text layer, on every run; addresses read only from scans wait for an analyst to confirm them.</span></div>
+          </div>
+          <div class="data-table data-table--fig" style="--table-cols: 2.4fr 1.2fr 0.6fr 1.2fr 1fr">
+            <div class="data-table__row data-table__row--head"><div class="data-table__cell">Wallet</div><div class="data-table__cell">Network</div><div class="data-table__cell">Declared</div><div class="data-table__cell">Elliptic</div><div class="data-table__cell">Status</div></div>
+            <div class="data-table__row">
+              <div class="data-table__cell">
+                <div class="hstack hstack--g8" style="align-items:flex-start"><span class="fin-label">W1</span><span class="type-title-12" style="word-break:break-all">{WALLET_ADDRESS_2}</span><button type="button" class="link-action" data-copy="{WALLET_ADDRESS_2}">Copy</button></div>
+                <div class="fin-sub hstack hstack--g4" style="flex-wrap:wrap"><span>Ethereum · checksum verified · seen in 1 place ·</span><button type="button" class="link-action">Show figures</button></div>
+              </div>
+              <div class="data-table__cell"><span class="fin-plain">USDC (ERC-20, Ethereum network)</span></div>
+              <div class="data-table__cell"><span class="fin-plain">Yes</span></div>
+              <div class="data-table__cell">
+                <button type="button" class="pill pill--success pill--action" data-status data-field="Wallet W1 · Elliptic">Screened ›</button>
+                <div class="hstack hstack--g8"><span class="fin-plain">1.20 / 10</span><span class="pill pill--neutral">Low</span></div>
+                <span class="meter" style="--pct:12"></span>
+              </div>
+              <div class="data-table__cell"><button type="button" class="pill pill--success pill--action" data-status data-field="Wallet W1 · Status">Screened ›</button></div>
+            </div>
+          </div>
+          <div class="stack stack--g8" data-undo-group data-approve-group>
+            <span class="fin-label">Within risk appetite? The analyst decides.</span>
+            <div class="notice__row" data-undo-action hidden><button type="button" class="link-action" data-undo>Approve as within risk appetite</button></div>
+            <div class="stack stack--g8" data-undo-form hidden>
+              <textarea class="textarea" rows="2" style="width:50%" placeholder="Why this is within risk appetite"></textarea>
+              <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-undo-save>Save</button><button type="button" class="btn btn--outline" data-undo-cancel><span class="btn__label">Cancel</span></button></div>
+            </div>
+            <div class="notice__row" data-undo-done><span class="text-label pre">Approved as within risk appetite: </span><span data-undo-reason>Low exposure, well inside appetite (Dev Analyst, 12 Nov 2026)</span></div>
+          </div>
+                  </section>
+        <section class="panel gi" data-page-section="country" hidden>
+          <div class="gi-head">
+            <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Country risk profile</h2>
+              <span class="type-label-10 muted">Ratings copied from Country Risk Matrix - Updated August 2026.xlsx.</span></div>
+          </div>
+          <div class="stack stack--g4">
+            <span class="type-label-10 muted">Internal rating, country of incorporation</span>
+            <span class="type-heading-14">Australia: Medium</span>
+            <span class="type-label-10 muted">Country of incorporation named in the company's address.</span>
+          </div>
+          <div class="notice notice--info"><div class="notice__row"><span>Both countries are assessed: Dev Analyst accepted the matrix ratings.</span></div></div>
+          <div class="data-table data-table--fig data-table--aligned" style="--table-cols: 1.3fr 1.6fr 0.8fr 1fr 1fr 1fr 1fr max-content">
+            <div class="data-table__row data-table__row--head"><div class="data-table__cell">Country</div><div class="data-table__cell">Why it is listed</div><div class="data-table__cell">Overall</div><div class="data-table__cell">Money laundering</div><div class="data-table__cell">Terrorism financing</div><div class="data-table__cell">Sanctions &amp; PF</div><div class="data-table__cell">Bribery &amp; corruption</div><div class="data-table__cell"></div></div>
+            <div class="data-table__row"><div class="data-table__cell"><span class="type-label-10">Australia</span></div><div class="data-table__cell"><span class="type-field-10 text-label">Country of incorporation; Country of business</span></div><div class="data-table__cell"><span class="pill pill--warning">Medium</span></div><div class="data-table__cell"><span class="pill pill--neutral">Low</span></div><div class="data-table__cell"><span class="pill pill--neutral">Low</span></div><div class="data-table__cell"><span class="pill pill--neutral">Low</span></div><div class="data-table__cell"><span class="pill pill--neutral">Low</span></div><div class="data-table__cell"></div></div>
+            <div class="data-table__row"><div class="data-table__cell"><span class="type-label-10">New Zealand</span></div><div class="data-table__cell"><span class="type-field-10 text-label">Country of business; Residence of a UBO or director</span></div><div class="data-table__cell"><span class="pill pill--neutral">Low</span></div><div class="data-table__cell"><span class="pill pill--neutral">Low</span></div><div class="data-table__cell"><span class="pill pill--neutral">Low</span></div><div class="data-table__cell"><span class="pill pill--neutral">Low</span></div><div class="data-table__cell"><span class="pill pill--neutral">Low</span></div><div class="data-table__cell"><span class="pill pill--success">Accepted</span></div></div>
+          </div>
+          <span class="type-label-10 muted">Outside the country of incorporation: an analyst assigns the risk (Compliance). TBC: every such country, or only those rated High.</span>
+        </section>
+        <section class="panel gi" data-page-section="documents" hidden>
+          <div class="gi-head">
+            <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Documents provided</h2>
+              <span class="type-label-10 muted">16 of 16 need nothing from you. Click an item for why it has its status; click a source to see the page.</span></div>
+            <span class="toggle-field"><button type="button" class="toggle" role="switch" aria-checked="false"></button><span>Show personal details</span></span>
+          </div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="Ownership Structure Chart">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Ownership Structure Chart</span></div>
+        <div class="field-row__main"><div class="field-row__value">Ownership structure chart dated 31 Dec 2025, certified later; ownership structure chart dated 31 Dec 2025</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Provided ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">An up-to-date document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Address verification (Company)">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Address verification (Company)</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Utility bill dated 02 Oct 2026</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Provided ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">The client sent a document of this kind after the request.</span></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Source of Wealth Evidence">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Source of Wealth Evidence</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Signed wealth statement dated 08 Oct 2026</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Provided ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">The client sent a document of this kind after the request.</span></div>
+      </div>
+            </div></div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="Certificate of Incorporation">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Certificate of Incorporation</span></div>
+        <div class="field-row__main"><div class="field-row__value">Certificate of incorporation dated 12 Jun 2024, certified 26 Jun 2024; certificate of incorporation, undated, certified later</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Registry extract / Incumbency / Good Standing">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Registry extract / Incumbency / Good Standing</span></div>
+        <div class="field-row__main"><div class="field-row__value">Certificate of good standing dated 08 Oct 2025; extract from the corporate registry, undated</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Memorandum & Articles">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Memorandum & Articles</span></div>
+        <div class="field-row__main"><div class="field-row__value">Memorandum & Articles of Association dated 12 Jun 2024, certified 12 Jun 2024; second copy, undated, certified later</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Investment Management Agreement (funds)">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Investment Management Agreement (funds)</span></div>
+        <div class="field-row__main"><div class="field-row__value is-empty">—</div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Not applicable</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Not applicable</span><span class="field-row__why">This document does not apply to this client.</span></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Evidence of regulatory registration">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Evidence of regulatory registration</span></div>
+        <div class="field-row__main"><div class="field-row__value">Evidence of regulation dated 13 Jan 2025; evidence of regulation, undated</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Register of Members">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Register of Members</span></div>
+        <div class="field-row__main"><div class="field-row__value">Register of members dated 04 Sep 2026, certified the same day; register of members dated 14 Aug 2026; extract from the corporate registry, undated</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Register of Directors">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Register of Directors</span></div>
+        <div class="field-row__main"><div class="field-row__value">Register of directors dated 18 Aug 2026, certified later; register of directors dated 18 Aug 2026; extract from the corporate registry, undated</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Passports for all UBOs and Directors">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Passports for all UBOs and Directors</span></div>
+        <div class="field-row__main"><div class="field-row__value">1 provided</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Address verification for all UBOs and Directors">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Address verification for all UBOs and Directors</span></div>
+        <div class="field-row__main"><div class="field-row__value">2 provided</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="AML Policies">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>AML Policies</span></div>
+        <div class="field-row__main"><div class="field-row__value">AML policy dated 01 Jul 2025; AML policy dated 07 Jan 2025</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Source of Funds Evidence">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Source of Funds Evidence</span></div>
+        <div class="field-row__main"><div class="field-row__value">Bank statement dated 31 Jul 2026</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Audited Financial Statements">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Audited Financial Statements</span></div>
+        <div class="field-row__main"><div class="field-row__value">Financial statements dated 30 Jun 2026; financial statements dated 31 Dec 2025; two more, undated</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Bank Statements">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Bank Statements</span></div>
+        <div class="field-row__main"><div class="field-row__value">Bank statement dated 31 Jul 2026</div></div>
+        <div class="field-row__status"><span class="pill pill--success">Provided</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Provided</span><span class="field-row__why">A document of this kind was provided.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+            </div></div>
+          <div class="stack stack--g16" id="docs-request-alder">
+            <div class="section-head" style="height:auto"><span class="hstack hstack--g8"><span class="detail-title__title">Documents to request</span><span class="pill pill--neutral">0</span></span>
+              <span class="hstack hstack--g8"><button type="button" class="btn btn--outline"><span class="btn__label">Show every document</span></button><button type="button" class="btn btn--cta" data-copy-list><span class="btn__label">Copy as text</span></button></span></div>
+            <span class="type-label-10 muted">Nothing to request: every party has the documents its role needs.</span>
+          </div>
+        </section>
+        <section class="panel gi" data-page-section="risk" hidden>
+          <div class="stack stack--g8">
+            <h2 class="type-heading-14" style="margin:0">Risk designation</h2>
+            <span class="type-label-10 muted">Computed by ECHO from the ticked factors (Compliance, 12 November 2026). There is no Low.</span>
+            <span class="type-heading-16 text-danger" id="risk-level-alder">High</span>
+            <span class="type-label-10 muted" id="risk-count-alder">1 factor ticked · refresh every 12 months</span>
+            <div class="notice notice--warning" id="risk-notice-alder"><div class="notice__row"><span>Provisional: 24 factors wait for you. Tick or clear each one below.</span></div></div>
+                      </div>
+          <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Risk factors</h2>
+            <span class="type-label-10 muted">Any ticked factor makes the client High. ECHO ticks the factors it has a rule for and says why; the rest wait for you. You can tick or clear any factor, with a comment.</span></div>
+          <div class="field-group"><div class="field-group__title">Client & ownership</div>
+            <div class="field-list">
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">1</span>
+              <div class="factor__main"><div class="factor__title"><span>PEP, family member or close associate</span><span class="pill pill--neutral">EDD</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">2</span>
+              <div class="factor__main"><div class="factor__title"><span>Stolen or false identification documents or information</span><span class="pill pill--neutral">EDD</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">3</span>
+              <div class="factor__main"><div class="factor__title"><span>Complex or opaque ownership (nominees, bearer shares, unexplained multi-layering)</span></div><span class="type-label-10 text-secondary">4 gaps in the ownership structure that could hide an owner (accepted or not): the analyst judges whether this is opaque ownership (an investor or employee pool usually isn't).</span><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">ECHO rule</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">4</span>
+              <div class="factor__main"><div class="factor__title"><span>Corporate structure unusual or excessively complex given the business</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">5</span>
+              <div class="factor__main"><div class="factor__title"><span>Legal person or arrangement that is a vehicle for holding personal assets</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">6</span>
+              <div class="factor__main"><div class="factor__title"><span>Trust or foundation with limited transparency</span></div><span class="type-label-10 text-secondary">No trust or foundation in the ownership structure.</span><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--neutral" data-factor-pill>Not ticked</span><span class="type-label-10 text-secondary">ECHO rule</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">7</span>
+              <div class="factor__main"><div class="factor__title"><span>Cash-intensive business</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">8</span>
+              <div class="factor__main"><div class="factor__title"><span>Business relationship conducted in unusual circumstances</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">9</span>
+              <div class="factor__main"><div class="factor__title"><span>Adverse media indicating integrity or other risks</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            </div></div>
+          <div class="field-group"><div class="field-group__title">Screening & regulatory status</div>
+            <div class="field-list">
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">10</span>
+              <div class="factor__main"><div class="factor__title"><span>Sanctions, PEP or adverse media alert unresolved or escalated to the MLRO</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">11</span>
+              <div class="factor__main"><div class="factor__title"><span>Entity unregulated or regulatory status not verified</span></div><span class="type-label-10 text-secondary">Regulated, and the regulator is backed by evidence beyond the client's form (section 3).</span><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--neutral" data-factor-pill>Not ticked</span><span class="type-label-10 text-secondary">ECHO rule</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            </div></div>
+          <div class="field-group"><div class="field-group__title">Geography</div>
+            <div class="field-list">
+            <div class="factor" data-factor data-initial="c" data-state="c">
+              <span class="factor__no">12</span>
+              <div class="factor__main"><div class="factor__title"><span>High-Risk Third Country nexus (UBO, ownership entities, directors)</span><span class="pill pill--neutral">EDD</span></div><span class="type-label-10 text-secondary">Not ticked by Local developer: “cleared” · ECHO found: Rated High in the Country Risk Matrix (Overall Rating): New Zealand (country of business, residence of a UBO or director).</span><span class="type-label-10 text-label" data-factor-note>Comment: no owner or director lives in a high-risk country.</span></div>
+              <div class="factor__state"><span class="pill pill--success" data-factor-pill>Cleared by analyst</span><span class="type-label-10 text-secondary">ECHO rule</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">13</span>
+              <div class="factor__main"><div class="factor__title"><span>Client resident in, or operating from, a high-risk area</span></div><span class="type-label-10 text-secondary">Rated High in the Country Risk Matrix (Overall Rating): New Zealand (country of business, residence of a UBO or director).</span><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--danger" data-factor-pill>Ticked by ECHO</span><span class="type-label-10 text-secondary">ECHO rule</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">14</span>
+              <div class="factor__main"><div class="factor__title"><span>The client's own clients mainly in high-risk third countries</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">15</span>
+              <div class="factor__main"><div class="factor__title"><span>Incorporated in a jurisdiction with weak AML/CFT, high corruption or TF concerns</span></div><span class="type-label-10 text-secondary">None rated High in the Country Risk Matrix (Overall Rating): Australia (country of incorporation, country of business).</span><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--neutral" data-factor-pill>Not ticked</span><span class="type-label-10 text-secondary">ECHO rule</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">16</span>
+              <div class="factor__main"><div class="factor__title"><span>Country identified by credible sources (FATF, IMF, World Bank, OECD) as lacking effective AML/CTF</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">17</span>
+              <div class="factor__main"><div class="factor__title"><span>Country with significant corruption or other criminal activity</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">18</span>
+              <div class="factor__main"><div class="factor__title"><span>Country subject to sanctions, embargoes or similar (UK, UN)</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">19</span>
+              <div class="factor__main"><div class="factor__title"><span>Country funding or supporting terrorism</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            </div></div>
+          <div class="field-group"><div class="field-group__title">Products, services & delivery channel</div>
+            <div class="field-list">
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">20</span>
+              <div class="factor__main"><div class="factor__title"><span>Non-face-to-face relationship without safeguards</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">21</span>
+              <div class="factor__main"><div class="factor__title"><span>Product or transaction that might favour anonymity</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">22</span>
+              <div class="factor__main"><div class="factor__title"><span>Payments from unknown or unassociated third parties</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">23</span>
+              <div class="factor__main"><div class="factor__title"><span>New products, practices or technologies</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">24</span>
+              <div class="factor__main"><div class="factor__title"><span>Nominee directors or shareholders, shadow directors, or company formation in third countries</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            </div></div>
+          <div class="field-group"><div class="field-group__title">Transactions & behaviour</div>
+            <div class="field-list">
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">25</span>
+              <div class="factor__main"><div class="factor__title"><span>Complex or unusually large transactions with no clear purpose</span><span class="pill pill--neutral">EDD</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">26</span>
+              <div class="factor__main"><div class="factor__title"><span>Frequent cross-border flows to higher-risk jurisdictions, or layering</span></div><span class="type-label-10 text-secondary">No wallet has an Elliptic risk score above 7.</span><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--neutral" data-factor-pill>Not ticked</span><span class="type-label-10 text-secondary">ECHO rule</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">27</span>
+              <div class="factor__main"><div class="factor__title"><span>Expected activity vague, historic only or lacking detail</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            </div></div>
+          <div class="field-group"><div class="field-group__title">Source of funds & wealth</div>
+            <div class="field-list">
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">28</span>
+              <div class="factor__main"><div class="factor__title"><span>Source-of-funds evidence doesn't cover every bank account used</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">29</span>
+              <div class="factor__main"><div class="factor__title"><span>Source of wealth not evidenced where risk indicates</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            </div></div>
+          <div class="field-group"><div class="field-group__title">Misc</div>
+            <div class="field-list">
+            <div class="factor" data-factor data-initial="n" data-state="n">
+              <span class="factor__no">30</span>
+              <div class="factor__main"><div class="factor__title"><span>Any other factors</span><span class="pill pill--neutral">EDD</span></div><span class="type-label-10 text-label" data-factor-note hidden></span></div>
+              <div class="factor__state"><span class="pill pill--warning" data-factor-pill>Waiting for you</span><span class="type-label-10 text-secondary">Analyst</span></div>
+              <div class="factor__actions" data-factor-actions></div>
+              <div class="factor__form" data-factor-form hidden>
+                <textarea class="textarea" rows="2" style="width:50%" placeholder="Comment (required)"></textarea>
+                <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-factor-save>Save</button><button type="button" class="btn btn--outline" data-factor-cancel><span class="btn__label">Cancel</span></button></div>
+              </div>
+            </div>
+            </div></div>
+          <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Risk rationale and Compliance Summary</h2>
+            <span class="type-label-10 muted">3 of 3 need nothing from you. Click an item for why it has its status; click a source to see the page.</span></div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="Comments and risk rationale">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Comments and risk rationale</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: a small, founder-owned company with a simple structure and a clear business. No factor was ticked after review, so the rating is Medium.</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Written by the analyst</span><span class="field-row__why">Dev Analyst wrote this field.</span></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Sufficient evidence obtained">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Sufficient evidence obtained</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Yes: every checklist item has a source or an analyst decision.</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Written by the analyst</span><span class="field-row__why">Dev Analyst wrote this field.</span></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Consideration of conflicts">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Consideration of conflicts</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample text: the one conflict, about the trust deed date, was resolved from the signed deed.</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Written by the analyst</span><span class="field-row__why">Dev Analyst wrote this field.</span></div>
+      </div>
+            </div></div>
+        </section>
+        <section class="panel gi" data-page-section="files" hidden style="gap:var(--space-12)">
+          <div class="gi-head"><h2 class="type-heading-14" style="margin:0">Files</h2></div>
+          <div class="kpi-row" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch">
+            <div class="kpi"><span class="kpi__value text-accent">23</span><span class="kpi__label">Unique documents (23 files)</span></div>
+            <div class="kpi"><span class="kpi__value text-accent">214</span><span class="kpi__label">Pages</span></div>
+            <div class="kpi"><span class="kpi__value text-warning">12</span><span class="kpi__label">Pages read as images: scans, unreadable text layers and tick-boxes</span></div>
+          </div>
+          <div class="stack stack--g4"><span class="type-title-12 muted">202 read from text · 12 read as images</span><span class="type-title-12 text-success">All documents identified</span></div>
+          <div class="stack stack--g8">
+            
+            
+            <div class="tally"><div><div class="tally__row"><span>Account opening form</span><span class="tally__count">2</span></div><div class="tally__row"><span>AML policy</span><span class="tally__count">2</span></div><div class="tally__row"><span>Authorised signatories</span><span class="tally__count">3</span></div><div class="tally__row"><span>Bank statement</span><span class="tally__count">1</span></div><div class="tally__row"><span>Certificate of incorporation</span><span class="tally__count">2</span></div><div class="tally__row"><span>Company proof of address</span><span class="tally__count">1</span></div><div class="tally__row"><span>Evidence of regulation</span><span class="tally__count">2</span></div><div class="tally__row"><span>Financial statements</span><span class="tally__count">4</span></div><div class="tally__row"><span>Incumbency / good standing</span><span class="tally__count">1</span></div><div class="tally__row"><span>Memorandum &amp; articles</span><span class="tally__count">2</span></div></div><div><div class="tally__row"><span>Comment files</span><span class="tally__count">18</span></div><div class="tally__row tally__row--warn"><span>Not identified</span><span class="tally__count">1</span></div><div class="tally__row"><span>Ownership structure chart</span><span class="tally__count">2</span></div><div class="tally__row"><span>Passport</span><span class="tally__count">1</span></div><div class="tally__row"><span>Personal proof of address</span><span class="tally__count">2</span></div><div class="tally__row"><span>Register of directors</span><span class="tally__count">2</span></div><div class="tally__row"><span>Register of members</span><span class="tally__count">3</span></div><div class="tally__row"><span>Registry extract</span><span class="tally__count">1</span></div><div class="tally__row"><span>Wallet list</span><span class="tally__count">1</span></div></div></div>
+          </div>
+          <div class="hstack" style="justify-content:space-between"><span class="type-label-10 muted">Viewing documents is logged.</span><button type="button" class="btn btn--outline"><span class="btn__label">Show the 23 documents</span></button></div>
+        </section>
+        <section class="panel gi" data-page-section="activity" hidden>
+          <div class="gi-head"><div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">Activity</h2><span class="type-label-10 muted">Timeline</span></div></div>
+          <div class="timeline">
+<div class="timeline__day">Fri, 13 Nov 2026</div>
+<div class="timeline__item"><span class="timeline__time">16:42:10</span><span class="timeline__mark"><i class="is-stage"></i></span><div class="timeline__body"><span class="timeline__title">Stage: Awaiting review</span><span class="timeline__detail">Sent for review by Dev Analyst</span></div></div>
+<div class="timeline__item"><span class="timeline__time">16:41:58</span><span class="timeline__mark"><i class="is-user"></i></span><div class="timeline__body"><span class="timeline__title">Review and approval · sent for review by Dev Analyst</span></div></div>
+<div class="timeline__item"><span class="timeline__time">16:30:21</span><span class="timeline__mark"><i class="is-user"></i></span><div class="timeline__body"><span class="timeline__title">Ownership · gap accepted by Dev Analyst</span><span class="timeline__detail">Written confirmation from the client received 10 Nov 2026</span></div></div>
+<div class="timeline__item"><span class="timeline__time">16:22:05</span><span class="timeline__mark"><i class="is-user"></i></span><div class="timeline__body"><span class="timeline__title">High-Risk Third Country nexus (UBO, ownership entities, directors) cleared by Dev Analyst</span></div></div>
+<div class="timeline__item"><span class="timeline__time">15:58:44</span><span class="timeline__mark"><i class="is-done"></i></span><div class="timeline__body"><span class="timeline__title">Checking values against each other: done in 0.1s</span><span class="timeline__detail">9 confirmed · 2 single source · 0 conflicts</span></div></div>
+<div class="timeline__item"><span class="timeline__time">15:58:44</span><span class="timeline__mark"><i class=""></i></span><div class="timeline__body"><span class="timeline__title">Re-run requested</span><span class="timeline__detail">rules only (no documents read, nothing screened)</span></div></div>
+<div class="timeline__day">Wed, 11 Nov 2026</div>
+<div class="timeline__item"><span class="timeline__time">14:12:09</span><span class="timeline__mark"><i class="is-user"></i></span><div class="timeline__body"><span class="timeline__title">Bank statements · period resolved by Dev Analyst</span></div></div>
+<div class="timeline__item"><span class="timeline__time">11:03:33</span><span class="timeline__mark"><i class="is-stage"></i></span><div class="timeline__body"><span class="timeline__title">Stage: Needs analyst</span><span class="timeline__detail">Checklist checked</span></div></div>
+<div class="timeline__item"><span class="timeline__time">11:03:33</span><span class="timeline__mark"><i class="is-done"></i></span><div class="timeline__body"><span class="timeline__title">Searching further for missing values: done in 6.4s</span><span class="timeline__detail">2 documents read · 3 found</span></div></div>
+<div class="timeline__item"><span class="timeline__time">11:03:20</span><span class="timeline__mark"><i class="is-done"></i></span><div class="timeline__body"><span class="timeline__title">Screening wallets in Elliptic: done in 0.6s</span><span class="timeline__detail">1 wallet screened</span></div></div>
+<div class="timeline__item"><span class="timeline__time">11:02:58</span><span class="timeline__mark"><i class="is-done"></i></span><div class="timeline__body"><span class="timeline__title">Reading checklist values: done in 54.8s</span><span class="timeline__detail">23 documents read · 118 values</span></div></div>
+<div class="timeline__day">Tue, 10 Nov 2026</div>
+<div class="timeline__item"><span class="timeline__time">17:41:12</span><span class="timeline__mark"><i class="is-done"></i></span><div class="timeline__body"><span class="timeline__title">Identifying documents: done in 9.2s</span><span class="timeline__detail">23 documents identified</span></div></div>
+<div class="timeline__item"><span class="timeline__time">17:40:50</span><span class="timeline__mark"><i class="is-done"></i></span><div class="timeline__body"><span class="timeline__title">Reading documents: done in 0.1s</span><span class="timeline__detail">23 documents, 214 pages · 202 read as text</span></div></div>
+<div class="timeline__item"><span class="timeline__time">17:40:31</span><span class="timeline__mark"><i class="is-stage"></i></span><div class="timeline__body"><span class="timeline__title">Stage: ECHO processing</span></div></div>
+<div class="timeline__item"><span class="timeline__time">17:12:03</span><span class="timeline__mark"><i class="is-stage"></i></span><div class="timeline__body"><span class="timeline__title">Stage: Gathering documents</span><span class="timeline__detail">Client sent 23 files</span></div></div>
+<div class="timeline__item"><span class="timeline__time">09:05:44</span><span class="timeline__mark"><i class="is-stage"></i></span><div class="timeline__body"><span class="timeline__title">Stage: Triggered</span><span class="timeline__detail">Run started by Dev Analyst</span></div></div>
+          </div>
+        </section>
+        <section class="panel gi" data-page-section="general" hidden>
+          <div class="gi-head">
+            <div class="stack stack--g4"><h2 class="type-heading-14" style="margin:0">General information</h2>
+              <span class="type-label-10 muted">12 of 12 need nothing from you. Click an item for why it has its status; click a source to see the page.</span></div>
+            <span class="toggle-field"><button type="button" class="toggle" role="switch" aria-checked="false"></button><span>Show personal details</span></span>
+          </div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="Account Opening Form signed on">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Account Opening Form signed on</span></div>
+        <div class="field-row__main"><div class="field-row__value">8 Sept 2026</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.10 · image</button></div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Accepted ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Accepted by the analyst</span><span class="field-row__why">Dev Analyst accepted this value from its single source and left a comment.</span><span class="field-row__note">Compliance note: Declared in the Account Opening Form.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Trading name">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Trading name</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Alder Peak Trading</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Resolved by the analyst</span><span class="field-row__why">Dev Analyst entered the value from a document the client sent later.</span></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Legal Entity Identifier">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Legal Entity Identifier</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Sample LEI: 549300EXAMPLE0LEI000</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Resolved by the analyst</span><span class="field-row__why">Dev Analyst entered the value from a document the client sent later.</span></div>
+      </div>
+      <div class="field-row is-interactive" data-label="VAT/TIN/Tax identifier">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>VAT/TIN/Tax identifier</span></div>
+        <div class="field-row__main"><div class="field-row__value">ABN 12 345 678 901 (Account Opening Form)</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.3 · image</button></div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Accepted ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Accepted by the analyst</span><span class="field-row__why">Dev Analyst accepted this value from its single source and left a comment.</span><span class="field-row__note">Compliance note: Declared in the Account Opening Form.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Trading address">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Trading address</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">Level 12, 100 Example Street, Sydney NSW 2000, Australia</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Resolved by the analyst</span><span class="field-row__why">Dev Analyst entered the value from a document the client sent later.</span></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Website">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Website</span></div>
+        <div class="field-row__main"><div class="field-row__value field-row__value--clamp">www.alderpeak.example</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Resolved by the analyst</span><span class="field-row__why">Dev Analyst entered the value from a document the client sent later.</span></div>
+      </div>
+            </div></div>
+          <div class="field-group"><div class="field-group__title">Settled</div>
+            <div class="field-list">
+      <div class="field-row is-interactive" data-label="Legal Entity name">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Legal Entity name <span class="field-row__req">*</span></span></div>
+        <div class="field-row__main"><div class="field-row__value">ALDER PEAK PTY LTD</div><div class="chips"><button type="button" class="chip" data-source>Memorandum &amp; articles p.1 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Memorandum &amp; articles p.2 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Incumbency / good standing p.1 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Certificate of incorporation p.4 · image</button><button type="button" class="chip" data-source>Account opening form p.3 · image</button><button type="button" class="chip" data-source>Registry extract p.1 · image</button><button type="button" class="chip" data-source>Certificate of incorporation p.3 · image</button><button type="button" class="chip" data-source>Memorandum &amp; articles p.1 · text <span class="chip__ok">✓</span></button></div></div>
+        <div class="field-row__status"><span class="pill pill--success">Confirmed</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Confirmed</span><span class="field-row__why">The sources agree on this value.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Legal Entity type">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Legal Entity type <span class="field-row__req">*</span></span></div>
+        <div class="field-row__main"><div class="field-row__value">Corporation</div></div>
+        <div class="field-row__status"><button type="button" class="pill pill--success pill--action" data-status>Resolved ›</button></div>
+        <div class="field-row__detail"><span class="type-title-12">Confirmed</span><span class="field-row__why">The sources agree on this value.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Business Type">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Business Type</span></div>
+        <div class="field-row__main"><div class="field-row__value">Financial Institution</div><div class="chips"><button type="button" class="chip" data-source>Account opening form p.3 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--neutral">Declared</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Declared by the client</span><span class="field-row__why">Taken from the client's own form; no document is needed for this field.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Registration number">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Registration number <span class="field-row__req">*</span></span></div>
+        <div class="field-row__main"><div class="field-row__value">3913098</div><div class="chips"><button type="button" class="chip" data-source>Incumbency / good standing p.1 · text <span class="chip__ok">✓</span></button><button type="button" class="chip" data-source>Certificate of incorporation p.4 · image</button><button type="button" class="chip" data-source>Account opening form p.3 · image</button><button type="button" class="chip" data-source>Registry extract p.1 · image</button><button type="button" class="chip" data-source>Certificate of incorporation p.3 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--success">Confirmed</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Confirmed</span><span class="field-row__why">The sources agree on this value.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Incorporation date (+ name changes)">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Incorporation date (+ name changes) <span class="field-row__req">*</span></span></div>
+        <div class="field-row__main"><div class="field-row__value">12 Jun 2024</div><div class="chips"><button type="button" class="chip" data-source>Certificate of incorporation p.4 · image</button><button type="button" class="chip" data-source>Account opening form p.3 · image</button><button type="button" class="chip" data-source>Registry extract p.1 · image</button><button type="button" class="chip" data-source>Certificate of incorporation p.2 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--success">Confirmed</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Confirmed</span><span class="field-row__why">The sources agree on this value.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+      <div class="field-row is-interactive" data-label="Registered address">
+        <div class="field-row__label"><span class="field-row__caret"></span><span>Registered address <span class="field-row__req">*</span></span></div>
+        <div class="field-row__main"><div class="field-row__value">LEVEL 12, 100 EXAMPLE STREET, SYDNEY NSW 2000</div><div class="chips"><button type="button" class="chip" data-source>Certificate of incorporation p.4 · image</button><button type="button" class="chip" data-source>Account opening form p.3 · image</button><button type="button" class="chip" data-source>Registry extract p.1 · image</button><button type="button" class="chip" data-source>Certificate of incorporation p.3 · image</button></div></div>
+        <div class="field-row__status"><span class="pill pill--success">Confirmed</span></div>
+        <div class="field-row__detail"><span class="type-title-12">Confirmed</span><span class="field-row__why">The sources agree on this value.</span><button type="button" class="btn btn--outline field-row__btn" data-source><span class="btn__label">Show the source pages ›</span></button></div>
+      </div>
+            </div></div>
+        </section>
+        <div class="panel panel--gradient detail-card" data-page-section="ownership" hidden>
+          <div class="detail-title">
+            <div class="stack stack--g4"><span class="detail-title__title">Ownership</span><span class="detail-title__sub">2 UBOs at or above 10%, 2 directors, 1 trust, 9 parties.</span></div>
+            <span class="toggle-field"><button type="button" class="toggle" role="switch" aria-checked="false"></button><span>Show personal details</span></span>
+          </div>
+          <div class="notice-stack">
+            <div class="notice notice--critical" style="gap:var(--space-12)">
+              <div class="stack stack--g2">
+                <div class="notice__row"><span>Hollis Family Trust is a group of holders: who is in it is not in the documents.</span><span class="notice__suffix">(12.00% of the client)</span></div>
+                <div class="notice__row" data-gap-action style="gap:var(--space-8)" hidden><button type="button" class="link-action link-action--light" data-accept>Accept gap</button><span class="text-secondary">or</span><button type="button" class="link-action link-action--light" data-goto="Documents provided">Request the missing document</button></div>
+                <div class="stack stack--g8" data-gap-form hidden style="margin-top:var(--space-6)">
+                  <textarea class="textarea" rows="2" style="width:50%" placeholder="Why the gap is acceptable (e.g. the client's written confirmation)"></textarea>
+                  <div class="hstack hstack--g16"><button type="button" class="btn btn--cta" data-gap-save>Save</button><button type="button" class="btn btn--outline" data-gap-cancel><span class="btn__label">Cancel</span></button></div>
+                </div>
+                <div class="notice__row" data-gap-done><span class="text-label pre">Gap accepted with a reason: </span><span data-gap-reason>The client's written confirmation of 10 Nov 2026 lists three family beneficiaries, none above 10%.</span><button type="button" class="link-action" data-gap-undo>Undo</button></div>
+              </div>
+            </div>
+            <div class="notice notice--info"><div class="notice__row"><span>Shareholdings add up to 100%. 1 small holding below the 10% threshold has its own row.</span></div></div>
+            <div class="notice notice--info"><div class="notice__row"><span>Screening: 9 of 9 parties have a World-Check report, no match found.</span></div></div>
+          </div>
+          <div class="stack stack--g8">
+            <div class="section-head"><span class="section-head__caption">Who owns the client</span></div>
+            <div class="tree tree--long">
+              <div class="tree__rows">
+                <div class="tree-row"><div class="tree-row__name tree-row__name--root"><span class="icon icon--building"></span><span class="type-label-10">Alder Peak Pty Ltd</span><span class="type-label-10 text-muted">100% of the client</span></div><div class="tree-row__tags"><span class="pill pill--success">Screened</span></div></div>
+                <div class="tree-row tree-row--l1"><div class="tree-row__name"><span class="icon icon--user-round"></span><span class="pill pill--tag" data-pii="PERSON_A1"><span class="pill__label">{PERSON_A1}</span></span><span class="type-label-10 text-muted">48.00% of the client</span></div><div class="tree-row__tags"><span class="pill pill--success">UBO</span><span class="pill pill--role">Director</span><span class="pill pill--success">Screened</span></div></div>
+                <div class="tree-row tree-row--l1"><div class="tree-row__name"><span class="icon icon--user-round"></span><span class="pill pill--tag" data-pii="PERSON_A2"><span class="pill__label">{PERSON_A2}</span></span><span class="type-label-10 text-muted">32.00% of the client</span></div><div class="tree-row__tags"><span class="pill pill--success">UBO</span><span class="pill pill--role">Director</span><span class="pill pill--success">Screened</span></div></div>
+                <div class="tree-row tree-row--l1"><div class="tree-row__name"><span class="icon icon--building"></span><span class="type-label-10">Hollis Family Trust</span><span class="type-label-10 text-muted">12.00% of the client</span></div><div class="tree-row__tags"><span class="pill pill--role">Trust</span><span class="pill pill--success">Screened</span></div></div>
+                <div class="tree-row tree-row--l2"><div class="tree-row__name"><span class="icon icon--user-round"></span><span class="pill pill--tag" data-pii="PERSON_A3"><span class="pill__label">{PERSON_A3}</span></span><span class="type-label-10 text-muted">12.00% of the client</span></div><div class="tree-row__tags"><span class="pill pill--role">Trustee</span><span class="pill pill--success">Screened</span></div></div>
+                <div class="tree-row tree-row--l2"><div class="tree-row__name"><span class="icon icon--user-round"></span><span class="pill pill--tag" data-pii="PERSON_A4"><span class="pill__label">{PERSON_A4}</span></span><span class="type-label-10 text-muted">4.00% of the client</span></div><div class="tree-row__tags"><span class="pill pill--neutral">Below threshold</span><span class="pill pill--success">Screened</span></div></div>
+                <div class="tree-row tree-row--l2"><div class="tree-row__name"><span class="icon icon--user-round"></span><span class="pill pill--tag" data-pii="PERSON_A5"><span class="pill__label">{PERSON_A5}</span></span><span class="type-label-10 text-muted">4.00% of the client</span></div><div class="tree-row__tags"><span class="pill pill--neutral">Below threshold</span><span class="pill pill--success">Screened</span></div></div>
+                <div class="tree-row tree-row--l2"><div class="tree-row__name"><span class="icon icon--user-round"></span><span class="pill pill--tag" data-pii="PERSON_A6"><span class="pill__label">{PERSON_A6}</span></span><span class="type-label-10 text-muted">4.00% of the client</span></div><div class="tree-row__tags"><span class="pill pill--neutral">Below threshold</span><span class="pill pill--success">Screened</span></div></div>
+                <div class="tree-row tree-row--l1"><div class="tree-row__name"><span class="icon icon--building"></span><span class="type-label-10">Greenfield Seed Pty Ltd</span><span class="type-label-10 text-muted">8.00% of the client</span></div><div class="tree-row__tags"><span class="pill pill--neutral">Below threshold</span><span class="pill pill--success">Screened</span></div></div>
+                <i class="tree__spine tree__spine--1" style="height:231px"></i><i class="tree__spine tree__spine--2" style="top:108px;height:111px"></i>
+              </div>
+            </div>
+          </div>
+          <div class="stack stack--g4">
+            <div class="section-head"><span class="section-head__caption">UBOs (10% or more)</span></div>
+            <div class="data-table data-table--ubo">
+              <div class="data-table__row data-table__row--head"><div class="data-table__cell">Share</div><div class="data-table__cell">Name</div><div class="data-table__cell">Date of birth</div><div class="data-table__cell">Nationality</div><div class="data-table__cell">Passport expiry</div><div class="data-table__cell">Proof of address</div><div class="data-table__cell">Address</div><div class="data-table__cell">World-Check</div></div>
+              <div class="data-table__row">
+                <div class="data-table__cell"><span class="type-body-12">48.00%</span></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="PERSON_A1"><span class="pill__label">{PERSON_A1}</span></span><button type="button" class="pill pill--success pill--action" data-field="Name · {PERSON_A1}">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="DOB_A1"><span class="pill__label">{DOB}</span></span><button type="button" class="pill pill--success pill--action" data-field="Date of birth">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="NAT_A1"><span class="pill__label">{NATIONALITY}</span></span><button type="button" class="pill pill--success pill--action" data-field="Nationality">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="PASS_A1"><span class="pill__label">{PASSPORT_EXPIRY}</span></span><button type="button" class="pill pill--success pill--action" data-field="Passport expiry">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="DATE_A1"><span class="pill__label">{DATE}</span></span><button type="button" class="pill pill--success pill--action" data-field="Proof of address">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="ADDR_A1"><span class="pill__label">{ADDRESS}</span></span><button type="button" class="pill pill--success pill--action" data-field="Address">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="type-body-12">Clear</span><button type="button" class="pill pill--success pill--action" data-field="World-Check">Screened ›</button></div>
+              </div>
+              <div class="data-table__row">
+                <div class="data-table__cell"><span class="type-body-12">32.00%</span></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="PERSON_A2"><span class="pill__label">{PERSON_A2}</span></span><button type="button" class="pill pill--success pill--action" data-field="Name · {PERSON_A2}">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="DOB_A2"><span class="pill__label">{DOB}</span></span><button type="button" class="pill pill--success pill--action" data-field="Date of birth">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="NAT_A2"><span class="pill__label">{NATIONALITY}</span></span><button type="button" class="pill pill--success pill--action" data-field="Nationality">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="PASS_A2"><span class="pill__label">{PASSPORT_EXPIRY}</span></span><button type="button" class="pill pill--success pill--action" data-field="Passport expiry">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="DATE_A2"><span class="pill__label">{DATE}</span></span><button type="button" class="pill pill--success pill--action" data-field="Proof of address">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="ADDR_A2"><span class="pill__label">{ADDRESS}</span></span><button type="button" class="pill pill--success pill--action" data-field="Address">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="type-body-12">Clear</span><button type="button" class="pill pill--success pill--action" data-field="World-Check">Screened ›</button></div>
+              </div>
+            </div>
+          </div>
+          <div class="stack stack--g4">
+            <div class="section-head"><span class="section-head__caption">Directors</span></div>
+            <div class="data-table data-table--directors">
+              <div class="data-table__row data-table__row--head"><div class="data-table__cell">Name</div><div class="data-table__cell">Date of birth</div><div class="data-table__cell">Nationality</div><div class="data-table__cell">Passport expiry</div><div class="data-table__cell">Proof of address</div><div class="data-table__cell">Address</div><div class="data-table__cell">World-Check</div></div>
+              <div class="data-table__row">
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="PERSON_A1"><span class="pill__label">{PERSON_A1}</span></span><button type="button" class="pill pill--success pill--action" data-field="Name · {PERSON_A1}">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="DOB_A1"><span class="pill__label">{DOB}</span></span><button type="button" class="pill pill--success pill--action" data-field="Date of birth">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="NAT_A1"><span class="pill__label">{NATIONALITY}</span></span><button type="button" class="pill pill--success pill--action" data-field="Nationality">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="PASS_A1"><span class="pill__label">{PASSPORT_EXPIRY}</span></span><button type="button" class="pill pill--success pill--action" data-field="Passport expiry">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="DATE_A1"><span class="pill__label">{DATE}</span></span><button type="button" class="pill pill--success pill--action" data-field="Proof of address">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="ADDR_A1"><span class="pill__label">{ADDRESS}</span></span><button type="button" class="pill pill--success pill--action" data-field="Address">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="type-body-12">Clear</span><button type="button" class="pill pill--success pill--action" data-field="World-Check">Screened ›</button></div>
+              </div>
+              <div class="data-table__row">
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="PERSON_A2"><span class="pill__label">{PERSON_A2}</span></span><button type="button" class="pill pill--success pill--action" data-field="Name · {PERSON_A2}">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="DOB_A2"><span class="pill__label">{DOB}</span></span><button type="button" class="pill pill--success pill--action" data-field="Date of birth">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="NAT_A2"><span class="pill__label">{NATIONALITY}</span></span><button type="button" class="pill pill--success pill--action" data-field="Nationality">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="PASS_A2"><span class="pill__label">{PASSPORT_EXPIRY}</span></span><button type="button" class="pill pill--success pill--action" data-field="Passport expiry">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="DATE_A2"><span class="pill__label">{DATE}</span></span><button type="button" class="pill pill--success pill--action" data-field="Proof of address">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="pill pill--tag" data-pii="ADDR_A2"><span class="pill__label">{ADDRESS}</span></span><button type="button" class="pill pill--success pill--action" data-field="Address">Confirmed ›</button></div>
+                <div class="data-table__cell"><span class="type-body-12">Clear</span><button type="button" class="pill pill--success pill--action" data-field="World-Check">Screened ›</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <section class="panel gi" data-page-section="stub" hidden>
+          <h2 class="type-heading-14" style="margin:0" id="stubTitle-alder">Section</h2>
+          <span class="type-label-10 muted">This section is not built in the prototype yet.</span>
+        </section>
+        </div>
+      </div>
+    </div>
+</div>
   </main>
 </div>
 
@@ -1290,11 +2370,11 @@ Factor 12 (High-Risk Third Country nexus (UBO, ownership entities, directors)) w
             <span class="type-field-10 text-info">Main check</span>
             <div class="stack stack--g4" style="align-self:stretch">
               <span class="type-heading-14">ALDER PEAK PTY LTD</span>
-              <div class="issue-row"><span class="icon icon--exclamation"></span><span class="issue-row__lead">Resolve 1 conflicting value </span><span class="issue-row__more">(+11)</span></div>
-              <div class="count-row"><span class="text-danger">1 conflict</span><span class="text-warning">3 missing docs</span><span class="text-warning">5 out of date</span><span class="text-warning">4 not found</span><span class="text-muted">(+93)</span></div>
+              <div class="issue-row"><span class="icon icon--exclamation"></span><span class="issue-row__lead">Review and approve the run </span><span class="issue-row__more">(+3)</span></div>
+              <div class="count-row"><span class="text-warning">1 review decision</span><span class="text-label">1 gap accepted</span><span class="text-label">2 single-source values accepted</span></div>
             </div>
           </div>
-          <div class="ring"><span class="ring__label text-accent">50<span class="numeral-light">%</span></span><span class="ring__dyn" style="--pct:50"></span></div>
+          <div class="ring"><span class="ring__label text-accent">97<span class="numeral-light">%</span></span><span class="ring__dyn" style="--pct:97"></span></div>
         </div>
       </div>
       <div class="stack stack--g8">
@@ -1315,8 +2395,8 @@ Factor 12 (High-Risk Third Country nexus (UBO, ownership entities, directors)) w
     <div class="panel panel--filled">
       <span class="panel__caption">Clients loaded in (2)</span>
       <div class="row-card row-card--dark row-card--top row-card--fill is-interactive" data-open-run style="cursor:pointer">
-        <div class="row-card__main stack--g2"><span class="type-title-12">fx01-client-a</span><div class="hstack hstack--g8"><span class="dots"><span class="dot dot--warning"></span></span><span class="type-label-10 text-secondary">Needs analyst</span></div></div>
-        <div class="row-card__aside"><span class="type-label-10 text-accent pre">KYC Check &gt; </span><span class="type-numeral-14 text-accent">50%</span></div>
+        <div class="row-card__main stack--g2"><span class="type-title-12">fx01-client-a</span><div class="hstack hstack--g8"><span class="dots"><span class="dot dot--success"></span></span><span class="type-label-10 text-secondary">Awaiting review</span></div></div>
+        <div class="row-card__aside"><span class="type-label-10 text-accent pre">KYC Check &gt; </span><span class="type-numeral-14 text-accent">97%</span></div>
       </div>
       <div class="row-card row-card--dark row-card--top row-card--fill is-interactive" data-open-run style="cursor:pointer">
         <div class="row-card__main stack--g2"><span class="type-title-12">fx02-client-b</span><div class="hstack hstack--g8"><span class="dots"><span class="dot dot--warning"></span></span><span class="type-label-10 text-secondary">Needs analyst</span></div></div>
@@ -1409,7 +2489,7 @@ Factor 12 (High-Risk Third Country nexus (UBO, ownership entities, directors)) w
     <div data-admin-pane="overview" style="display:flex;flex-direction:column;gap:var(--space-16)">
       <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:var(--space-16);align-items:stretch"><div class="kpi"><span class="kpi__label">Open checks</span><span class="kpi__value text-accent">2</span><span class="kpi__sub">2 need attention · 0 imported, unclaimed</span></div><div class="kpi" ><span class="kpi__label">With analysts</span><span class="kpi__value text-accent">2</span><span class="kpi__sub">0 waiting on the client</span></div><div class="kpi" ><span class="kpi__label">In review or 4-eyes</span><span class="kpi__value text-info">0</span></div><div class="kpi" ><span class="kpi__label">Approved, last 30 days</span><span class="kpi__value text-success">0</span><span class="kpi__sub">0 in the last 7 days</span></div><div class="kpi" ><span class="kpi__label">Average days to approval</span><span class="kpi__value text-muted">—</span><span class="kpi__sub">last 90 days</span></div><div class="kpi" ><span class="kpi__label">Spend this month</span><span class="kpi__value text-warning">$8.01</span></div></div>
       <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-16);align-items:stretch"><div class="panel chart-card" id="c-stages"><div class="chart-card__head"><div class="stack stack--g4"><span class="chart-card__title">Where the open checks are</span><span class="chart-card__sub">Open checks per stage. Click a stage to list its checks.</span></div><button type="button" class="link-action" data-chart-toggle>Table</button></div><div class="chart-view" data-chart="c-stages"></div></div><div class="panel chart-card" id="c-weekly"><div class="chart-card__head"><div class="stack stack--g4"><span class="chart-card__title">Checks per week</span><span class="chart-card__sub">Last 13 weeks, by the Monday each week starts. Hover for the figures.</span></div><button type="button" class="link-action" data-chart-toggle>Table</button></div><div class="chart-legend"><span style="--c:var(--color-blue)"><i></i>Started</span><span style="--c:var(--color-green)"><i></i>Approved</span><span style="--c:var(--color-red)"><i></i>Rejected</span></div><div class="chart-view" data-chart="c-weekly"></div></div><div class="panel chart-card" id="c-waiting"><div class="chart-card__head"><div class="stack stack--g4"><span class="chart-card__title">What open checks are waiting on</span><span class="chart-card__sub">Open checklist items across every open check. Click one to list the checks that have it.</span></div><button type="button" class="link-action" data-chart-toggle>Table</button></div><div class="chart-view" data-chart="c-waiting"></div></div><div class="panel chart-card" id="c-least"><div class="chart-card__head"><div class="stack stack--g4"><span class="chart-card__title">Least complete open checks</span><span class="chart-card__sub">Share of checklist items that need nothing more. Click a check to open it.</span></div><button type="button" class="link-action" data-chart-toggle>Table</button></div><div class="chart-view" data-chart="c-least"></div></div><div class="panel chart-card" id="c-time"><div class="chart-card__head"><div class="stack stack--g4"><span class="chart-card__title">Average time in each stage</span><span class="chart-card__sub">Stays that ended in the last 90 days.</span></div><button type="button" class="link-action" data-chart-toggle>Table</button></div><div class="chart-view" data-chart="c-time"></div></div><div class="panel chart-card" id="c-spend"><div class="chart-card__head"><div class="stack stack--g4"><span class="chart-card__title">Spend per day</span><span class="chart-card__sub">Last 30 days, external calls (Claude, Elliptic, Didit). This month: Claude $8.01.</span></div><button type="button" class="link-action" data-chart-toggle>Table</button></div><div class="chart-view" data-chart="c-spend"></div></div></div>
-      <div class="stack stack--g8" id="c-attn"><span class="type-title-12 text-label">Needs attention (2)</span><div class="data-table data-table--fig data-table--aligned data-table--roomy" style="--table-cols: minmax(0,1.2fr) minmax(0,1fr) minmax(0,2fr) max-content"><div class="data-table__row is-interactive" data-open-run style="cursor:pointer"><div class="data-table__cell"><span class="type-title-12">ALDER PEAK PTY LTD</span></div><div class="data-table__cell"><span class="type-body-12 text-secondary">Needs analyst · 8d</span></div><div class="data-table__cell"><span class="type-body-12 text-warning">In this stage for 8 days</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="link-action link-action--md">Local developer ›</button></div></div><div class="data-table__row is-interactive" data-open-run style="cursor:pointer;border-bottom:0"><div class="data-table__cell"><span class="type-title-12">CEDAR LOOP, INC.</span></div><div class="data-table__cell"><span class="type-body-12 text-secondary">Needs analyst · 8d</span></div><div class="data-table__cell"><span class="type-body-12 text-warning">In this stage for 8 days</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="link-action link-action--md">Dev Analyst ›</button></div></div></div></div>
+      <div class="stack stack--g8" id="c-attn"><span class="type-title-12 text-label">Needs attention (2)</span><div class="data-table data-table--fig data-table--aligned data-table--roomy" style="--table-cols: minmax(0,1.2fr) minmax(0,1fr) minmax(0,2fr) max-content"><div class="data-table__row is-interactive" data-open-run style="cursor:pointer"><div class="data-table__cell"><span class="type-title-12">ALDER PEAK PTY LTD</span></div><div class="data-table__cell"><span class="type-body-12 text-secondary">Awaiting review · 6d</span></div><div class="data-table__cell"><span class="type-body-12 text-warning">Waiting for a review decision</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="link-action link-action--md">Local developer ›</button></div></div><div class="data-table__row is-interactive" data-open-run style="cursor:pointer;border-bottom:0"><div class="data-table__cell"><span class="type-title-12">CEDAR LOOP, INC.</span></div><div class="data-table__cell"><span class="type-body-12 text-secondary">Needs analyst · 8d</span></div><div class="data-table__cell"><span class="type-body-12 text-warning">In this stage for 8 days</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="link-action link-action--md">Dev Analyst ›</button></div></div></div></div>
     </div>
     <div data-admin-pane="checks" hidden style="display:flex;flex-direction:column;gap:var(--space-16)"><div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-12)"><div class="search" style="width:280px"><img class="search__icon" src="../design-system/assets/search.svg" alt=""><input class="search__input" id="chk-q" type="text" autocomplete="off" placeholder="Search client or person"></div><div class="select-wrap" data-sel="chk-stage" data-value=""><button type="button" class="select" aria-expanded="false"><span class="select__label select__label--value" data-sel-label>All open checks</span><img class="select__chevron" src="../design-system/assets/select-chevron-down.svg" alt=""></button><div class="select-menu" hidden><div class="select-menu__item is-selected" data-v="">All open checks</div><div class="select-menu__item" data-v="all">Every check</div><div class="select-menu__item" data-v="Triggered">Triggered</div><div class="select-menu__item" data-v="Gathering documents">Gathering documents</div><div class="select-menu__item" data-v="ECHO processing">ECHO processing</div><div class="select-menu__item" data-v="Needs analyst">Needs analyst</div><div class="select-menu__item" data-v="Waiting on client">Waiting on client</div><div class="select-menu__item" data-v="Awaiting review">Awaiting review</div><div class="select-menu__item" data-v="Awaiting 4-eyes">Awaiting 4-eyes</div><div class="select-menu__item" data-v="Approved">Approved</div><div class="select-menu__item" data-v="Rejected">Rejected</div></div></div><div class="select-wrap" data-sel="chk-who" data-value=""><button type="button" class="select" aria-expanded="false"><span class="select__label select__label--value" data-sel-label>Anyone assigned</span><img class="select__chevron" src="../design-system/assets/select-chevron-down.svg" alt=""></button><div class="select-menu" hidden><div class="select-menu__item is-selected" data-v="">Anyone assigned</div><div class="select-menu__item" data-v="Dev Analyst">Dev Analyst</div><div class="select-menu__item" data-v="Dev Approver">Dev Approver</div><div class="select-menu__item" data-v="Local developer">Local developer</div></div></div><div class="select-wrap" data-sel="chk-type" data-value=""><button type="button" class="select" aria-expanded="false"><span class="select__label select__label--value" data-sel-label>Every check type</span><img class="select__chevron" src="../design-system/assets/select-chevron-down.svg" alt=""></button><div class="select-menu" hidden><div class="select-menu__item is-selected" data-v="">Every check type</div><div class="select-menu__item" data-v="Main">Main</div><div class="select-menu__item" data-v="Overseas">Overseas</div></div></div><label class="checkbox-field"><input class="checkbox" type="checkbox" id="chk-blocked"><span>Only blocked</span></label><span class="type-label-10 text-muted" id="chk-count" style="margin-left:auto">2 of 2</span></div><div class="data-table data-table--fig data-table--aligned" id="chk-table" style="--table-cols: minmax(0,1.3fr) minmax(0,1fr) minmax(0,2fr) minmax(0,1fr) minmax(0,1fr) max-content max-content"><div class="data-table__row data-table__row--head"><div class="data-table__cell">Client</div><div class="data-table__cell">Stage</div><div class="data-table__cell">Completion</div><div class="data-table__cell">Assigned</div><div class="data-table__cell">Started</div><div class="data-table__cell">Cost</div><div class="data-table__cell"></div></div><div class="data-table__row" data-check data-client="CEDAR LOOP, INC." data-stage="Needs analyst" data-assigned="Dev Analyst" data-type="Main" data-blocked="0"><div class="data-table__cell"><span class="type-title-12">CEDAR LOOP, INC.</span><span class="type-label-10 text-secondary">Main check</span></div><div class="data-table__cell"><span class="type-body-12">Needs analyst</span><span class="type-label-10 text-muted">for 8d</span></div><div class="data-table__cell"><span class="type-numeral-14 text-accent">54%</span><span class="count-row" style="font:var(--type-label-10)"><span class="text-danger">6 conflicts</span><span class="text-danger">1 ownership gap</span><span class="text-muted">+59 more</span></span></div><div class="data-table__cell"><span class="type-body-12">Dev Analyst</span></div><div class="data-table__cell"><span class="type-body-12">Local developer</span><span class="type-label-10 text-muted">3 Nov, 18:52</span></div><div class="data-table__cell"><span class="type-body-12">$4.98</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="link-action link-action--md">Assignees</button></div></div><div class="data-table__row" data-check data-client="ALDER PEAK PTY LTD" data-stage="Needs analyst" data-assigned="Local developer" data-type="Main" data-blocked="0"><div class="data-table__cell"><span class="type-title-12">ALDER PEAK PTY LTD</span><span class="type-label-10 text-secondary">Main check</span></div><div class="data-table__cell"><span class="type-body-12">Needs analyst</span><span class="type-label-10 text-muted">for 8d</span></div><div class="data-table__cell"><span class="type-numeral-14 text-accent">50%</span><span class="count-row" style="font:var(--type-label-10)"><span class="text-danger">1 conflict</span><span class="text-warning">3 missing docs</span><span class="text-muted">+102 more</span></span></div><div class="data-table__cell"><span class="type-body-12">Local developer</span></div><div class="data-table__cell"><span class="type-body-12">Local developer</span><span class="type-label-10 text-muted">12 Oct, 15:45</span></div><div class="data-table__cell"><span class="type-body-12">$8.10</span></div><div class="data-table__cell data-table__cell--num"><button type="button" class="link-action link-action--md">Assignees</button></div></div><div class="data-table__row" id="chk-empty" hidden><div class="data-table__cell" style="grid-column:1/-1"><span class="type-body-12 text-muted">No checks match these filters.</span></div></div></div></div><div data-admin-pane="team" hidden style="display:flex;flex-direction:column;gap:var(--space-16)"><div class="panel chart-card" id="c-team"><div class="chart-card__head"><div class="stack stack--g4"><span class="chart-card__title">Open checks per person</span><span class="chart-card__sub">Grouped by whose move it is. Click a person to list their checks.</span></div><button type="button" class="link-action" data-chart-toggle>Table</button></div><div class="chart-legend"><span style="--c:var(--color-purple)"><i></i>ECHO working</span><span style="--c:var(--color-blue)"><i></i>With the analyst</span><span style="--c:var(--color-green)"><i></i>In review / 4-eyes</span></div><div class="chart-view" data-chart="c-team"></div></div><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-16);align-items:stretch"><div class="panel" style="gap:var(--space-12)"><div class="hstack" style="justify-content:space-between;align-items:flex-start"><div class="hstack hstack--g12"><span class="avatar-chip">DA</span><div class="stack stack--g2"><span class="type-heading-14">Dev Analyst</span><span class="type-label-10 text-secondary">Analyst · analyst@echo.local</span></div></div></div><div class="person-stats"><span><b>1</b>open</span><span><b>0</b>approved</span><span><b>—</b>avg days to approval</span><span><b>0</b>items resolved</span><span><b>0</b>review decisions</span></div><div style="border-top:1px solid var(--color-border-hairline);padding-top:var(--space-12);display:flex;flex-direction:column;gap:var(--space-8)"><div class="hstack" style="justify-content:space-between;cursor:pointer" data-open-run><span class="type-title-12">CEDAR LOOP, INC.</span><span class="link-action">Needs analyst · 8d ›</span></div></div></div><div class="panel" style="gap:var(--space-12)"><div class="hstack" style="justify-content:space-between;align-items:flex-start"><div class="hstack hstack--g12"><span class="avatar-chip">DA</span><div class="stack stack--g2"><span class="type-heading-14">Dev Approver</span><span class="type-label-10 text-secondary">Manager · approver@echo.local</span></div></div><span class="pill pill--neutral">Can approve</span></div><div class="person-stats"><span><b>0</b>open</span><span><b>0</b>approved</span><span><b>—</b>avg days to approval</span><span><b>0</b>items resolved</span><span><b>0</b>review decisions</span></div></div><div class="panel" style="gap:var(--space-12)"><div class="hstack" style="justify-content:space-between;align-items:flex-start"><div class="hstack hstack--g12"><span class="avatar-chip">LD</span><div class="stack stack--g2"><span class="type-heading-14">Local developer</span><span class="type-label-10 text-secondary">Admin · dev@echo.local</span></div></div><span class="pill pill--neutral">Can approve</span></div><div class="person-stats"><span><b>1</b>open</span><span><b>0</b>approved</span><span><b>—</b>avg days to approval</span><span><b>15</b>items resolved</span><span><b>0</b>review decisions</span></div><div style="border-top:1px solid var(--color-border-hairline);padding-top:var(--space-12);display:flex;flex-direction:column;gap:var(--space-8)"><div class="hstack" style="justify-content:space-between;cursor:pointer" data-open-run><span class="type-title-12">ALDER PEAK PTY LTD</span><span class="link-action">Needs analyst · 8d ›</span></div></div></div></div></div><div data-admin-pane="log" hidden style="display:flex;flex-direction:column;gap:var(--space-16)"><div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-12)"><div class="select-wrap" data-sel="log-who" data-value=""><button type="button" class="select" aria-expanded="false"><span class="select__label select__label--value" data-sel-label>Everyone</span><img class="select__chevron" src="../design-system/assets/select-chevron-down.svg" alt=""></button><div class="select-menu" hidden><div class="select-menu__item is-selected" data-v="">Everyone</div><div class="select-menu__item" data-v="Dev Analyst">Dev Analyst</div><div class="select-menu__item" data-v="Dev Approver">Dev Approver</div><div class="select-menu__item" data-v="Local developer">Local developer</div></div></div><div class="select-wrap" data-sel="log-kind" data-value=""><button type="button" class="select" aria-expanded="false"><span class="select__label select__label--value" data-sel-label>Every kind of activity</span><img class="select__chevron" src="../design-system/assets/select-chevron-down.svg" alt=""></button><div class="select-menu" hidden><div class="select-menu__item is-selected" data-v="">Every kind of activity</div><div class="select-menu__item" data-v="Stage changes">Stage changes</div><div class="select-menu__item" data-v="Assigned">Assigned</div><div class="select-menu__item" data-v="Unassigned">Unassigned</div><div class="select-menu__item" data-v="Review / approval decisions">Review / approval decisions</div><div class="select-menu__item" data-v="Items resolved">Items resolved</div><div class="select-menu__item" data-v="Failed steps">Failed steps</div><div class="select-menu__item" data-v="Re-runs">Re-runs</div><div class="select-menu__item" data-v="Viewed a document page">Viewed a document page</div><div class="select-menu__item" data-v="Opened the documents list">Opened the documents list</div><div class="select-menu__item" data-v="Revealed personal details">Revealed personal details</div><div class="select-menu__item" data-v="Exported the draft checklist">Exported the draft checklist</div><div class="select-menu__item" data-v="Permission granted">Permission granted</div><div class="select-menu__item" data-v="Webhook rejected (signature check failed)">Webhook rejected (signature check failed)</div></div></div><div class="select-wrap" data-sel="log-src" data-value=""><button type="button" class="select" aria-expanded="false"><span class="select__label select__label--value" data-sel-label>Checks and audit log</span><img class="select__chevron" src="../design-system/assets/select-chevron-down.svg" alt=""></button><div class="select-menu" hidden><div class="select-menu__item is-selected" data-v="">Checks and audit log</div><div class="select-menu__item" data-v="check">Check timelines only</div><div class="select-menu__item" data-v="audit">Audit log only</div></div></div><div class="hstack hstack--g8"><span class="type-body-12 text-secondary">From</span><div class="datefield"><input class="input datefield__input" id="log-from" type="text" readonly placeholder="dd/mm/yyyy" data-iso=""><img class="datefield__icon" src="../design-system/assets/calendar.svg" alt=""></div></div><div class="hstack hstack--g8"><span class="type-body-12 text-secondary">To</span><div class="datefield"><input class="input datefield__input" id="log-to" type="text" readonly placeholder="dd/mm/yyyy" data-iso=""><img class="datefield__icon" src="../design-system/assets/calendar.svg" alt=""></div></div></div><div class="panel chart-card" id="c-act"><div class="chart-card__head"><div class="stack stack--g4"><span class="chart-card__title">Activity per day</span><span class="chart-card__sub">Last 30 days. Click a day to list only that day.</span></div><button type="button" class="link-action" data-chart-toggle>Table</button></div><div class="chart-legend"><span style="--c:var(--color-purple)"><i></i>Check timelines</span><span style="--c:var(--color-blue)"><i></i>Audit log</span></div><div class="chart-view" data-chart="c-act"></div></div><div class="hstack hstack--g8" id="log-day-note" hidden><span class="type-label-10 text-secondary" id="log-day-text"></span><button type="button" class="link-action" id="log-day-clear">Clear</button></div><div class="data-table data-table--fig data-table--aligned" id="log-table" style="--table-cols: max-content max-content minmax(0,1fr) max-content"></div></div><div class="panel" data-admin-pane="stub" hidden><span class="type-heading-14" id="admin-stub-title">Section</span><span class="type-label-10 text-secondary">This section is not built in the prototype yet.</span></div>
   </main>
@@ -1460,7 +2540,7 @@ document.getElementById('close').onclick = () => scrim.hidden = true;
 scrim.addEventListener('click', e => { if (e.target === scrim) scrim.hidden = true; });
 addEventListener('keydown', e => { if (e.key === 'Escape') scrim.hidden = true; });
 // Show / hide personal details: one state for every toggle; swaps the placeholders for sample values (names below are SAMPLE data, not real people)
-const PII = {PERSON_2:'Tiago Ramos', PERSON_4:'Leena Mistry', PERSON_3:'Tiago Ramos Vieira', PERSON_5:'Greta Hoffmann', PERSON_6:'Samuel Adeyemi', PERSON_7:'Kavya Menon', PERSON_8:'Anders Halvorsen', PERSON_9:'Matteo Ricci', PERSON_10:'Matteo Ricci Bellini', PERSON_11:'Yuki Tanabe', PERSON_12:'Karim Nasser', PERSON_13:'Irina Volkova', PERSON_14:'Hugo Lambert', PERSON_15:'Chiara Conti', PERSON_16:'Pavel Dvorak', PERSON_17:'Zainab Karimi', PERSON_18:'Jonas Weber', PERSON_19:'Freja Nielsen', PERSON_20:'Diego Fuentes', DOB:'14 Mar 1978', NATIONALITY:'Brazilian', PASSPORT_EXPIRY:'02 Sep 2029', DATE:'20 Jan 2025', ADDRESS:'Sao Paulo, BR'};
+const PII = {PERSON_A1:'Nell Brannigan', PERSON_A2:'Owen Castellane', PERSON_A3:'Thea Lindgren', PERSON_A4:'Rory Pemberton', PERSON_A5:'Sienna Okoye', PERSON_A6:'Felix Moorcroft', DOB_A1:'03 Feb 1981', DOB_A2:'19 Nov 1976', NAT_A1:'Australian', NAT_A2:'New Zealander', PASS_A1:'11 Jun 2031', PASS_A2:'24 Mar 2028', DATE_A1:'12 Aug 2026', DATE_A2:'30 Jul 2026', ADDR_A1:'Sydney, AU', ADDR_A2:'Auckland, NZ', WALLET_ADDRESS_2:'0xExampleWalletAddressNotReal0000000000000005', PERSON_2:'Tiago Ramos', PERSON_4:'Leena Mistry', PERSON_3:'Tiago Ramos Vieira', PERSON_5:'Greta Hoffmann', PERSON_6:'Samuel Adeyemi', PERSON_7:'Kavya Menon', PERSON_8:'Anders Halvorsen', PERSON_9:'Matteo Ricci', PERSON_10:'Matteo Ricci Bellini', PERSON_11:'Yuki Tanabe', PERSON_12:'Karim Nasser', PERSON_13:'Irina Volkova', PERSON_14:'Hugo Lambert', PERSON_15:'Chiara Conti', PERSON_16:'Pavel Dvorak', PERSON_17:'Zainab Karimi', PERSON_18:'Jonas Weber', PERSON_19:'Freja Nielsen', PERSON_20:'Diego Fuentes', DOB:'14 Mar 1978', NATIONALITY:'Brazilian', PASSPORT_EXPIRY:'02 Sep 2029', DATE:'20 Jan 2025', ADDRESS:'Sao Paulo, BR'};
 function setPII(on) {
   document.querySelectorAll('[data-pii]').forEach(p => {
     const l = p.querySelector('.pill__label'); if (!l.dataset.orig) l.dataset.orig = l.textContent;
@@ -1475,9 +2555,10 @@ function setPII(on) {
 document.querySelectorAll('.toggle').forEach(tg => tg.addEventListener('click', () => setPII(tg.getAttribute('aria-checked') !== 'true')));
 document.querySelectorAll('.filter-item[data-page]').forEach(it => it.addEventListener('click', () => {
   const key = it.dataset.page;
-  if (key === 'stub') document.getElementById('stubTitle').textContent = it.dataset.name;
-  document.querySelectorAll('[data-page-section]').forEach(s => s.hidden = s.dataset.pageSection !== key);
-  document.querySelectorAll('.filter-item').forEach(x => x.classList.toggle('is-active', x === it));
+  const view = it.closest('.run-view');
+  if (key === 'stub') view.querySelector('[id^="stubTitle"]').textContent = it.dataset.name;
+  view.querySelectorAll('[data-page-section]').forEach(s => s.hidden = s.dataset.pageSection !== key);
+  view.querySelectorAll('.filter-item').forEach(x => x.classList.toggle('is-active', x === it));
   scrollTo(0, 0);
 }));
 document.querySelectorAll('.tabs').forEach(tabs => tabs.addEventListener('click', e => {
@@ -1498,7 +2579,7 @@ document.querySelectorAll('.notice--critical > .stack').forEach(grp => {
   q('[data-gap-undo]').addEventListener('click', () => { ta.value = ''; show(true, false, false); });
 });
 document.querySelectorAll('[data-goto]').forEach(l => l.addEventListener('click', () => {
-  const target = [...document.querySelectorAll('.filter-item[data-name]')].find(x => x.dataset.name === l.dataset.goto);
+  const target = [...l.closest('.run-view').querySelectorAll('.filter-item[data-name]')].find(x => x.dataset.name === l.dataset.goto);
   if (target) target.click();
 }));
 function showScreen(name) {
@@ -1506,11 +2587,23 @@ function showScreen(name) {
   scrollTo(0, 0);
 }
 document.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', () => showScreen(b.dataset.nav)));
-document.querySelectorAll('[data-open-run]').forEach(c => c.addEventListener('click', () => showScreen('runs')));
+function activateRun(id) {
+  document.querySelectorAll('.run-view').forEach(v => v.hidden = v.dataset.run !== id);
+  document.querySelectorAll('.panel--side .row-card--run').forEach(c => c.classList.toggle('is-active', c.dataset.runId === id));
+}
+document.querySelectorAll('[data-open-run]').forEach(c => c.addEventListener('click', () => {
+  const id = /ALDER PEAK|fx01/i.test(c.textContent) ? 'alder' : 'cedar';
+  activateRun(id); showScreen('runs');
+  const ov = document.querySelector('.run-view[data-run="' + id + '"] .filter-item[data-page="overview"]'); if (ov) ov.click();
+}));
+document.querySelectorAll('.panel--side .row-card--run').forEach(c => c.addEventListener('click', () => {
+  activateRun(c.dataset.runId); scrollTo(0, 0);
+  const ov = document.querySelector('.run-view[data-run="' + c.dataset.runId + '"] .filter-item[data-page="overview"]'); if (ov) ov.click();
+}));
 showScreen('pipeline');
 
 document.querySelectorAll('.fin-num').forEach(b => b.addEventListener('click', () => openD({dataset:{label: b.dataset.field || 'Figure'}}, null)));
-[...document.querySelectorAll('[data-page-section="financials"] [data-goto]')].forEach(l => l.addEventListener('click', () => { const t=[...document.querySelectorAll('.filter-item[data-name]')].find(x=>x.dataset.name===l.dataset.goto); if (t) t.click(); }));
+[...document.querySelectorAll('[data-page-section="financials"] [data-goto]')].forEach(l => l.addEventListener('click', () => { const t=[...l.closest('.run-view').querySelectorAll('.filter-item[data-name]')].find(x=>x.dataset.name===l.dataset.goto); if (t) t.click(); }));
 
 document.querySelectorAll('[data-undo-group]').forEach(grp => {
   const q = x => grp.querySelector(x);
@@ -1527,16 +2620,18 @@ document.querySelectorAll('[data-undo-group]').forEach(grp => {
 // Stay on the same screen and section after a refresh: the current place is kept in the address (#runs/Ownership)
 function saveState() {
   const sc = [...document.querySelectorAll('[data-screen]')].find(x => !x.hidden);
-  const it = document.querySelector('.filter-item.is-active');
+  const view = document.querySelector('.run-view:not([hidden])');
+  const it = view && view.querySelector('.filter-item.is-active');
   const name = sc ? sc.dataset.screen : 'pipeline';
-  history.replaceState(null, '', '#' + name + (name === 'runs' && it ? '/' + encodeURIComponent(it.dataset.name) : ''));
+  history.replaceState(null, '', '#' + name + (name === 'runs' && it ? '/' + encodeURIComponent(it.dataset.name) + (view.dataset.run === 'alder' ? '/alder' : '') : ''));
 }
 document.querySelectorAll('[data-nav], [data-open-run], .filter-item[data-page], [data-goto]').forEach(el => el.addEventListener('click', saveState));
 (function restoreState() {
-  const [screen, section] = decodeURIComponent(location.hash.slice(1)).split('/');
+  const [screen, section, run] = decodeURIComponent(location.hash.slice(1)).split('/');
   if (screen === 'runs') {
     showScreen('runs');
-    const it = [...document.querySelectorAll('.filter-item[data-name]')].find(x => x.dataset.name === section);
+    if (run === 'alder') activateRun('alder');
+    const it = [...document.querySelectorAll('.run-view:not([hidden]) .filter-item[data-name]')].find(x => x.dataset.name === section);
     if (it) it.click();
   } else if (screen && document.querySelector('[data-screen="' + screen + '"]')) showScreen(screen);
 })();
@@ -1546,12 +2641,12 @@ document.querySelectorAll('[data-page-section="wallets"] .pill--action').forEach
 
 document.querySelectorAll('[data-assess]').forEach(b => b.addEventListener('click', () => openD({dataset:{label: b.dataset.field}}, null)));
 
-document.querySelectorAll('[data-copy-list]').forEach(b => b.addEventListener('click', () => { const t = document.getElementById('docs-request').innerText; try { navigator.clipboard.writeText(t).catch(() => {}); } catch (e) {} const l = b.querySelector('.btn__label'), o = l.textContent; l.textContent = 'Copied'; setTimeout(() => l.textContent = o, 1500); }));
+document.querySelectorAll('[data-copy-list]').forEach(b => b.addEventListener('click', () => { const t = b.closest('.run-view').querySelector('[id^="docs-request"]').innerText; try { navigator.clipboard.writeText(t).catch(() => {}); } catch (e) {} const l = b.querySelector('.btn__label'), o = l.textContent; l.textContent = 'Copied'; setTimeout(() => l.textContent = o, 1500); }));
 
 // Risk factors: tick / clear / undo with a required comment; the designation follows the number of ticked factors
-(function () {
+document.querySelectorAll('.run-view').forEach(function (view) {
   const LAB = { w: ['pill--warning', 'Waiting for you'], n: ['pill--neutral', 'Not ticked'], t: ['pill--danger', 'Ticked by ECHO'], c: ['pill--success', 'Cleared by analyst'], mt: ['pill--danger', 'Ticked by analyst'] };
-  const rows = [...document.querySelectorAll('[data-factor]')];
+  const rows = [...view.querySelectorAll('[data-factor]')];
   function actionsFor(st) { return st === 'w' ? ['Tick it', 'Clear it'] : st === 'n' ? ['Tick it'] : st === 't' ? ['Clear it'] : ['Undo']; }
   function render(r) {
     const st = r.dataset.state, pill = r.querySelector('[data-factor-pill]');
@@ -1562,9 +2657,9 @@ document.querySelectorAll('[data-copy-list]').forEach(b => b.addEventListener('c
   function summary() {
     const ticked = rows.filter(r => r.dataset.state === 't' || r.dataset.state === 'mt').length;
     const waiting = rows.filter(r => r.dataset.state === 'w').length;
-    document.getElementById('risk-level').textContent = ticked ? 'High' : 'Medium';
-    document.getElementById('risk-count').textContent = ticked + (ticked === 1 ? ' factor' : ' factors') + ' ticked · refresh every 12 months';
-    const n = document.getElementById('risk-notice'); n.hidden = !waiting;
+    const rl = view.querySelector('[id^="risk-level"]'); rl.textContent = ticked ? 'High' : 'Medium'; rl.classList.toggle('text-danger', !!ticked); rl.classList.toggle('text-warning', !ticked);
+    view.querySelector('[id^="risk-count"]').textContent = ticked + (ticked === 1 ? ' factor' : ' factors') + ' ticked · refresh every 12 months';
+    const n = view.querySelector('[id^="risk-notice"]'); n.hidden = !waiting;
     n.querySelector('span').textContent = 'Provisional: ' + waiting + (waiting === 1 ? ' factor waits' : ' factors wait') + ' for you. Tick or clear each one below.';
   }
   function act(r, a) {
@@ -1587,7 +2682,7 @@ document.querySelectorAll('[data-copy-list]').forEach(b => b.addEventListener('c
     render(r);
   });
   summary();
-})();
+});
 
 // Wallet check: a working form (client suggestions, address check, enabled button, list + toast)
 (function () {
@@ -1653,7 +2748,7 @@ document.querySelectorAll('[data-copy-list]').forEach(b => b.addEventListener('c
   }
   function fillTable(id, node) { const c = document.getElementById(id); let t = c.querySelector('.chart-table'); if (!t) { t = document.createElement('div'); t.className = 'chart-table'; c.appendChild(t); } t.replaceChildren(node); }
   // 1 stages
-  const stages = [['Triggered', 0], ['Gathering documents', 0], ['ECHO processing', 0], ['Needs analyst', 2], ['Waiting on client', 0], ['Awaiting review', 0], ['Awaiting 4-eyes', 0]];
+  const stages = [['Triggered', 0], ['Gathering documents', 0], ['ECHO processing', 0], ['Needs analyst', 1], ['Waiting on client', 0], ['Awaiting review', 1], ['Awaiting 4-eyes', 0]];
   hbars('c-stages', stages.map(([l, v]) => ({ l, v })), 'open checks'); fillTable('c-stages', tbl(['Stage', 'Open checks'], stages, 'minmax(0,1fr) max-content'));
   // 2 waiting on
   const waiting = [['Items for the analyst to write', 62, '2 checks'], ['Inconsistencies to check', 24, '2 checks'], ['Need analyst approval (client-declared only)', 23, '2 checks'], ['Parties or wallets not screened', 16, '2 checks'], ['Values not found', 11, '2 checks'], ['Drafts to accept or edit', 8, '2 checks'], ['Conflicting values', 7, '2 checks'], ['Missing documents', 7, '2 checks'], ['Out-of-date documents', 6, '2 checks'], ['Unclear readings', 3, '2 checks'], ['Need analyst approval (one source)', 3, '1 check'], ['Other open items', 1, '1 check'], ['Ownership items incomplete', 1, '1 check']];
@@ -1661,7 +2756,7 @@ document.querySelectorAll('[data-copy-list]').forEach(b => b.addEventListener('c
   // 3 least complete + 4 time as plain tally rows
   function tally(id, rows, open) { const host = document.querySelector('[data-chart="' + id + '"]'); const t = document.createElement('div'); t.style.display = 'flex'; t.style.flexDirection = 'column';
     rows.forEach(([l, v]) => { const r = document.createElement('div'); r.className = 'tally__row'; const a = document.createElement('span'); a.textContent = l; const b = document.createElement('span'); b.className = 'tally__count'; b.textContent = v; r.append(a, b); if (open) { r.style.cursor = 'pointer'; r.addEventListener('click', () => document.querySelector('[data-screen="runs"]') && (document.querySelector('[data-nav="runs"]').click())); } t.appendChild(r); }); host.appendChild(t); }
-  const least = [['ALDER PEAK PTY LTD', '50%'], ['CEDAR LOOP, INC.', '54%']];
+  const least = [['CEDAR LOOP, INC.', '54%'], ['ALDER PEAK PTY LTD', '97%']];
   tally('c-least', least, true); fillTable('c-least', tbl(['Check', 'Complete'], least, 'minmax(0,1fr) max-content'));
   const times = [['Triggered · 2 times', '0m'], ['Gathering documents · 2 times', '0m'], ['ECHO processing · 19 times', '0m'], ['Needs analyst · 19 times', '43h']];
   tally('c-time', times, false); fillTable('c-time', tbl(['Stage', 'Average time'], times, 'minmax(0,1fr) max-content'));
@@ -1883,7 +2978,7 @@ document.querySelectorAll('[data-copy-list]').forEach(b => b.addEventListener('c
       ctx.beginPath(); ctx.arc(px, py, 1 + k * 0.9, 0, 6.2832); ctx.fill();
     }
   }
-  function loop(t){ raf = 0; if (document.hidden || scr.hidden || scr.offsetParent === null) return; draw(t); if (!still) raf = requestAnimationFrame(loop); }
+  function loop(t){ raf = 0; if (document.hidden || scr.hidden || scr.offsetParent === null) return; if (cv.clientWidth !== W || cv.clientHeight !== H) size(); draw(t); if (!still) raf = requestAnimationFrame(loop); }
   function start(){ if (!raf) raf = requestAnimationFrame(loop); }
   addEventListener('mousemove', e => { const r = cv.getBoundingClientRect(); mx = e.clientX - r.left; my = e.clientY - r.top; if (sx < -1000) { sx = mx; sy = my; } start(); });
   addEventListener('resize', () => { size(); start(); });
