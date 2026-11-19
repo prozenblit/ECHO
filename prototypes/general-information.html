@@ -2962,7 +2962,7 @@ document.querySelectorAll('.run-view').forEach(function (view) {
 (function(){
   const cv = document.querySelector('.bg-grid'); if (!cv) return;
   const scr = document.querySelector('[data-screen="pipeline"]'), ctx = cv.getContext('2d');
-  const GAP = 20, R = 210, PUSH = 12, BASE = 0.07, PEAK = 0.85;
+  const GAP = 20, R = 210, PUSH = 12, BASE = 0.14, PEAK = 0.85;
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let W = 0, H = 0, dpr = 1, mx = -9999, my = -9999, sx = -9999, sy = -9999, raf = 0;
   function size(){ dpr = Math.min(devicePixelRatio || 1, 2); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); }
