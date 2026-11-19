@@ -745,7 +745,7 @@ Overview card 2 ("What you need to do"):
 <div class="panel panel--gradient detail-card detail-card--flush">
   <div class="detail-title"><span class="detail-title__title">What you need to do</span></div>
   <!-- action list: see "Action list" -->
-  <div class="detail-card__note">Still to come: reading what each World-Check report found, and the risk rating (section 15)</div>
+  <div class="detail-card__note">Still to come: reading what each World-Check report found, and the risk rating (Risk rating tab)</div>
 </div>
 ```
 

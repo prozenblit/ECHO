@@ -477,7 +477,9 @@ button { padding: 0; border: 0; background: none; appearance: none; text-align: 
 /* figma: 78:1954, 78:2429 (card subtitle Manrope Medium 10 Grey 200) */
 .detail-title__sub { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
 /* figma: 78:2485 (footer note: Manrope Medium 10 Grey 200, 943x19 FIXED, after the list, no divider) */
-.detail-card__note { height: 19px; font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+/* OWNER OVERRIDE 2026-11-19: note text 12 (was Medium 10) and 16 px space above it inside a flush card (it sat on the last row) */
+.detail-card__note { min-height: 19px; font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+.detail-card--flush .detail-card__note { padding-top: var(--space-16); }
 /* figma: 78:1956 (notice stack "Frame 63": V gap 4: critical, warning, info) */
 .notice-stack { display: flex; flex-direction: column; gap: var(--space-4); }
 
