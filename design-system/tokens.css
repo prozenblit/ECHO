@@ -32,7 +32,7 @@
   --color-purple: #9081E4; /* paint style "Purple": "Main check"/role text, KPI "0" — 78:2523, 78:2533, 78:1991 */
   --color-purple-15: rgba(144, 129, 228, 0.15); /* paint style "Purple 15%": role pill fill, info notice fill — 78:2018, 78:1989 */
   --color-purple-50: rgba(144, 129, 228, 0.5); /* paint style "Purple 50%": not applied in canonical screens */
-  --color-bg-gradient: linear-gradient(85.08deg, rgba(17, 18, 19, 0.1) 0%, #161718 100%); /* paint style "bg gradient" #111213 (colour alpha 0.1)@0 -> #161718@1, transform [[0.93,-0.08,0.07],[0.88,0.93,-0.4]] (angle 85.08deg derived from row 1): large panel fill — 78:1794, 78:1950, 78:2268, 78:2425, 78:2435 */
+  --color-bg-gradient: linear-gradient(85.08deg, rgba(17, 18, 19, 0.1) 0%, #171819 100%); /* paint style "bg gradient" #111213 (colour alpha 0.1)@0 -> #171819@1 (end colour changed #161718 -> #171819 by owner 2026-11-19; start unchanged), transform [[0.93,-0.08,0.07],[0.88,0.93,-0.4]] (angle 85.08deg derived from row 1): large panel fill — 78:1794, 78:1950, 78:2268, 78:2425, 78:2435 */
 
   /* ---- Colour — raw (unbound) paints ---- */
   --color-raw-logo-wordmark: #4DFFCD; /* logo wordmark glyph vectors, 16 nodes (4 per screen): 78:2492, 78:2493, 78:2494 — raw in design (no style bound) */

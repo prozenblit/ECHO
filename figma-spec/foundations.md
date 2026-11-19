@@ -74,7 +74,7 @@ Every colour in the four finals comes from the 30 local paint styles except 4 ra
 | Purple | #9081E4 | `S:65e9155e008cab62b78bb52cc69dd3b3d9d8ed4c,` | "Main check"/shareholder/director text, KPI "0" |
 | Purple 15% | #9081E4 @0.15 | `S:fb5453a9525c405169426450019d2e21b42fdd1e,` | shareholder/director pill fill (`78:2018`), info panel fill (`78:1989`) |
 | Purple 50% | #9081E4 @0.5 | `S:b99bfe497b9796424785963b1f575ddb28750f2a,` | not applied in finals |
-| bg gradient | linear #111213@0.1 (p0) -> #161718@1 (p1) | `S:a0b8444852615c80a63c11bfe827abcacc0bbcc7,` | large panel fill (summary card `78:1794`, `78:1950`, `78:2268`, `78:2425`, `78:2435`) |
+| bg gradient | linear #111213@0.1 (p0) -> #171819@1 (p1; was #161718) | `S:a0b8444852615c80a63c11bfe827abcacc0bbcc7,` | large panel fill (summary card `78:1794`, `78:1950`, `78:2268`, `78:2425`, `78:2435`) |
 
 Gradient transform for the 4 "Gradient *" family styles and "Gradient main(opposite)": `[[0.97,-0.03,0.03],[1,1.04,-0.5]]` (same for all five 2-stop brand gradients, read from the style paints). "bg gradient" transform: `[[0.93,-0.08,0.07],[0.88,0.93,-0.4]]`. Note: first stop of "bg gradient" has stop alpha 0.1 (colour alpha, not paint opacity), second stop alpha 1.
 
@@ -164,7 +164,7 @@ Strokes-in-layout: header and all content frames report `strokesIncludedInLayout
 | Gradient green (style) | #5DE7CB@0 -> #66D74A@1 | same | done-step circle stroke | `78:1848` |
 | Gradient green opposite (style) | #66D74A@0 -> #5DE7CB@1 | same | not applied in finals | — |
 | Gradient orange (style) | #F3892D@0 -> #ECE040@1 | same | current-step circle fill/stroke | `78:1865`, `78:2339`, `78:1867` |
-| bg gradient (style) | #111213 alpha 0.1 @0 -> #161718 alpha 1 @1 | `[[0.93,-0.08,0.07],[0.88,0.93,-0.4]]` | big panels fill, 16px radius | `78:1794`, `78:1950`, `78:2268`, `78:2425`, `78:2435` |
+| bg gradient (style) | #111213 alpha 0.1 @0 -> #171819 alpha 1 @1 (was #161718) | `[[0.93,-0.08,0.07],[0.88,0.93,-0.4]]` | big panels fill, 16px radius | `78:1794`, `78:1950`, `78:2268`, `78:2425`, `78:2435` |
 | RAW gradient #53B2ED@0 -> #7BE697@1 | strokes of rings (no style) | see 1.5 | ring arcs | `78:2551`, `78:2574`, `78:1802`, `78:2276` |
 | RAW gradient #54B3E9@0 -> #F3892D@1 | Line 12 stroke | `[[0.97,-0.03,0.03],[1,1.04,-0.5]]` | `78:1840`, `78:2314` |
 | Components page: 3-stop gradient #53B2ED@0 -> #4CCED4@0.5 -> #45EABB@1 (all alpha 1) | stroke w1 CENTER of the Outline Button hover variant `18:253` ("Property 1=hover", 87x32, no fill), transform `[[0.97,-0.03,0.03],[1,1.04,-0.5]]`, NO paint style bound | — | `18:253` |

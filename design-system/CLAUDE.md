@@ -60,7 +60,7 @@ Exact design paint-style names (30). CSS var = `--color-<kebab name>`. Alpha ent
 | `--color-gradient-main` | Gradient main | #7BE697@0 -> #53B2ED@1 | the alternate direction (Runs screens, chevrons, step numerals) |
 | `--color-gradient-green` / `-green-opposite` | Gradient green / opposite | #5DE7CB -> #66D74A / reversed | toggle ON track ONLY (not the stepper ring: that shows Gradient main); opposite not applied |
 | `--color-gradient-orange` | Gradient orange | #F3892D@0 -> #ECE040@1 | current-step circle |
-| `--color-bg-gradient` | bg gradient | #111213 (alpha 0.1)@0 -> #161718@1 | large panel fill |
+| `--color-bg-gradient` | bg gradient | #111213 (alpha 0.1)@0 -> #171819@1 | large panel fill |
 Gradient CSS angles are derived arithmetically from the design transforms (88.23deg for the brand/green/orange styles, 85.08deg for bg gradient); exact transforms are in each token comment in `tokens.css`.
 ### Semantic aliases
 | Token | → | Use |
