@@ -1,0 +1,298 @@
+/* Echo design tokens — mirrors tokens.json 1:1. Alias entries are var() references; tokens.json holds resolved values.
+   Source: design file "Echo" (see _build-notes.md). Paint-style names are kept verbatim (incl. "oposite"). */
+:root {
+
+  /* ---- Colour — design paint styles (30 local paint styles, exact names; value of style "White" is #DCE1E9) ---- */
+  --color-blue: #59BCFA; /* paint style "Blue": text accent (percentages, numerals, links), icon strokes — 78:2517, 78:1782, 78:1798 */
+  --color-blue-75: rgba(89, 188, 250, 0.75); /* paint style "Blue 75%": logo line 1 stroke — 78:2496 */
+  --color-blue-50: rgba(89, 188, 250, 0.5); /* paint style "Blue 50%": logo line 2 stroke, icon fills/strokes — 78:2497, 78:2002 */
+  --color-blue-25: rgba(89, 188, 250, 0.25); /* paint style "Blue 25%": logo line 3 stroke — 78:2498 */
+  --color-blue-15: rgba(89, 188, 250, 0.15); /* paint style "Blue 15%": person-tag pill fill, search icon ellipse — 78:1974, I78:2635;78:1708 */
+  --color-black-900: #08090A; /* paint style "Black 900": screen background, KPI cards, text on bright fills — 78:2486, 78:2516, I78:2514;10:169 */
+  --color-grey-500: #111213; /* paint style "Grey 500": control fill (Select/Search/Input), inner row cards, header bottom border — 78:2510, 78:2531, 78:2488 */
+  --color-grey-400: #1C1E1F; /* paint style "Grey 400": hairline border on panels/controls/rows, tab-track fill, step-chip fill — 78:2516, 78:1995, 78:2632 */
+  --color-grey-300: #62666D; /* paint style "Grey 300": muted text, captions, placeholders, — 78:2518, I78:2635;73:1664, I78:1955;21:59 */
+  --color-grey-200: #8A8F98; /* paint style "Grey 200": secondary text, outline-button stroke + label — 78:2585, 18:227, 18:226 */
+  --color-grey-100: #A6ACB6; /* paint style "Grey 100": tertiary/label text, form labels, toggle OFF track + label — 78:2539, 78:2634 */
+  --color-white: #DCE1E9; /* paint style "White" (name kept; value is #DCE1E9, not #FFFFFF): primary text and CTA fill — 78:2501, 78:2513, 18:142 */
+  --color-green: #7BE697; /* paint style "Green": success/approved/UBO/100%, status dot — 78:1792, 78:1900 */
+  --color-green-75: rgba(123, 230, 151, 0.75); /* paint style "Green 75%": not applied in canonical screens */
+  --color-green-50: rgba(123, 230, 151, 0.5); /* paint style "Green 50%": not applied in canonical screens */
+  --color-green-25: rgba(123, 230, 151, 0.25); /* paint style "Green 25%": success pill fill — 78:2056, 78:2140 */
+  --color-green-15: rgba(123, 230, 151, 0.15); /* paint style "Green 15%": not applied in canonical screens */
+  --color-gradient-green: linear-gradient(88.23deg, #5DE7CB 0%, #66D74A 100%); /* paint style "Gradient green" #5DE7CB@0 -> #66D74A@1, transform [[0.97,-0.03,0.03],[1,1.04,-0.5]] (angle 88.23deg derived from transform row 1): toggle ON track only; the done-step ring has this style on a child stroke but the Union fill "Gradient main" covers it, so it is NOT visible in the stepper — 78:1848, 21:28, 21:43 */
+  --color-gradient-green-opposite: linear-gradient(88.23deg, #66D74A 0%, #5DE7CB 100%); /* paint style "Gradient green opposite" #66D74A@0 -> #5DE7CB@1: not applied in canonical screens (same transform) */
+  --color-orange: #F3AB52; /* paint style "Orange": warning/missing text, status dot, warning pill outline — 78:2544, 78:2584, 78:2007 */
+  --color-gradient-orange: linear-gradient(88.23deg, #F3892D 0%, #ECE040 100%); /* paint style "Gradient orange" #F3892D@0 -> #ECE040@1 (same transform, angle 88.23deg): current-step circle — 78:1865, 78:2339, 78:1867 */
+  --color-gradient-main: linear-gradient(88.23deg, #7BE697 0%, #53B2ED 100%); /* paint style "Gradient main" #7BE697@0 -> #53B2ED@1, transform [[0.97,-0.03,0.03],[1,1.04,-0.5]] (angle 88.23deg derived from row 1): active card outline, chevrons, search icon, step-number numerals, Runs-screen nav/sidebar active stroke — 78:1778, I78:2510;18:310, 78:2633, 78:1766 */
+  --color-gradient-main-oposite: linear-gradient(88.23deg, #53B2ED 0%, #7BE697 100%); /* paint style "Gradient main oposite" (sic) #53B2ED@0 -> #7BE697@1, same transform (angle 88.23deg): logo, CTA hover, active nav stroke on Pipeline/Wallet, Tabs active fill, Outline+icon hover — 78:2491, 78:2500, 18:249, 21:379, 18:291 */
+  --color-red: #F35352; /* paint style "Red": conflict/error text and status dot, problem pill text — 78:1814, 78:2583 */
+  --color-red-50: rgba(243, 83, 82, 0.5); /* paint style "Red 50%": not applied in canonical screens */
+  --color-red-25: rgba(243, 83, 82, 0.25); /* paint style "Red 25%": problem pill fill, critical notice fill — 78:2046, 78:1957 */
+  --color-purple: #9081E4; /* paint style "Purple": "Main check"/role text, KPI "0" — 78:2523, 78:2533, 78:1991 */
+  --color-purple-15: rgba(144, 129, 228, 0.15); /* paint style "Purple 15%": role pill fill, info notice fill — 78:2018, 78:1989 */
+  --color-purple-50: rgba(144, 129, 228, 0.5); /* paint style "Purple 50%": not applied in canonical screens */
+  --color-bg-gradient: linear-gradient(85.08deg, rgba(17, 18, 19, 0.1) 0%, #161718 100%); /* paint style "bg gradient" #111213 (colour alpha 0.1)@0 -> #161718@1, transform [[0.93,-0.08,0.07],[0.88,0.93,-0.4]] (angle 85.08deg derived from row 1): large panel fill — 78:1794, 78:1950, 78:2268, 78:2425, 78:2435 */
+
+  /* ---- Colour — raw (unbound) paints ---- */
+  --color-raw-logo-wordmark: #4DFFCD; /* logo wordmark glyph vectors, 16 nodes (4 per screen): 78:2492, 78:2493, 78:2494 — raw in design (no style bound) */
+  --color-raw-ring-arc-gradient: linear-gradient(142.16deg, #53B2ED 0%, #7BE697 100%); /* progress-ring/donut arc stroke #53B2ED@0 -> #7BE697@1, transform [[0.8,1.03,-0.37],[0.01,1.92,-0.19]] (angle 142.16deg derived from row 1; shipped as static SVG asset): 78:2574, 78:1802, 78:2276 — raw in design (no style bound) */
+  --color-raw-ring-arc-gradient-short: linear-gradient(153.67deg, #53B2ED 0%, #7BE697 100%); /* Pipeline 72px short ring arc, transform [[0.48,0.97,-0.37],[0,1.81,-0.19]] (angle 153.67deg derived from row 1): 78:2551 — raw in design (no style bound) */
+  --color-gradient-progress: linear-gradient(88.23deg, #54B3E9 0%, #F3892D 100%); /* stepper Line 12 stroke #54B3E9@0 -> #F3892D@1, transform [[0.97,-0.03,0.03],[1,1.04,-0.5]] (angle 88.23deg): 78:1840, 78:2314 — raw in design (no style bound) */
+  --color-raw-outline-hover-stroke: linear-gradient(88.23deg, #53B2ED 0%, #4CCED4 50%, #45EABB 100%); /* Outline Button hover stroke, 3 stops #53B2ED@0 / #4CCED4@0.5 / #45EABB@1, transform [[0.97,-0.03,0.03],[1,1.04,-0.5]] (angle 88.23deg); components page: 18:253 — raw in design (no style bound) */
+
+  /* ---- Colour — gradients (brand gradient: canonical direction + alternate) ---- */
+  --gradient-brand: var(--color-gradient-main-oposite); /* CANONICAL brand gradient #53B2ED -> #7BE697 (style "Gradient main oposite"; _intake build default 2): nav pill + Tabs active + CTA hover + Outline+icon hover — 78:2500, 78:2617, 21:379, 18:249, 18:291 */
+  --alt-gradient-brand: var(--color-gradient-main); /* ALTERNATE direction #7BE697 -> #53B2ED (style "Gradient main"): Runs sidebar nav pill / selected filter / active run card, chevron, step numerals — 78:1766, 78:2240, 78:1778, 78:1906 */
+  --gradient-green: var(--color-gradient-green); /* toggle ON track only (NOT the stepper: the done-step ring shows "Gradient main") (style "Gradient green") — 78:1848, 21:28 */
+  --gradient-orange: var(--color-gradient-orange); /* current-step circle (style "Gradient orange") — 78:1865 */
+  --gradient-card: var(--color-bg-gradient); /* large panel fill (style "bg gradient") — 78:1794, 78:1950 */
+  --gradient-outline-hover: var(--color-raw-outline-hover-stroke); /* Outline Button hover stroke, 3 stops (raw) — 18:253 */
+
+  /* ---- Colour — semantic aliases: text ---- */
+  --color-text-primary: var(--color-white); /* primary text (headings, nav, titles) — 78:2501, 78:2513 */
+  --color-text-label: var(--color-grey-100); /* tertiary/label text, form labels — 78:2539, 78:2634 */
+  --color-text-secondary: var(--color-grey-200); /* secondary text, outline-button label, toggle OFF label — 78:2585, 18:226, 21:57 */
+  --color-text-muted: var(--color-grey-300); /* muted captions, placeholders — 78:2518, I78:2635;73:1664 */
+  --color-text-inverse: var(--color-black-900); /* label on bright fills (CTA, active tab) — I78:2514;10:169, 21:380 */
+  --color-text-accent: var(--color-blue); /* percentages / metrics — 78:1782 */
+  --color-text-danger: var(--color-red); /* conflict/problem text — 78:1814 */
+  --color-text-warning: var(--color-orange); /* missing/out-of-date text — 78:1818 */
+  --color-text-success: var(--color-green); /* success text — 78:1792 */
+  --color-text-info: var(--color-purple); /* Main check / role text — 78:2533 */
+
+  /* ---- Colour — semantic aliases: surface ---- */
+  --color-surface-base: var(--color-black-900); /* screen background, KPI card — 78:2486, 78:2516 */
+  --color-surface-field: var(--color-grey-500); /* Select/Search/Input fill, filled panel, row card — 10:170, 73:1680, 73:1679, 78:2531 */
+  --color-surface-raised: var(--color-grey-400); /* tab track, step-number chip — 21:384, 78:2632 */
+  --color-surface-cta: var(--color-white); /* CTA button fill — 18:142 */
+  --color-surface-card-gradient: var(--gradient-card); /* large gradient panel — 78:1794 */
+
+  /* ---- Colour — semantic aliases: border ---- */
+  --color-border-hairline: var(--color-grey-400); /* panel/card/control/table border — 78:2516, 10:170 */
+  --color-border-header: var(--color-grey-500); /* header bottom border — 78:2488 */
+  --color-border-outline: var(--color-white); /* outline-button stroke — 18:227 (owner changed Grey 200 -> White 2026-11-17) */
+  --color-border-warning: var(--color-orange); /* warning pill / notice outline — 78:2007, 78:1970 */
+  --color-border-active: var(--gradient-brand); /* active outline, canonical direction — 78:2500 */
+  --color-border-active-alt: var(--alt-gradient-brand); /* active outline, alternate direction (Runs) — 78:1766, 78:1778 */
+
+  /* ---- Colour — semantic aliases: brand ---- */
+  --color-brand-gradient: var(--gradient-brand); /* canonical brand gradient */
+  --color-brand-gradient-alt: var(--alt-gradient-brand); /* alternate-direction brand gradient */
+  --color-brand-accent: var(--color-blue); /* blue accent */
+  --color-brand-logo-wordmark: var(--color-raw-logo-wordmark); /* logo wordmark glyph (raw) — 78:2492 */
+
+  /* ---- Colour — semantic aliases: action ---- */
+  --color-action-cta-bg: var(--color-white); /* CTA fill — 18:142 */
+  --color-action-cta-text: var(--color-black-900); /* CTA label — 10:169 */
+  --color-action-cta-hover-bg: var(--gradient-brand); /* CTA hover fill — 18:249 */
+  --color-action-outline-stroke: var(--color-white); /* Outline stroke — 18:227, 18:289 (owner changed Grey 200 -> White 2026-11-17) */
+  --color-action-outline-text: var(--color-white); /* Outline label — 18:226, 18:282 (owner changed Grey 200 -> White 2026-11-17) */
+  --color-action-outline-hover-stroke: var(--gradient-outline-hover); /* Outline hover 3-stop stroke — 18:253 */
+  --color-action-outline-icon-hover-stroke: var(--gradient-brand); /* Outline+icon hover (Variant2) 2-stop stroke — 18:291 */
+  --color-action-outline-hover-text: var(--gradient-brand); /* Outline / Outline+icon hover label gradient — 18:254, 18:293 */
+  --color-action-toggle-on: var(--gradient-green); /* toggle ON track — 21:28, 21:43 */
+  --color-action-toggle-off: var(--color-grey-100); /* toggle OFF track — Grey 100 (owner changed Grey 300 -> Grey 100 2026-11-18) — 21:34, 21:59 */
+  --color-action-toggle-off-label: var(--color-grey-100); /* toggle OFF label — Grey 100 (owner changed Grey 200 -> Grey 100 2026-11-18) — 21:57 */
+  --color-action-toggle-knob: var(--color-grey-500); /* toggle knob — 21:30, 21:35 */
+  --color-action-tab-track: var(--color-grey-400); /* tabs track — 21:384, 21:401 */
+  --color-action-tab-active-bg: var(--gradient-brand); /* active tab fill — 21:379, 21:397 */
+  --color-action-tab-active-text: var(--color-black-900); /* active tab label — 21:380, 21:398 */
+  --color-action-tab-inactive-text: var(--color-grey-300); /* inactive tab label — 21:382, 21:400 */
+  --color-action-field-bg: var(--color-grey-500); /* Select/Search/Input fill */
+  --color-action-field-border: var(--color-grey-400); /* Select/Search/Input border */
+  --color-action-field-placeholder: var(--color-grey-300); /* field placeholder / default label — 9:137, 73:1664, 73:1678 */
+  --color-action-field-value: var(--color-white); /* Select value text as drawn in instances — I78:2510;9:137 */
+
+  /* ---- Colour — semantic aliases: status ---- */
+  --color-status-dot-danger: var(--color-red); /* status dot — 78:2583 */
+  --color-status-dot-warning: var(--color-orange); /* status dot — 78:2584 */
+  --color-status-dot-success: var(--color-green); /* status dot — 78:1900 */
+  --color-status-pill-danger-bg: var(--color-red-25); /* problem pill fill — 78:2046 */
+  --color-status-pill-danger-text: var(--color-red); /* problem pill text */
+  --color-status-pill-success-bg: var(--color-green-25); /* success pill fill — 78:2056 */
+  --color-status-pill-success-text: var(--color-green); /* success pill text */
+  --color-status-pill-warning-outline: var(--color-orange); /* warning pill outline — 78:2007 */
+  --color-status-pill-warning-text: var(--color-orange); /* warning pill text */
+  --color-status-pill-role-bg: var(--color-purple-15); /* role pill fill — 78:2018 */
+  --color-status-pill-role-text: var(--color-purple); /* role pill text */
+  --color-status-pill-tag-bg: var(--color-blue-15); /* person-tag fill — 78:1974 */
+  --color-status-pill-tag-text: var(--color-blue); /* person-tag text (label node opacity 0.7) */
+  --color-status-notice-critical-bg: var(--color-red-25); /* critical notice fill — 78:1957 */
+  --color-status-notice-critical-text: var(--color-red); /* critical notice text */
+  --color-status-notice-warning-outline: var(--color-orange); /* warning notice outline — 78:1970 */
+  --color-status-notice-warning-text: var(--color-orange); /* warning notice text */
+  --color-status-notice-info-bg: var(--color-purple-15); /* info notice fill — 78:1989 */
+  --color-status-notice-info-text: var(--color-purple); /* info notice text */
+
+  /* ---- Typography — families ---- */
+  --font-primary: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif; /* Manrope (Regular 400 / Medium 500) — all UI text; fallbacks added after the design family — foundations 0.2 */
+  --font-numeric: 'Jura', system-ui, -apple-system, 'Segoe UI', sans-serif; /* Jura (Light 300 / Medium 500 / SemiBold 600) — numerals, KPI figures, percentages. Not monospace (design has no mono) — foundations 0.2 */
+
+  /* ---- Typography — font sizes (every size used) ---- */
+  --font-size-10: 10px; /* field text, table headers, sub-lines, Tabs 24 — 9:137, 78:2533, 21:398 */
+  --font-size-12: 12px; /* body, nav, buttons, card titles, Tabs 32, toggle label — 78:2501, 10:169, 21:380 */
+  --font-size-14: 14px; /* panel / company titles, Wallet numerals, Jura percentages — 78:2535, 78:2633 */
+  --font-size-16: 16px; /* page headings — 78:2513 */
+  --font-size-20: 20px; /* Jura ring labels "41%", "62%" — 78:2548, 78:2571 */
+  --font-size-38: 38px; /* Jura KPI numerals + donut percent — 78:2517, 78:1798 */
+
+  /* ---- Typography — weights ---- */
+  --font-weight-light: 300; /* Jura Light — "%" glyph in mixed ring/donut labels — 78:2548 */
+  --font-weight-regular: 400; /* Manrope Regular — 78:2501 */
+  --font-weight-medium: 500; /* Manrope Medium / Jura Medium — 10:169, 78:2517 */
+  --font-weight-semibold: 600; /* Jura SemiBold — "60 out of 116" — 78:1799 */
+
+  /* ---- Typography — line height / letter spacing ---- */
+  --line-height-auto: normal; /* Figma line-height AUTO -> CSS normal (every text except one) — foundations 2 */
+  --line-height-16: 16px; /* fixed 16px: long paragraph "Critical item ..." (foundations 2: 16px; components 6.5 says auto — see _build-notes) — 78:2434 */
+
+  /* ---- Typography — letter spacing ---- */
+  --letter-spacing-0: 0; /* letter-spacing 0% everywhere — foundations 2 */
+
+  /* ---- Type scale (shorthand roles; letter-spacing 0 everywhere) ---- */
+  --type-pill-10: var(--font-weight-regular) var(--font-size-10)/var(--line-height-auto) var(--font-primary); /* status-pill text Manrope Regular 10 — 78:2008; OWNER OVERRIDE 2026-11-16: raised from 8 to 10 (Figma still draws 8; update Figma to match) */
+  --type-tag-10: var(--font-weight-medium) var(--font-size-10)/var(--line-height-auto) var(--font-primary); /* person-tag text Manrope Medium 10 — 78:1975; OWNER OVERRIDE 2026-11-16: raised from 8 to 10 (Figma still draws 8; update Figma to match) */
+  --type-field-10: var(--font-weight-regular) var(--font-size-10)/var(--line-height-auto) var(--font-primary); /* table header cells, counts, "Single Source" pill Manrope Regular 10 — 78:2087, 78:2108 (Select/Search/Input text moved to Regular 12 = --type-body-12 on 2026-11-16) */
+  --type-label-10: var(--font-weight-medium) var(--font-size-10)/var(--line-height-auto) var(--font-primary); /* sub-lines, notice text, Tabs 24 Manrope Medium 10 — 78:2539, 21:398 */
+  --type-paragraph-10: var(--font-weight-medium) var(--font-size-10)/var(--line-height-16) var(--font-primary); /* long paragraph Manrope Medium 10 / 16px — 78:2434 */
+  --type-body-12: var(--font-weight-regular) var(--font-size-12)/var(--line-height-auto) var(--font-primary); /* Select/Search/Input text (9:137, 73:1664, 73:1678; Figma change 2026-11-16), nav labels, section/KPI labels, table body Manrope Regular 12 — 78:2501, 78:2518 */
+  --type-title-12: var(--font-weight-medium) var(--font-size-12)/var(--line-height-auto) var(--font-primary); /* buttons, card titles, Tabs 32, toggle label Manrope Medium 12 — 10:169, 18:226, 21:380, 21:53 */
+  --type-heading-14: var(--font-weight-medium) var(--font-size-14)/var(--line-height-auto) var(--font-primary); /* panel / company titles Manrope Medium 14 — 78:2535 */
+  --type-heading-16: var(--font-weight-medium) var(--font-size-16)/var(--line-height-auto) var(--font-primary); /* page headings Manrope Medium 16 — 78:2513 */
+  --type-numeral-38: var(--font-weight-medium) var(--font-size-38)/var(--line-height-auto) var(--font-numeric); /* KPI numerals, donut percent Jura Medium 38 — 78:2517, 78:1798 */
+  --type-numeral-20: var(--font-weight-medium) var(--font-size-20)/var(--line-height-auto) var(--font-numeric); /* ring percent Jura Medium 20 ("%" in Light) — 78:2548 */
+  --type-numeral-14: var(--font-weight-medium) var(--font-size-14)/var(--line-height-auto) var(--font-numeric); /* percentages, Wallet step numerals Jura Medium 14 — 78:2588, 78:2633 */
+  --type-numeral-12: var(--font-weight-semibold) var(--font-size-12)/var(--line-height-auto) var(--font-numeric); /* donut caption Jura SemiBold 12 — 78:1799 */
+
+  /* ---- Spacing — OBSERVED paddings/gaps (not design tokens; no spacing variables exist in the design). Nominal space-between gaps 108/211/309/391 are not listed. ---- */
+  --space-1: 1px; /* observed gap — 78:1888 */
+  --space-2: 2px; /* observed gap/padding — 78:2578, 78:1973 */
+  --space-4: 4px; /* observed gap/padding — 78:2536 */
+  --space-6: 6px; /* observed gap (toggle + label) — 78:1955 */
+  --space-8: 8px; /* observed gap/padding — 78:2541 */
+  --space-10: 10px; /* observed gap (button inner, pill inner) — 78:2514 */
+  --space-12: 12px; /* observed gap/padding (Outline+icon gap; field/notice padding) — 78:1807, 10:170 */
+  --space-13: 13px; /* observed gap — 78:1793 */
+  --space-16: 16px; /* observed gap/padding — 78:1775, 78:2528 */
+  --space-20: 20px; /* observed padding (Outline+icon R; Tabs 32 tab) — 18:289, 21:379 */
+  --space-24: 24px; /* observed gap/padding — 78:2511, 78:2516 */
+  --space-32: 32px; /* observed gap/padding (Select inner gap, nav pill) — 10:170, 78:2500 */
+  --space-36: 36px; /* observed gap (row card) — 78:2531 */
+  --space-38: 38px; /* observed gap (Wallet columns) — 78:2624 */
+  --space-40: 40px; /* observed gap/padding — 78:1999, 78:2488 */
+  --space-48: 48px; /* observed gap (step row) — 78:1795 */
+  --space-64: 64px; /* observed gap (step cluster) — 78:1811 */
+
+  /* ---- Radii by role ---- */
+  --radius-pill: 4px; /* pills, person tags — 78:1974, 78:2007 */
+  --radius-control: 8px; /* Select/Search/Input/buttons/tabs/row cards/notice/active nav pill — 10:170, 18:142, 21:384, 78:2531, 78:2500 */
+  --radius-card: 16px; /* KPI cards, panels, large cards — 78:2516, 78:1776, 78:1794 */
+  --radius-round: 24px; /* inactive nav pills, toggle track, step-number chip — 78:2502, 21:28, 78:2632 */
+
+  /* ---- Control heights / fixed sizes ---- */
+  --h-control: 32px; /* Select, Search, Input, CTA, Outline, Outline+icon, Tabs 32, nav pill — 10:170, 73:1680, 73:1679, 18:142, 18:227, 18:289, 21:384 */
+  --h-control-sm: 24px; /* Tabs 24, step-number chip — 21:401, 78:2632 */
+  --h-toggle: 16px; /* toggle height — 21:31 */
+  --w-toggle: 32px; /* toggle width — 21:31 */
+  --h-pill: 18px; /* status pill / person tag height — 78:1974, 78:2007; was 15 at 8px text, now 18 = 10px text (14) + padding 2/2, the same as the Single Source pill 78:2108; OWNER OVERRIDE 2026-11-16: raised from 8 to 10 (Figma still draws 8; update Figma to match) */
+  --h-pill-lg: 18px; /* "Single Source" pill height — 78:2108 */
+  --w-field: 120px; /* default width of Search and Input (FIXED in definition, FILL in screens) — 73:1680, 73:1679 */
+
+  /* ---- Stroke widths ---- */
+  --border-hairline: 1px; /* panel/control/row strokes — 10:170, 78:2516 */
+  --border-thin: 0.5px; /* active nav pill, warning pill/notice outline — 78:2500, 78:2007, 78:1970 */
+  --border-logo-line: 1.5px; /* logo lines — 78:2496 */
+  --border-track: 2px; /* stepper track lines, step circles — 78:1841, 78:1848 */
+  --border-ring: 4px; /* progress ring stroke — 78:2550 */
+  --border-donut: 8px; /* donut stroke — 78:1801 */
+
+  /* ---- Opacity usage ---- */
+  --opacity-soft: 0.7; /* node opacity on issue-text lines and person-tag text — 78:1814, 78:1974 */
+  --opacity-half: 0.5; /* node opacity on small chevron vector — I78:2510;18:311 */
+  --opacity-photo: 0.2; /* paint opacity of Pipeline background photo — 78:2487 */
+
+  /* ---- Shadow (only effect in the design) ---- */
+  --shadow-ring-arc: -2px 2px 6px 0 rgba(0, 0, 0, 0.48); /* DROP_SHADOW #000000@0.48, x -2, y 2, blur radius 6, spread 0; used on gradient ring/donut arcs only (CSS filter drop-shadow takes blur/2 = 3px) — 78:2551, 78:2574, 78:1802, 78:2276 */
+
+  /* ---- Layout / shell geometry (screens measured at 1920 wide) ---- */
+  --layout-screen-width: 1920px; /* all four canonical frames — 78:2486, 78:1751, 78:2225, 78:2600 */
+  --layout-screen-height-short: 1080px; /* Pipeline, Wallet Check frame height — 78:2486, 78:2600 */
+  --layout-screen-height-tall: 1293px; /* Runs / Ownership, Runs / Overview frame height — 78:1751, 78:2225 */
+  --layout-header-height: 66px; /* header: padding 16 + 33 nav + 16 + 1px bottom border — 78:2488 */
+  --layout-header-padding-y: 16px; /* header padding top/bottom — 78:2488 */
+  --layout-header-padding-x: 40px; /* header padding left/right — 78:2488 */
+  --layout-nav-width: 643px; /* header nav group — 78:2499 */
+  --layout-nav-pill-padding-y: 8px; /* nav pill padding — 78:2500 */
+  --layout-nav-pill-padding-x: 32px; /* nav pill padding — 78:2500 */
+  --layout-pipeline-content-width: 642px; /* Pipeline content column, top 106 — 78:2511 */
+  --layout-wallet-content-width: 984px; /* Wallet Check content, top 106 — 78:2624 */
+  --layout-wallet-form-width: 658px; /* Wallet left form column — 78:2625 */
+  --layout-runs-content-width: 1500px; /* Runs content frame, x210 y90 — 78:1775, 78:2249 */
+  --layout-runs-sidebar-width: 288px; /* Recent Runs / Recently Added side panel — 78:1776, 78:2652 */
+  --layout-runs-main-width: 1196px; /* Runs main column — 78:1793 */
+  --layout-runs-card-width: 977px; /* Runs lower content card — 78:1950 */
+  --layout-content-top: 106px; /* content top on Pipeline/Wallet (66 header + 40) — 78:2511, 78:2624 */
+  --layout-runs-content-top: 90px; /* content top on Runs screens (66 + 24) — 78:1775 */
+  /* ---- Colour/size — design-defined additions 2026-11-16 (owner drew hover/disabled variants + Modal in Figma) ---- */
+  --color-action-field-hover-border: var(--color-grey-300); /* Select/Search/Input hover border — 101:100, 101:106, 101:112 */
+  --color-action-field-disabled-bg: var(--color-grey-400); /* Select/Search/Input disabled fill — 101:114, 101:119, 101:124 */
+  --color-action-field-disabled-border: var(--color-grey-300); /* disabled border — 101:114 */
+  --color-action-field-disabled-text: var(--color-grey-300); /* disabled text and icon strokes — 101:114, 101:121 */
+  --color-action-cta-disabled-bg: var(--color-grey-100); /* CTA disabled fill — 101:80 */
+  --color-action-outline-disabled-bg: var(--color-grey-500); /* Outline / Outline+icon disabled fill — 101:82, 101:84 */
+  --color-action-outline-disabled-stroke: var(--color-grey-400); /* Outline disabled stroke — 101:82 */
+  --color-action-outline-disabled-text: var(--color-grey-300); /* Outline disabled label and icon — 101:83, 101:85 */
+  --color-action-tab-disabled-active-bg: var(--color-grey-300); /* disabled ACTIVE tab fill — 101:89, 101:95 */
+  --color-action-tab-disabled-active-text: var(--color-grey-400); /* disabled ACTIVE tab label — 101:90, 101:96 */
+  --color-surface-scrim: rgba(8, 9, 10, 0.25); /* Modal scrim: Black 900 at paint opacity 0.25 (raw paint, no style) — 105:400 */
+  --blur-scrim: 12px; /* Modal scrim BACKGROUND_BLUR radius — 105:400 */
+  --layout-scrim-top: 70px; /* Modal scrim starts 70px from the top (header is 66 high: 4px of page show above the scrim) — 105:400 */
+  --color-surface-modal: var(--color-grey-400); /* Modal dialog fill — 105:411 */
+
+  /* ---- EXTENDED (not in design) — aliases of existing tokens, approved in the expand step 2026-11-16 ---- */
+  --color-ext-error: var(--color-red); /* EXTENDED row 7: field error ring and helper text */
+  --color-ext-focus-ring: var(--gradient-brand); /* EXTENDED row 2: keyboard focus ring (owner: gradient instead of blue) */
+  --size-ext-focus-ring-width: var(--border-hairline); /* EXTENDED row 2: 1px ring */
+  --size-ext-focus-ring-offset: 3px; /* EXTENDED row 2: ring outer edge 3px outside the control (the one value with no existing token: spacing 3 does not exist) */
+  --opacity-ext-disabled: var(--opacity-half); /* EXTENDED row 6: toggle / nav pill / rows disabled = the 0.5 the design uses on the chevron */
+  --color-ext-hover-row: var(--color-surface-raised); /* EXTENDED row 10: interactive row hover fill = Grey 400 */
+  --color-ext-hover-item: var(--color-surface-raised); /* EXTENDED row 9: dropdown item hover fill */
+  --color-ext-tooltip-bg: var(--color-surface-raised); /* EXTENDED row 11 */
+  --color-ext-tooltip-text: var(--color-text-label); /* EXTENDED row 11: Grey 100 */
+  --color-ext-toast-success-bg: var(--color-status-pill-success-bg); /* EXTENDED row 12: success toast = success-pill recipe */
+  --color-ext-toast-success-text: var(--color-status-pill-success-text); /* EXTENDED row 12 */
+  --size-ext-toast-offset: var(--space-40); /* EXTENDED row 12: distance from the top-right corner */
+  --color-ext-scroll-thumb: color-mix(in srgb, var(--color-grey-300) calc(var(--opacity-half) * 100%), transparent); /* EXTENDED row 14: scrollbar thumb = Grey 300 at the existing 0.5 opacity (owner picked option B) */
+  --color-ext-scroll-thumb-hover: var(--color-grey-300); /* EXTENDED row 14: thumb hover = Grey 300 */
+  --size-ext-scroll-width: var(--space-6); /* EXTENDED row 14: scrollbar thickness 6px */
+  --size-ext-toast-max-width: 360px; /* EXTENDED row 12: toast max width (no token in design) */
+}
+
+/* ===== EXTENDED rows 15-20 (General information tab, 2026-11-17) — not in design; mirrored in tokens.json ===== */
+:root {
+  --color-ext-hover-row-card: color-mix(in srgb, var(--color-grey-500) 50%, var(--color-grey-400)); /* EXTENDED: hover fill of a clickable row card (run cards) = halfway between Grey 500 and Grey 400; the shared row hover (Grey 400) was too bright on cards (owner 2026-11-17) */
+  --color-ext-hover-field-row: var(--color-grey-500); /* EXTENDED row 15: field-row hover fill = Grey 500 (darker than the shared row hover, Grey 400, which was too bright here) */
+  --size-ext-drawer-width: 960px; /* EXTENDED row 19: right drawer = half of the 1920 frame (no token in the design) */
+  --size-ext-radio: 16px; /* EXTENDED row 20: radio circle, same size as the toggle height / icons */
+  --color-ext-chip-bg: var(--color-grey-400); /* EXTENDED row 17: source chip fill */
+  --color-ext-chip-text: var(--color-grey-100); /* EXTENDED row 17: source chip label */
+  --color-ext-pill-neutral-bg: var(--color-grey-400); /* EXTENDED row 18: neutral (Declared) pill fill */
+  --color-ext-pill-neutral-text: var(--color-grey-200); /* EXTENDED row 18: neutral pill text */
+}
+
+/* ===== EXTENDED row 25 (dynamic progress ring, 2026-11-17) ===== */
+:root {
+  --color-ext-ring-arc-start: #53B2ED; /* EXTENDED row 25: arc gradient start = the brand gradient's first stop (Blue-ish), the same hex the static ring assets use */
+  --color-ext-ring-arc-end: var(--color-green); /* EXTENDED row 25: arc gradient end = Green (brand gradient's last stop) */
+  --color-ext-ring-track: var(--color-black-900); /* EXTENDED row 25: track = Black 900, as in the drawn ring (stroke #08090A) */
+  --size-ext-ring: 72px; /* EXTENDED row 25: ring diameter (the drawn Pipeline ring) */
+  --size-ext-ring-stroke: 4px; /* EXTENDED row 25: ring stroke width (as drawn) */
+}
+
+/* ===== EXTENDED row 29 (score meter, 2026-11-17) ===== */
+:root {
+  --size-ext-meter-width: 88px; /* EXTENDED row 29: score meter width (as on the old page's Elliptic bar) */
+  --size-ext-meter-height: 4px; /* EXTENDED row 29: score meter height */
+}
+

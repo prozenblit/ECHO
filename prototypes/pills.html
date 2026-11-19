@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Echo — all label pills</title>
+<meta name="viewport" content="width=1200">
+<link rel="stylesheet" href="../design-system/fonts.css">
+<link rel="stylesheet" href="../design-system/tokens.css?v=pills1"><link rel="stylesheet" href="../design-system/components.css?v=pills1">
+<style>
+  body { margin: 0; padding: 40px; background: var(--color-surface-base); color: var(--color-text-primary); font: var(--type-body-12); }
+  .wrap { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+  .group { display: flex; flex-direction: column; gap: 12px; }
+  .group h2 { margin: 0; font: var(--type-heading-14); }
+  .group p { margin: 0; font: var(--type-label-10); color: var(--color-text-secondary); }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 16px; border: 1px solid var(--color-border-hairline); border-radius: 8px; background: var(--color-surface-field); }
+  .item { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .cls { font: var(--type-label-10); color: var(--color-text-muted); }
+</style></head><body>
+<div class="wrap">
+  <div class="stack stack--g4"><h1 style="margin:0;font:var(--type-heading-16)">Label pills in the Echo design system</h1>
+    <p style="margin:0" class="type-label-10 text-secondary">Every pill variant with the labels used on the platform. Pills have no icon before the text; a trailing › marks a pill that opens another page, form or drawer. Extended = approved after the original design (2026-11-17). Pills are 18 high, Manrope 10, radius 4.</p></div>
+
+  <div class="group"><h2>Warning · orange outline</h2><p>Design-defined. Single source, not screened, one problem on a company row.</p>
+    <div class="row">
+      <span class="item"><span class="pill pill--warning">Not screened</span><span class="cls">.pill--warning</span></span>
+      <span class="item"><span class="pill pill--warning">1 problem</span><span class="cls">.pill--warning</span></span>
+      <span class="item"><span class="pill pill--warning">Single Source</span><span class="cls">.pill--warning</span></span>
+      <span class="item"><span class="pill pill--warning">Single source</span><span class="cls">(lower-case, Ownership tables)</span></span>
+      <span class="item"><span class="pill pill--warning pill--action">Single source ›</span><span class="cls">.pill--action · extended</span></span>
+      <span class="item"><span class="pill pill--warning pill--action">Unclear ›</span><span class="cls">.pill--action · extended</span></span>
+      <span class="item"><span class="pill pill--warning pill--action">Not screened ›</span><span class="cls">.pill--action · extended</span></span>
+    </div></div>
+
+  <div class="group"><h2>Danger · red 25% fill</h2><p>Design-defined. Missing, conflict, problems.</p>
+    <div class="row">
+      <span class="item"><span class="pill pill--danger">Missing</span><span class="cls">.pill--danger</span></span>
+      <span class="item"><span class="pill pill--danger">Conflict</span><span class="cls">.pill--danger</span></span>
+      <span class="item"><span class="pill pill--danger">1 problem</span><span class="cls">.pill--danger</span></span>
+      <span class="item"><span class="pill pill--danger">8 problems</span><span class="cls">.pill--danger</span></span>
+      <span class="item"><span class="pill pill--danger pill--action">Missing ›</span><span class="cls">.pill--action · extended</span></span>
+      <span class="item"><span class="pill pill--danger pill--action">Conflict ›</span><span class="cls">.pill--action · extended</span></span>
+      <span class="item"><span class="pill pill--danger pill--action">Not enough evidence ›</span><span class="cls">.pill--action · extended</span></span>
+    </div></div>
+
+  <div class="group"><h2>Success · green 25% fill</h2><p>Design-defined. Confirmed, resolved, UBO.</p>
+    <div class="row">
+      <span class="item"><span class="pill pill--success">Confirmed</span><span class="cls">.pill--success</span></span>
+      <span class="item"><span class="pill pill--success">UBO</span><span class="cls">.pill--success</span></span>
+            <span class="item"><span class="pill pill--success pill--action">Resolved ›</span><span class="cls">.pill--action · extended</span></span>
+      <span class="item"><span class="pill pill--success pill--action">Confirmed ›</span><span class="cls">.pill--action · extended</span></span>
+    </div></div>
+
+  <div class="group"><h2>Role · purple 15% fill</h2><p>Design-defined for roles; also used for the draft status.</p>
+    <div class="row">
+      <span class="item"><span class="pill pill--role">Shareholder</span><span class="cls">.pill--role</span></span>
+      <span class="item"><span class="pill pill--role">Director</span><span class="cls">.pill--role</span></span>
+      <span class="item"><span class="pill pill--role pill--action">Draft to accept ›</span><span class="cls">.pill--action · extended</span></span>
+    </div></div>
+
+  <div class="group"><h2>Neutral · grey</h2><p>Extended row 18. Declared, below threshold, not applicable.</p>
+    <div class="row">
+      <span class="item"><span class="pill pill--neutral">Declared</span><span class="cls">.pill--neutral</span></span>
+      <span class="item"><span class="pill pill--neutral">Below threshold</span><span class="cls">.pill--neutral</span></span>
+      <span class="item"><span class="pill pill--neutral">Not applicable</span><span class="cls">.pill--neutral</span></span>
+    </div></div>
+
+  <div class="group"><h2>Tag · blue 15% fill</h2><p>Design-defined person / data tag. With “Show personal details” on, the chip disappears and the value reads as plain text (extended row 24).</p>
+    <div class="row">
+      <span class="item"><span class="pill pill--tag"><span class="pill__label">{PERSON_3}</span></span><span class="cls">.pill--tag</span></span>
+      <span class="item"><span class="pill pill--tag"><span class="pill__label">{DOB}</span></span><span class="cls">.pill--tag</span></span>
+      <span class="item"><span class="pill pill--tag"><span class="pill__label">Check Main</span></span><span class="cls">.pill--tag</span></span>
+      <span class="item"><span class="pill pill--tag is-revealed"><span class="pill__label">Greta Hoffmann</span></span><span class="cls">.pill--tag.is-revealed · extended</span></span>
+    </div></div>
+
+  <div class="group"><h2>Risk · red pill with icon</h2><p>Run card in Recent Runs. The danger pill, text only.</p>
+    <div class="row">
+      <span class="item"><span class="pill pill--danger" style="gap:var(--space-4)">Risk High · 1 factor · provisional</span><span class="cls">.pill--danger</span></span>
+    </div></div>
+
+  <div class="group"><h2>Source chip · grey</h2><p>Extended row 17. Not a status pill, but it has the same shape: clickable, opens the document page.</p>
+    <div class="row">
+      <span class="item"><button type="button" class="chip">Account opening form p.3 · image</button><span class="cls">.chip</span></span>
+      <span class="item"><button type="button" class="chip">Financial statements p.8 · text <span class="chip__ok">✓</span></button><span class="cls">.chip + .chip__ok</span></span>
+    </div></div>
+</div>
+</body></html>

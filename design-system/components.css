@@ -1,0 +1,901 @@
+/* Echo components — requires tokens.css (load it first) and the fonts Manrope (400/500) + Jura (300/500/600).
+   Icon masks / images are resolved relative to THIS file: keep assets/ next to components.css.
+   Stroke mapping used below (BUILD_RULES 2): design INSIDE strokes on layout-included frames (strokesIncludedInLayout=true) -> CSS `border` with the
+   same padding (child sits at padding + stroke, as in the design); outline-button CENTER strokes -> inset box-shadow (do not change the 32px height);
+   OUTSIDE strokes -> `box-shadow: 0 0 0 <w>`; gradient strokes -> a masked ::before ring (CSS borders cannot carry gradients with a radius). */
+
+/* ===== PART 1: TOKEN-LEVEL & CONTROLS ===== */
+
+/* ---------- Base / reset ---------- */
+/* figma: 78:2486 (root fill Black 900), foundations 0.2 (Manrope), 2 (letter-spacing 0, line-height auto) */
+*, *::before, *::after { box-sizing: border-box; }
+/* figma: 78:2486, 78:2501 (screen bg Black 900; default text White #DCE1E9; Manrope Regular 12) */
+body { margin: 0; background: var(--color-surface-base); color: var(--color-text-primary); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); }
+/* figma: 10:169, 73:1664, 73:1678 (all control text inherits the design font; letter-spacing 0%) */
+button, input { margin: 0; font: inherit; letter-spacing: inherit; color: inherit; }
+/* figma: 10:169, 21:380 (buttons/tabs have no native chrome; every look comes from the design classes) */
+button { padding: 0; border: 0; background: none; appearance: none; text-align: inherit; }
+
+/* ---------- Type scale classes (one per --type-* role) ---------- */
+/* figma: 78:2008 (Manrope Regular 8 in Figma; OWNER OVERRIDE: 10) */ .type-pill-10 { font: var(--type-pill-10); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:1975 (Manrope Medium 8 in Figma; OWNER OVERRIDE: 10) */ .type-tag-10 { font: var(--type-tag-10); letter-spacing: var(--letter-spacing-0); }
+/* figma: 9:137, 73:1664, 78:2087 (Manrope Regular 10) */ .type-field-10 { font: var(--type-field-10); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2539, 21:398 (Manrope Medium 10) */ .type-label-10 { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2434 (Manrope Medium 10, line-height 16px) */ .type-paragraph-10 { font: var(--type-paragraph-10); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2501, 78:2518 (Manrope Regular 12) */ .type-body-12 { font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); }
+/* figma: 10:169, 18:226, 21:380, 21:53 (Manrope Medium 12) */ .type-title-12 { font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2535 (Manrope Medium 14) */ .type-heading-14 { font: var(--type-heading-14); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2513 (Manrope Medium 16) */ .type-heading-16 { font: var(--type-heading-16); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2517, 78:1798 (Jura Medium 38) */ .type-numeral-38 { font: var(--type-numeral-38); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2548, 78:2571 (Jura Medium 20) */ .type-numeral-20 { font: var(--type-numeral-20); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2588, 78:2633 (Jura Medium 14) */ .type-numeral-14 { font: var(--type-numeral-14); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:1799 (Jura SemiBold 12) */ .type-numeral-12 { font: var(--type-numeral-12); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2548, 78:2571, 78:1798 ("%" glyph is Jura Light in the mixed ring/donut labels; wrap the "%" in this class) */ .numeral-light { font-weight: var(--font-weight-light); }
+
+/* ---------- Text colour utilities (role colours) ---------- */
+/* figma: 78:2501 (Grey/White text roles; one rule per colour role, comments cover the group) */
+.text-primary { color: var(--color-text-primary); }
+/* figma: 78:2539 */ .text-label { color: var(--color-text-label); }
+/* figma: 78:2585 */ .text-secondary { color: var(--color-text-secondary); }
+/* figma: 78:2518 */ .text-muted { color: var(--color-text-muted); }
+/* figma: I78:2514;10:169 */ .text-inverse { color: var(--color-text-inverse); }
+/* figma: 78:1782 */ .text-accent { color: var(--color-text-accent); }
+/* figma: 78:1814 */ .text-danger { color: var(--color-text-danger); }
+/* figma: 78:1818 */ .text-warning { color: var(--color-text-warning); }
+/* figma: 78:1792 */ .text-success { color: var(--color-text-success); }
+/* figma: 78:2533 */ .text-info { color: var(--color-text-info); }
+
+/* ---------- Icons (assets/) ---------- */
+/* Monochrome icons: mask the .currentColor.svg and colour with currentColor. Coloured/gradient assets are used as <img> (see .select__chevron, .search__icon). */
+/* figma: 18:287 (Outline+icon glyph; svg box 11x13) */
+.icon { display: inline-block; flex: none; background-color: currentColor; -webkit-mask: center / contain no-repeat; mask: center / contain no-repeat; }
+/* figma: 18:287 (download glyph 11x13, stroke Grey 200 #8A8F98; assets/download-default.currentColor.svg) */
+.icon--download { width: 11px; height: 13px; color: var(--color-action-outline-stroke); -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='11' height='13' viewBox='0 0 11 13' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M5.5 9.83333V0.5M9.78571 5.83333L5.5 9.83333L1.21429 5.83333M10.5 12.5H0.5' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg width='11' height='13' viewBox='0 0 11 13' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M5.5 9.83333V0.5M9.78571 5.83333L5.5 9.83333L1.21429 5.83333M10.5 12.5H0.5' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/svg%3E"); }
+/* figma: 78:2537, 78:2560 (circle-exclamation-point 12x12, stroke Orange; assets/lucide-circle-exclamation-point.currentColor.svg) */
+.icon--exclamation { width: 12px; height: 12px; color: var(--color-text-warning); -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cg clip-path='url(%23clip0_78_2537)'%3E %3Cpath d='M6 4V6M6 8H6.005M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/g%3E %3Cdefs%3E %3CclipPath id='clip0_78_2537'%3E %3Crect width='12' height='12' fill='white'/%3E %3C/clipPath%3E %3C/defs%3E %3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cg clip-path='url(%23clip0_78_2537)'%3E %3Cpath d='M6 4V6M6 8H6.005M11 6C11 8.76142 8.76142 11 6 11C3.23858 11 1 8.76142 1 6C1 3.23858 3.23858 1 6 1C8.76142 1 11 3.23858 11 6Z' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/g%3E %3Cdefs%3E %3CclipPath id='clip0_78_2537'%3E %3Crect width='12' height='12' fill='white'/%3E %3C/clipPath%3E %3C/defs%3E %3C/svg%3E"); }
+/* figma: 78:2001 (lucide building 16x16, Blue at fill-opacity 0.5 baked into the svg: do not add opacity) */
+.icon--building { width: 16px; height: 16px; color: var(--color-text-accent); -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M12.1289 1.99414C13.1649 1.99435 14.0047 2.83414 14.0049 3.87012V12.1289C14.0046 13.1648 13.1648 14.0047 12.1289 14.0049H3.87012C2.83416 14.0047 1.99438 13.1649 1.99414 12.1289V3.87012C1.99434 2.83413 2.83413 1.99434 3.87012 1.99414H12.1289ZM3.87012 2.99414C3.38642 2.99434 2.99434 3.38642 2.99414 3.87012V12.1289C2.99438 12.6126 3.38644 13.0047 3.87012 13.0049H5.43457V11.4404C5.43457 11.1254 5.56046 10.8234 5.7832 10.6006C6.006 10.3778 6.30797 10.252 6.62305 10.252H9.37598C9.69105 10.252 9.99303 10.3778 10.2158 10.6006C10.4386 10.8234 10.5645 11.1254 10.5645 11.4404V13.0049H12.1289C12.6126 13.0047 13.0046 12.6126 13.0049 12.1289V3.87012C13.0047 3.38643 12.6126 2.99435 12.1289 2.99414H3.87012ZM6.62305 11.252C6.57318 11.252 6.5255 11.2724 6.49023 11.3076C6.45503 11.3429 6.43457 11.3906 6.43457 11.4404V13.0049H9.56445V11.4404C9.56445 11.3906 9.54399 11.3429 9.50879 11.3076C9.47353 11.2724 9.42583 11.252 9.37598 11.252H6.62305ZM10 7.5C10.2761 7.50003 10.5 7.72389 10.5 8C10.4997 8.2759 10.276 8.49997 10 8.5H6C5.72402 8.5 5.50026 8.27592 5.5 8C5.50002 7.72387 5.72387 7.5 6 7.5H10ZM10 5C10.2761 5.00003 10.5 5.22389 10.5 5.5C10.5 5.77612 10.2761 5.99997 10 6H6C5.72386 6 5.5 5.77614 5.5 5.5C5.50002 5.22387 5.72387 5 6 5H10Z' fill='currentColor' fill-opacity='0.5'/%3E %3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M12.1289 1.99414C13.1649 1.99435 14.0047 2.83414 14.0049 3.87012V12.1289C14.0046 13.1648 13.1648 14.0047 12.1289 14.0049H3.87012C2.83416 14.0047 1.99438 13.1649 1.99414 12.1289V3.87012C1.99434 2.83413 2.83413 1.99434 3.87012 1.99414H12.1289ZM3.87012 2.99414C3.38642 2.99434 2.99434 3.38642 2.99414 3.87012V12.1289C2.99438 12.6126 3.38644 13.0047 3.87012 13.0049H5.43457V11.4404C5.43457 11.1254 5.56046 10.8234 5.7832 10.6006C6.006 10.3778 6.30797 10.252 6.62305 10.252H9.37598C9.69105 10.252 9.99303 10.3778 10.2158 10.6006C10.4386 10.8234 10.5645 11.1254 10.5645 11.4404V13.0049H12.1289C12.6126 13.0047 13.0046 12.6126 13.0049 12.1289V3.87012C13.0047 3.38643 12.6126 2.99435 12.1289 2.99414H3.87012ZM6.62305 11.252C6.57318 11.252 6.5255 11.2724 6.49023 11.3076C6.45503 11.3429 6.43457 11.3906 6.43457 11.4404V13.0049H9.56445V11.4404C9.56445 11.3906 9.54399 11.3429 9.50879 11.3076C9.47353 11.2724 9.42583 11.252 9.37598 11.252H6.62305ZM10 7.5C10.2761 7.50003 10.5 7.72389 10.5 8C10.4997 8.2759 10.276 8.49997 10 8.5H6C5.72402 8.5 5.50026 8.27592 5.5 8C5.50002 7.72387 5.72387 7.5 6 7.5H10ZM10 5C10.2761 5.00003 10.5 5.22389 10.5 5.5C10.5 5.77612 10.2761 5.99997 10 6H6C5.72386 6 5.5 5.77614 5.5 5.5C5.50002 5.22387 5.72387 5 6 5H10Z' fill='currentColor' fill-opacity='0.5'/%3E %3C/svg%3E"); }
+/* figma: 78:2050 (lucide circle-user-round 16x16, Blue at stroke-opacity 0.5 baked into the svg: do not add opacity) */
+.icon--user-round { width: 16px; height: 16px; color: var(--color-text-accent); -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M11.555 12.8336C11.4203 11.9875 10.9883 11.2172 10.3366 10.661C9.6849 10.1049 8.8562 9.79937 7.99944 9.79945C7.14269 9.79952 6.31404 10.1051 5.66242 10.6614C5.0108 11.2177 4.57892 11.9881 4.4444 12.8342M10.4 7.4C10.4 8.72548 9.32548 9.8 8 9.8C6.67452 9.8 5.6 8.72548 5.6 7.4C5.6 6.07452 6.67452 5 8 5C9.32548 5 10.4 6.07452 10.4 7.4ZM14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z' stroke='currentColor' stroke-opacity='0.5' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cpath d='M11.555 12.8336C11.4203 11.9875 10.9883 11.2172 10.3366 10.661C9.6849 10.1049 8.8562 9.79937 7.99944 9.79945C7.14269 9.79952 6.31404 10.1051 5.66242 10.6614C5.0108 11.2177 4.57892 11.9881 4.4444 12.8342M10.4 7.4C10.4 8.72548 9.32548 9.8 8 9.8C6.67452 9.8 5.6 8.72548 5.6 7.4C5.6 6.07452 6.67452 5 8 5C9.32548 5 10.4 6.07452 10.4 7.4ZM14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8Z' stroke='currentColor' stroke-opacity='0.5' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/svg%3E"); }
+/* EXTENDED — not in design (owner drew the icons in Figma 2026-11-17: 128:1049, 128:1050): arrow icons, mask 16x16, colour via currentColor (Grey 100 as drawn) */
+.icon--arrow-right, .icon--arrow-down { width: 16px; height: 16px; color: var(--color-text-label); }
+.icon--arrow-right { -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cg id='arrow right'%3E %3Cpath id='arrow-down' d='M6 4C7.19964 5.19964 8.91582 6.91581 9.64764 7.64764C9.8429 7.8429 9.84171 8.15829 9.64645 8.35355L6 12' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/g%3E %3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cg id='arrow right'%3E %3Cpath id='arrow-down' d='M6 4C7.19964 5.19964 8.91582 6.91581 9.64764 7.64764C9.8429 7.8429 9.84171 8.15829 9.64645 8.35355L6 12' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/g%3E %3C/svg%3E"); }
+.icon--arrow-down { -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cg id='arrow down'%3E %3Cpath id='arrow-down' d='M12 6C10.8004 7.19964 9.08419 8.91582 8.35236 9.64764C8.1571 9.8429 7.84171 9.84171 7.64645 9.64645L4 6' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/g%3E %3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E %3Cg id='arrow down'%3E %3Cpath id='arrow-down' d='M12 6C10.8004 7.19964 9.08419 8.91582 8.35236 9.64764C8.1571 9.8429 7.84171 9.84171 7.64645 9.64645L4 6' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round'/%3E %3C/g%3E %3C/svg%3E"); }
+
+/* ---------- Gradient ring (shared helper for gradient strokes) ---------- */
+/* figma: 18:253, 18:291, 78:2500, 78:1778 (gradient stroke drawn as a masked ::before ring; each variant sets --ring-gradient / --ring-width / --ring-inset; used by outline-button hover, active nav pill, active row card) */
+.btn--outline:is(:hover, .is-hover)::before,
+.nav-pill.is-active::before,
+.row-card.is-active::before {
+  content: ""; position: absolute; inset: var(--ring-inset, 0); border-radius: inherit; padding: var(--ring-width, var(--border-hairline));
+  background: var(--ring-gradient);
+  -webkit-mask: linear-gradient(var(--color-black-900) 0 0) content-box, linear-gradient(var(--color-black-900) 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(var(--color-black-900) 0 0) content-box, linear-gradient(var(--color-black-900) 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* ---------- Buttons: .btn (+ --cta | --outline | --outline.btn--has-icon) ---------- */
+/* figma: 18:142, 18:227, 18:289 (button family: 32 high, radius 8, padding 8/24/8/24 gap 10, label Manrope Medium 12, centred, HUG width) */
+.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-10); height: var(--h-control); padding: 0 var(--space-24); border-radius: var(--radius-control); font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); white-space: nowrap; }
+/* figma: 18:142 (CTA Default: fill White #DCE1E9, label Black 900, no stroke) */
+.btn--cta { background: var(--color-action-cta-bg); color: var(--color-action-cta-text); }
+/* figma: 18:249 (CTA hover: fill -> brand gradient #53B2ED -> #7BE697 "Gradient main oposite"; label stays Black 900) — real :hover and forced .is-hover */
+.btn--cta:hover, .btn--cta.is-hover { background: var(--color-action-cta-hover-bg); }
+/* figma: 18:227, 18:289 (Outline Default: no fill, 0.5px CENTER stroke White -> inset shadow, label White; owner changed Grey 200 -> White and 1px -> 0.5px on 2026-11-17; the disabled state keeps its 1px stroke) */
+.btn--outline { background: none; color: var(--color-action-outline-text); box-shadow: inset 0 0 0 var(--border-thin) var(--color-action-outline-stroke); }
+/* figma: 18:253 (Outline hover: stroke -> raw 3-stop gradient #53B2ED/#4CCED4@0.5/#45EABB; label gradient "Gradient main oposite" on 18:254) */
+.btn--outline:hover, .btn--outline.is-hover { box-shadow: none; --ring-gradient: var(--color-action-outline-hover-stroke); --ring-width: var(--border-thin); }
+/* figma: 18:254, 18:293 (hover label = brand gradient text; put the label in <span class="btn__label">) */
+.btn--outline:is(:hover, .is-hover) .btn__label { background: var(--color-action-outline-hover-text); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+/* figma: 18:289 (Outline Button + icon: padding 8/20/8/16, gap 12, icon first; instance 78:1807) */
+.btn--has-icon { gap: var(--space-12); padding: 0 var(--space-20) 0 var(--space-16); }
+/* figma: 18:291, 18:292, 18:293 (Variant2 = drawn hover: 2-stop stroke "Gradient main oposite" (NOT the 3-stop of 18:253), icon and label gradient; icon uses assets/download-variant2.svg) */
+.btn--has-icon:hover, .btn--has-icon.is-hover { --ring-gradient: var(--color-action-outline-icon-hover-stroke); }
+/* figma: 18:292 (hover icon = the gradient asset itself, not a redraw) */
+.btn--outline:is(:hover, .is-hover) .icon--download { background: center / contain no-repeat url("assets/download-variant2.svg"); -webkit-mask: none; mask: none; }
+
+/* ---------- Select: .select ---------- */
+/* figma: 10:170 (Select: 32 high, hug width, fill Grey 500, 1px INSIDE stroke Grey 400 -> border + padding 0 12, radius 8, gap 32, text Manrope Regular 10 Grey 300) */
+.select { display: inline-flex; align-items: center; gap: var(--space-32); height: var(--h-control); padding: 0 var(--space-12); background: var(--color-action-field-bg); border: var(--border-hairline) solid var(--color-action-field-border); border-radius: var(--radius-control); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-action-field-placeholder); }
+/* figma: 9:137 (label; overridden to White #DCE1E9 in all 4 instances = the drawn "value" look: add .select__label--value) */
+.select__label { color: var(--color-action-field-placeholder); }
+/* figma: I78:2510;9:137 (instance override: label fill White) */
+.select__label--value { color: var(--color-action-field-value); }
+/* figma: 18:308 (chevron box 16x16, gradient asset assets/select-chevron-down.svg as <img>) */
+.select__chevron { flex: none; width: 16px; height: 16px; }
+
+/* ---------- Search: .search (+ .search__icon, .search__input) ---------- */
+/* figma: 73:1680 (Search: 120x32 FIXED, fill Grey 500, 1px INSIDE stroke Grey 400, radius 8, padding 8, gap 8, icon left) */
+.search { display: flex; align-items: center; gap: var(--space-8); width: var(--w-field); height: var(--h-control); padding: 0 var(--space-8); background: var(--color-action-field-bg); border: var(--border-hairline) solid var(--color-action-field-border); border-radius: var(--radius-control); }
+/* figma: 73:1665 (icon box 16x16; gradient asset assets/search.svg as <img>) */
+.search__icon { flex: none; width: 16px; height: 16px; }
+/* figma: 73:1664 (placeholder Manrope Regular 10 Grey 300; typed-text colour is NOT drawn, so the field text keeps the placeholder colour) */
+.search__input { flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; background: none; font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-action-field-placeholder); }
+/* figma: 73:1664 (placeholder colour Grey 300) */
+.search__input::placeholder { color: var(--color-action-field-placeholder); opacity: 1; }
+/* figma: 78:2635 (instance stretched to FILL width in the Wallet screen) */
+.search--fill { width: 100%; }
+
+/* ---------- Input: .input ---------- */
+/* figma: 73:1679 (Input: 120x32 FIXED, fill Grey 500, 1px INSIDE stroke Grey 400, radius 8, padding 8/12, text Manrope Regular 10 Grey 300) */
+.input { display: block; width: var(--w-field); height: var(--h-control); padding: 0 var(--space-12); background: var(--color-action-field-bg); border: var(--border-hairline) solid var(--color-action-field-border); border-radius: var(--radius-control); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-action-field-placeholder); }
+/* figma: 73:1678 (placeholder colour Grey 300; typed-text colour is not drawn) */
+.input::placeholder { color: var(--color-action-field-placeholder); opacity: 1; }
+/* figma: 78:2641, 78:2649 (instances stretched to FILL width) */
+.input--fill { width: 100%; }
+
+/* ---------- Tabs: .tabs (32) / .tabs.tabs--sm (24), .tab, .tab.is-active ---------- */
+/* figma: 21:384 (Tabs 32 track: fill Grey 400, radius 8, no stroke, padding 0, gap 0, height 32) */
+.tabs { display: inline-flex; align-items: center; height: var(--h-control); background: var(--color-action-tab-track); border-radius: var(--radius-control); }
+/* figma: 21:401 (Tabs 24 track: height 24) */
+.tabs--sm { height: var(--h-control-sm); }
+/* figma: 21:381, 21:382 (inactive tab: radius 8, padding 8/20, gap 10, label Manrope Medium 12 Grey 300; height = track height) */
+.tab { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-10); height: 100%; padding: 0 var(--space-20); border-radius: var(--radius-control); background: none; color: var(--color-action-tab-inactive-text); font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); white-space: nowrap; }
+/* figma: 21:399, 21:400 (Tabs 24 tab: padding 0 16 (design 8/16 does not fit 24px; label centred, text y=5), Manrope Medium 10) */
+.tabs--sm .tab { padding: 0 var(--space-16); font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); }
+/* figma: 21:379, 21:380, 21:397, 21:398 (active tab: fill brand gradient "Gradient main oposite", label Black 900; selection = which tab carries this class) */
+.tab.is-active, .tab[aria-selected="true"] { background: var(--color-action-tab-active-bg); color: var(--color-action-tab-active-text); }
+
+/* ---------- Toggle: .toggle (+ .is-on), .toggle-field (+ .is-on) ---------- */
+/* figma: 21:33, 21:34, 21:35 (toggle OFF: 32x16, track radius 24 fill Grey 300, knob 12x12 at x2 y2 fill Grey 500) */
+.toggle { position: relative; display: inline-block; flex: none; width: var(--w-toggle); height: var(--h-toggle); border-radius: var(--radius-round); background: var(--color-action-toggle-off); }
+/* figma: 21:35, 21:30 (knob 12x12 at x2/y2; ON moves to x18 = 32-2-12) */
+.toggle::after { content: ""; position: absolute; top: var(--space-2); left: var(--space-2); width: 12px; height: 12px; border-radius: 50%; background: var(--color-action-toggle-knob); }
+/* figma: 21:31, 21:28, 21:30 (toggle ON = variant "Default": track gradient "Gradient green", knob at x18) */
+.toggle.is-on, .toggle[aria-checked="true"], .toggle-field.is-on .toggle { background: var(--color-action-toggle-on); }
+/* figma: 21:30 (ON knob position) */
+.toggle.is-on::after, .toggle[aria-checked="true"]::after, .toggle-field.is-on .toggle::after { left: calc(var(--w-toggle) - var(--space-2) - 12px); }
+/* figma: 21:55, 21:56 (toggle w text: H, gap 6, toggle + label Manrope Medium 12; OFF label Grey 200) */
+.toggle-field { display: inline-flex; align-items: center; gap: var(--space-6); font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); color: var(--color-action-toggle-off-label); }
+/* figma: 21:53 (ON label White) */
+.toggle-field.is-on { color: var(--color-text-primary); }
+
+/* ---------- Status pill / badge: .pill (+ --tag | --warning | --danger | --success | --role, --lg) ---------- */
+/* figma: 78:2007, 78:2046, 78:2056, 78:2018 (pill: H centred, gap 10, radius 4, height 15, padding 2/8, label Manrope Regular 8) */
+.pill { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-10); height: var(--h-pill); padding: 0 var(--space-8); border-radius: var(--radius-pill); font: var(--type-pill-10); letter-spacing: var(--letter-spacing-0); white-space: nowrap; }
+/* figma: 78:1974 (person tag: fill Blue 15%, padding 2/4, label Manrope Medium 8 Blue at node opacity 0.7) */
+.pill--tag { padding: 0 var(--space-4); background: var(--color-status-pill-tag-bg); color: var(--color-status-pill-tag-text); font: var(--type-tag-10); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:1975 (the 0.7 opacity is on the label text node only) */
+.pill--tag .pill__label { opacity: var(--opacity-soft); }
+/* figma: 78:2007 (warning/not screened: no fill, 0.5 OUTSIDE stroke Orange -> box-shadow spread, label Orange) */
+.pill--warning { box-shadow: 0 0 0 var(--border-thin) var(--color-status-pill-warning-outline); color: var(--color-status-pill-warning-text); }
+/* figma: 78:2046, 78:2112 (problem / missing: fill Red 25%, label Red) */
+.pill--danger { background: var(--color-status-pill-danger-bg); color: var(--color-status-pill-danger-text); }
+/* figma: 78:2056, 78:2140 (UBO / Confirmed: fill Green 25%, label Green) */
+.pill--success { background: var(--color-status-pill-success-bg); color: var(--color-status-pill-success-text); }
+/* figma: 78:2018, 78:2072 (Shareholder / Director: fill Purple 15%, label Purple) */
+.pill--role { background: var(--color-status-pill-role-bg); color: var(--color-status-pill-role-text); }
+/* figma: 78:2108 (the one 18-high pill "Single Source": label Regular 10) */
+.pill--lg { height: var(--h-pill-lg); font: var(--type-field-10); letter-spacing: var(--letter-spacing-0); }
+
+/* ---------- Status dot: .dot (+ --danger | --warning | --success) ---------- */
+/* figma: 78:2583, 78:2584, 78:1900 (6x6 ellipse, no stroke) */
+.dot { display: inline-block; flex: none; width: 6px; height: 6px; border-radius: 50%; }
+/* figma: 78:2583 (Red) */ .dot--danger { background: var(--color-status-dot-danger); }
+/* figma: 78:2584 (Orange) */ .dot--warning { background: var(--color-status-dot-warning); }
+/* figma: 78:1900 (Green) */ .dot--success { background: var(--color-status-dot-success); }
+
+/* ---------- KPI card: .kpi (+ .kpi__value, .kpi__label) ---------- */
+/* figma: 78:2516 (KPI card: V gap 16, padding 24, fill Black 900, 1px INSIDE stroke Grey 400 -> border, radius 16; width FILL in a row, height HUG = 106 in design) */
+.kpi { display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-24); background: var(--color-surface-base); border: var(--border-hairline) solid var(--color-border-hairline); border-radius: var(--radius-card); }
+/* figma: 78:2517 (numeral Jura Medium 38; Figma text box reports h24 (leading trim) -> line-height 24px reproduces the 106px card height; colour per meaning via .text-* classes) */
+.kpi__value { font: var(--type-numeral-38); line-height: 24px; letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2518 (label Manrope Regular 12 Grey 300) */
+.kpi__label { font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); }
+
+/* ---------- Panel: .panel (+ --filled | --gradient), .panel__caption ---------- */
+/* figma: 78:2528, 78:1776, 78:2652 (outline panel: V gap 16, padding 16, no fill, 1px INSIDE stroke Grey 400 -> border, radius 16) */
+.panel { display: flex; flex-direction: column; gap: var(--space-16); padding: var(--space-16); border: var(--border-hairline) solid var(--color-border-hairline); border-radius: var(--radius-card); }
+/* figma: 78:2575, 78:2629 (filled panel: fill Grey 500) */
+.panel--filled { background: var(--color-surface-field); }
+/* figma: 78:1794, 78:1950, 78:2425, 78:2435 (gradient card: fill "bg gradient"; inner gap/padding differ per card (gap 8/0/24, padding 16 or 24/32): set in stage-2 patterns) */
+.panel--gradient { background: var(--color-surface-card-gradient); }
+/* figma: 78:2576, 78:1777, 78:2653 (panel caption Manrope Medium 12 Grey 300) */
+.panel__caption { font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); }
+
+/* ---------- Row card: .row-card (+ --run | --dark, .is-active) ---------- */
+/* figma: 78:2531 (row card: H gap 36, space-between, padding 12/16 + 1px INSIDE stroke -> border, fill Grey 500, radius 8, FILL width) */
+.row-card { position: relative; display: flex; align-items: center; justify-content: space-between; gap: var(--space-36); padding: var(--space-12) var(--space-16); background: var(--color-surface-field); border: var(--border-hairline) solid var(--color-border-hairline); border-radius: var(--radius-control); }
+/* figma: 78:1778, 78:1783, 78:1788, UPDATED 2026-11-17 from Figma 105:441 (owner raised the vertical padding: run card now 254x58 = 1 + 12 + 32 + 12 + 1, was 254x50 with padding 8/16) and then TRIED 12px left/right as well (padding 12 all round; was 16 left/right; not yet drawn in Figma); cross-axis MIN */
+.row-card--run { align-items: flex-start; padding: var(--space-12); }
+/* figma: 78:2577, 78:2589 (nested dark row card: fill Black 900, no stroke) */
+.row-card--dark { background: var(--color-surface-base); border: 0; }
+/* figma: 78:1778 (active run card: 1px INSIDE gradient stroke "Gradient main" #7BE697 -> #53B2ED (the style drawn here), covers the border box) */
+/* figma: 105:931 (UPDATED 2026-11-17: the active run card's gradient stroke is 0.5 px, was 1 px; fill Grey 500, "Gradient main" stroke) */
+.row-card.is-active { border-color: transparent; border-width: var(--border-thin); --ring-gradient: var(--color-border-active-alt); --ring-width: var(--border-thin); --ring-inset: calc(-1 * var(--border-thin)); }
+
+/* ---------- Notice panel: .notice (+ --critical | --warning | --info), .notice__suffix ---------- */
+/* figma: 78:1957, 78:1970, 78:1989 (notice: V gap 8, padding 12, radius 8, text Manrope Medium 10) */
+.notice { display: flex; flex-direction: column; gap: var(--space-8); padding: var(--space-12); border-radius: var(--radius-control); font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:1957 (critical: fill Red 25%, text Red, no stroke) */
+.notice--critical { background: var(--color-status-notice-critical-bg); color: var(--color-status-notice-critical-text); }
+/* figma: 78:1970, 78:2430 (warning: no fill, 0.5 INSIDE stroke Orange -> border (child at 12.5), text Orange) */
+.notice--warning { border: var(--border-thin) solid var(--color-status-notice-warning-outline); color: var(--color-status-notice-warning-text); }
+/* figma: 78:1989 (info: fill Purple 15%, text Purple, no stroke) */
+.notice--info { background: var(--color-status-notice-info-bg); color: var(--color-status-notice-info-text); }
+/* figma: 78:1957 (suffix "(...% of the client)" at node opacity 0.7) */
+.notice__suffix { opacity: var(--opacity-soft); }
+
+/* ---------- Step-number chip: .step-chip (+ .step-chip__num) ---------- */
+/* figma: 78:2632, 78:2638, 78:2644 (24x24 chip, fill Grey 400, radius 24, content centred) */
+.step-chip { display: inline-flex; flex: none; align-items: center; justify-content: center; width: var(--h-control-sm); height: var(--h-control-sm); border-radius: var(--radius-round); background: var(--color-surface-raised); }
+/* figma: 78:2633, 78:2639, 78:2645 (numeral Jura Medium 14, text fill gradient "Gradient main" #7BE697 -> #53B2ED; the design shows "1, 2, 2") */
+.step-chip__num { font: var(--type-numeral-14); letter-spacing: var(--letter-spacing-0); background: var(--color-gradient-main); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+
+/* ---------- Nav pill: .nav-pill (+ .is-active, --alt, --medium) ---------- */
+/* figma: 78:2502, 78:2504 (inactive nav pill: padding 8/32, height 32, radius 24, label Manrope Regular 12 White, no fill, no stroke) */
+.nav-pill { position: relative; display: inline-flex; align-items: center; justify-content: center; height: var(--h-control); padding: 0 var(--layout-nav-pill-padding-x); border-radius: var(--radius-round); color: var(--color-text-primary); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); white-space: nowrap; }
+/* figma: 78:2500, 78:2617 (active nav pill: radius 8, 0.5 INSIDE gradient stroke counted in layout -> 33 high, 1px wider; canonical gradient "Gradient main oposite" #53B2ED -> #7BE697; the fill is none) */
+.nav-pill.is-active { height: calc(var(--h-control) + 1px); border: var(--border-thin) solid transparent; border-radius: var(--radius-control); --ring-gradient: var(--color-border-active); --ring-width: var(--border-thin); --ring-inset: calc(-1 * var(--border-thin)); }
+/* figma: 78:1766, 78:2240 (ALTERNATE: Runs screens draw the active stroke as "Gradient main" #7BE697 -> #53B2ED) */
+.nav-pill--alt.is-active { --ring-gradient: var(--color-border-active-alt); }
+/* figma: 78:2503, 78:1767, 78:2241, 78:2616 (the "Runs" label is Manrope Medium 12 on all four screens; the other labels are Regular — design inconsistency, reproduced) */
+.nav-pill--medium { font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); }
+
+/* ===== PART 2: PATTERNS — stage 2 appends below this line ===== */
+
+/* Stage 2 rules reproduce the recorded auto-layout: direction, gap, padding, align, HUG/FIXED/FILL. Where Figma uses SPACE_BETWEEN with a FILL child the stored itemSpacing is
+   not used (the FILL child consumes the free space), so those rows set `gap: 0` explicitly. Strokes that are counted in layout are CSS `border` + the design padding.
+   Heights of text boxes drawn with leading trim (cap-height boxes) are reproduced with an explicit `line-height` and noted "trim". Nothing in this part is an extension of the design. */
+
+/* ---------- Layout helpers (recorded auto-layout stacks) ---------- */
+/* figma: 78:2529, 78:2536, 78:2578 (V stacks: gap 2 / 4 / 8 / 12 / 16 / 24 as drawn) */
+.stack { display: flex; flex-direction: column; }
+/* figma: 78:2578 */ .stack--g2 { gap: var(--space-2); }
+/* figma: 78:2534 */ .stack--g4 { gap: var(--space-4); }
+/* figma: 78:2529 */ .stack--g8 { gap: var(--space-8); }
+/* figma: 78:2532 */ .stack--g12 { gap: var(--space-12); }
+/* figma: 78:2528 */ .stack--g16 { gap: var(--space-16); }
+/* figma: 78:2511 */ .stack--g24 { gap: var(--space-24); }
+/* figma: 78:2536, 78:2541, 78:2581 (H stacks, cross CENTER: gap 4 / 8 / 16) */
+.hstack { display: flex; align-items: center; }
+/* figma: 78:2536 */ .hstack--g4 { gap: var(--space-4); }
+/* figma: 78:2541, 78:2581 */ .hstack--g8 { gap: var(--space-8); }
+/* figma: 78:1806 */ .hstack--g16 { gap: var(--space-16); }
+/* figma: 78:2540, 78:2586 (copy keeps trailing / inner spaces verbatim: "KYC Check > ", "Resolve 6 conflicting values "; white-space pre keeps them in the text box width as drawn) */
+.pre { white-space: pre; }
+
+/* ===== Shell ===== */
+
+/* ---------- Shell: screen frame ---------- */
+/* figma: 78:2486, 78:2600, 78:1751, 78:2225 (screen frame: 1920 wide, fill Black 900, clipsContent, layoutMode NONE in design; children = header, content (centred horizontally, CENTER/MIN)) · measured at 1920x1080 (Pipeline, Wallet) and 1920x1293 (Runs) */
+.screen-pipeline, .screen-wallet, .screen-runs-ownership, .screen-runs-overview { position: relative; display: flex; flex-direction: column; align-items: center; width: var(--layout-screen-width); overflow: hidden; background: var(--color-surface-base); }
+/* figma: 78:2486, 78:2600 (frame height 1080) */
+.screen-pipeline, .screen-wallet { height: var(--layout-screen-height-short); }
+/* figma: 78:1751, 78:2225 (frame height 1293, fixed: content is shorter than the frame, 42 / 135 px empty below) */
+.screen-runs-ownership, .screen-runs-overview { height: var(--layout-screen-height-tall); }
+/* figma: 78:2511, 78:2624, 78:1775, 78:2249 (content frame: x centred, y = header 66 + 40 on Pipeline/Wallet = 106; + 24 on Runs = 90; painted above the bottom-most .bg-photo by DOM order) */
+.screen__content { position: relative; margin-top: var(--space-40); }
+/* figma: 78:1775, 78:2249 (Runs content top 90 = 66 + 24) */
+.screen-runs-ownership .screen__content, .screen-runs-overview .screen__content { margin-top: var(--space-24); }
+
+/* ---------- Shell: Pipeline background photo layer (pattern only: NO image asset is shipped) ---------- */
+/* figma: 78:2487 (bottom-most child of the Pipeline frame: IMAGE fill scaleMode FILL, paint opacity 0.2, node 2165x2706 rotated, relativeTransform [[0,-1,1991],[-1,0,2165]] = CSS matrix(0,-1,-1,0,1991,2165); clipped by the frame so it covers the whole 1920x1080; supply the picture through --bg-photo-image: url(...)) · measured at 1920x1080 */
+.bg-photo { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+/* figma: 78:2487 (the photo rectangle itself; with no --bg-photo-image the layer is empty) */
+.bg-photo::before { content: ""; position: absolute; left: 0; top: 0; width: 2165px; height: 2706px; transform-origin: 0 0; transform: matrix(0, -1, -1, 0, 1991, 2165); background: var(--bg-photo-image, none) center / cover no-repeat; opacity: var(--opacity-photo); }
+
+/* ---------- Shell: header bar 1920x66 ---------- */
+/* figma: 78:2488, 78:2601, 78:1752, 78:2226 (header: H gap 108, padding 16/40/16/40, main SPACE_BETWEEN, cross CENTER, 1px INSIDE bottom-only stroke Grey 500 counted in layout -> border-bottom; 66 = 16 + 33 + 16 + 1; no fill; above the photo) · measured at 1920x66 */
+.app-header { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 108px; align-self: stretch; height: var(--layout-header-height); padding: var(--layout-header-padding-y) var(--layout-header-padding-x); border-bottom: var(--border-hairline) solid var(--color-border-header); }
+/* figma: 78:2489, 78:2602, 78:1753, 78:2227 (logo box "Frame 7": 162x32 FIXED, V gap 10, main CENTER cross MIN; holds assets/logo.svg 85x20 at 0,6) */
+.app-header__logo { display: flex; flex: none; flex-direction: column; align-items: flex-start; justify-content: center; width: 162px; height: 32px; }
+/* figma: 78:2490 (logo asset 85x20, coloured/gradient asset -> <img>) */
+.app-header__logo img { display: block; width: 85px; height: 20px; }
+/* figma: 78:2499, 78:2612, 78:1763, 78:2237 (nav "Frame 1": H gap 0 padding 0, cross CENTER, HUG; 643 wide; active pill 33 high, others 32 high centred at y 0.5) */
+.app-header__nav { display: flex; flex: none; align-items: center; gap: 0; }
+/* figma: 78:2510, 78:2623, 78:1774, 78:2248 (Select instance 148x32 at the right edge, padding-right 40 comes from the header) */
+.app-header .select { flex: none; }
+
+/* ===== Data / surface patterns ===== */
+
+/* ---------- Section head row (caption + optional Tabs 24 / toggle), 24 high ---------- */
+/* figma: 78:1993, 78:2082, 78:2172 (H gap 16, SPACE_BETWEEN, cross CENTER, 943x24 FIXED; caption Manrope Medium 10 Grey 200 centred at y5; Tabs 24 instance 126x24 on the right) · measured at 943x24 */
+.section-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); height: var(--h-control-sm); }
+/* figma: 78:1994, 78:2083, 78:2173 (caption "Who owns the client", "UBOs (10% or more)", "Directors": Medium 10 Grey 200) */
+.section-head__caption { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+
+/* ---------- Data table: .data-table (+ --ubo | --directors), rows, cells ---------- */
+/* figma: 78:2084, 78:2174 (table frame: 943 wide FILL, 1px INSIDE stroke Grey 400 on all sides -> border, radius 8, V gap 0 padding 0, no fill) · measured at 943x139 (UBOs) / 943x85 (Directors) */
+.data-table { display: flex; flex-direction: column; border: var(--border-hairline) solid var(--color-border-hairline); border-radius: var(--radius-control); }
+/* figma: 78:2085, 78:2102, 78:2134, 78:2175, 78:2190 (row: 941 wide inside the stroke, H gap 0 padding 0, cross MIN, bottom-only 1px INSIDE stroke Grey 400 counted in layout -> border-bottom; every row incl. the last has it; grid = recorded column widths) */
+.data-table__row { display: grid; grid-template-columns: var(--table-cols); border-bottom: var(--border-hairline) solid var(--color-border-hairline); }
+/* figma: 78:2085 (UBOs, 8 columns: Share 70.07 wide, then 7 x 124.42 = 941.01) */
+.data-table--ubo { --table-cols: 70.07px repeat(7, minmax(0, 1fr)); }
+/* figma: 78:2175 (Directors, 7 columns of 134.43 = 941.01) */
+.data-table--directors { --table-cols: repeat(7, minmax(0, 1fr)); }
+/* figma: 78:2103, 78:2105, 78:2135, 78:2191 (body cell: V gap 8 (was 4, see UPDATED below), padding 8, cross MIN; primary value Manrope Regular 12 White or a tag, second line a pill; cells stretch to the row height) */
+/* UPDATED 2026-11-16 (105:768 etc., owner changed the margins in Figma): cell V gap 8 between the tag and the status pill, was 4 (one cell, 105:805, still has 4; the common value is 8) */
+.data-table__cell { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-8); padding: var(--space-8); min-width: 0; }
+/* figma: 78:2086, 78:2088, 78:2176 (header cell: padding 8, text Manrope Regular 10 Grey 300; header row 31 = 30 + 1 border) */
+.data-table__row--head .data-table__cell { font: var(--type-field-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); }
+
+/* ---------- Ownership tree: .tree (+ .tree__rows, .tree-row, .tree__spine) ---------- */
+/* figma: 78:1996 (tree box: 943 wide, 1px INSIDE stroke Grey 400 -> border, radius 8, V gap 10, padding 8/16/8/16, no fill; 165 = 1 + 8 + 147 + 8 + 1) · measured at 943x165 */
+.tree { padding: var(--space-8) var(--space-16); border: var(--border-hairline) solid var(--color-border-hairline); border-radius: var(--radius-control); }
+/* figma: 78:1997, 78:1998 (rows group 462x147 at 17,9 in the tree box = content origin; rows and spines are ABSOLUTELY positioned, not auto-layout) */
+/* UPDATED 2026-11-16 (owner changed the margins in Figma, node 105:613): rows group 168 high (was 147), box 186 = 1 + 8 + 168 + 8 + 1 */
+.tree__rows { position: relative; height: 168px; }
+/* figma: 105:662, 105:672, 105:685, 105:711, 105:725, 105:698 (UPDATED 2026-11-16: tree row H gap 40, cross CENTER, hug width, now 18 high because the pills are 18; row y = index x 30 (18 + gap 12), was 26; x = level indent) */
+.tree-row { position: absolute; top: calc(var(--tree-row, 0) * (18px + var(--space-12))); left: var(--tree-left, 0); display: flex; align-items: center; gap: var(--space-40); height: 18px; white-space: nowrap; }
+/* figma: 78:2009 (row index 1: y 39 - 9 = 30, UPDATED 2026-11-16) */ .tree-row--r1 { --tree-row: 1; }
+/* figma: 78:2022 (row index 2: y 69 - 9 = 60, UPDATED 2026-11-16) */ .tree-row--r2 { --tree-row: 2; }
+/* figma: 78:2048 (row index 3: y 99 - 9 = 90, UPDATED 2026-11-16) */ .tree-row--r3 { --tree-row: 3; }
+/* figma: 78:2062 (row index 4: y 129 - 9 = 120, UPDATED 2026-11-16) */ .tree-row--r4 { --tree-row: 4; }
+/* figma: 78:2035 (row index 5: y 159 - 9 = 150, UPDATED 2026-11-16) */ .tree-row--r5 { --tree-row: 5; }
+/* figma: 78:2009 (level 1 indent 24: x 41 - 17) */ .tree-row--l1 { --tree-left: 24px; }
+/* figma: 78:2022 (level 2 indent 48: x 65 - 17) */ .tree-row--l2 { --tree-left: 48px; }
+/* figma: 78:2048, 78:2062, 78:2035 (level 3 sits at x 88 - 17 = 71, i.e. a 23 step as drawn, not 72) */ .tree-row--l3 { --tree-left: 71px; }
+/* figma: 78:2010, 78:2023, 78:2049 (name block: H gap 4, cross CENTER: icon 16 + name + share; the root row 78:2000 uses gap 8) */
+.tree-row__name { display: flex; align-items: center; gap: var(--space-4); }
+/* figma: 78:2000 (root row name block gap 8) */
+.tree-row__name--root { gap: var(--space-8); }
+/* figma: 78:2017, 78:2030, 78:2055 (tag group: H gap 4, cross CENTER; pills / tags) */
+/* UPDATED 2026-11-16 (105:680, 105:693): tag group gap 8, was 4 */
+.tree-row__tags { display: flex; align-items: center; gap: var(--space-8); }
+/* figma: 78:2078, 78:2079, 78:2080 (spines: vertical 1px bars, stroke Grey 400 CENTER, no horizontal elbows; x 25/49/73 -> 7.5/31.5/55.5 in the content box; drawn after the rows = on top) */
+.tree__spine { position: absolute; width: var(--border-hairline); background: var(--color-border-hairline); }
+/* figma: 78:2078 (Line 16 UPDATED 2026-11-16, 105:741: x 25, y 27, 145 long) */ .tree__spine--1 { left: 7.5px; top: 18px; height: 145px; }
+/* figma: 78:2079 (Line 17 UPDATED, 105:742: y 57, 115 long) */ .tree__spine--2 { left: 31.5px; top: 48px; height: 115px; }
+/* figma: 78:2080 (Line 18 UPDATED, 105:743: y 89, 83 long) */ .tree__spine--3 { left: 55.5px; top: 80px; height: 83px; }
+
+/* ---------- Stepper: .stepper (.stepper__line, .stepper__step, .step__*) ---------- */
+/* figma: 78:1837, 78:2311 (stepper "Frame 22": 1130x68 FILL/FIXED, absolute children: 6 connector lines first (bottom), then 7 step wrappers) · measured at 1130x68 */
+.stepper { position: relative; flex: none; height: 68px; }
+/* figma: 78:1838..78:1843 (connector: LINE 136x0 at y21, stroke 2 CENTER = a 2px bar at y 20..22; colour per state) */
+.stepper__line { position: absolute; top: 20px; width: 136px; height: var(--border-track); background: var(--color-surface-raised); }
+/* figma: 78:1838, 78:1839 (done -> done: gradient "Gradient main oposite") */ .stepper__line--brand { background: var(--gradient-brand); }
+/* figma: 78:1840 (done -> current: "Gradient progress": Blue to Orange; unnamed raw paint in Figma, named by the owner request) */ .stepper__line--to-current { background: var(--color-gradient-progress); }
+/* figma: 78:1838 */ .stepper__line--1 { left: 56px; }
+/* figma: 78:1839 */ .stepper__line--2 { left: 232px; }
+/* figma: 78:1840 */ .stepper__line--3 { left: 408px; }
+/* figma: 78:1841 */ .stepper__line--4 { left: 584px; }
+/* figma: 78:1842 */ .stepper__line--5 { left: 761px; }
+/* figma: 78:1843 */ .stepper__line--6 { left: 936px; }
+/* figma: 78:1844 (step wrapper 54x68 FILL/FIXED; circle frame 40x40 at x7 y0; label at y52, centred on the wrapper and allowed to overflow it) */
+.stepper__step { position: absolute; top: 0; width: 54px; height: 68px; }
+/* figma: 78:1844 */ .stepper__step--1 { left: 9px; }
+/* figma: 78:1850 */ .stepper__step--2 { left: 185px; }
+/* figma: 78:1856 */ .stepper__step--3 { left: 361px; }
+/* figma: 78:1862 */ .stepper__step--4 { left: 537px; }
+/* figma: 78:1870 */ .stepper__step--5 { left: 717px; }
+/* figma: 78:1876 */ .stepper__step--6 { left: 890px; }
+/* figma: 78:1882, 78:1884 (last wrapper is 53 wide, circle at x5) */ .stepper__step--7 { left: 1067px; width: 53px; }
+/* figma: 78:1846, 78:1864, 78:1872 (circle frame 40x40 at x7; the status asset is 42x42 and sits at -1,-1, as the Union does in the design) */
+.step__icon { position: absolute; left: 7px; top: 0; width: 40px; height: 40px; }
+/* figma: 78:1884 (7th circle at x5) */ .stepper__step--7 .step__icon { left: 5px; }
+/* figma: 78:1846..78:1847 (done), 78:1864..78:1865 (current), 78:1872..78:1873 (pending) — step status icon BUILT IN CSS (no image): a 42x42 box at -1,-1 of the 40x40 circle frame (the Union child is 42x42), drawn by two pseudo-elements that share the same paint box, so ONE gradient runs across ring + check exactly as the single Union fill does in the design (88.23deg). ::before = 2px ring (radial mask), ::after = 2px round-cap check (svg mask, path M29 15 L18 26 L13 21 in the 42 box). State = modifier: --done (Gradient main #7BE697 -> #53B2ED, the Union fill; the "Gradient green" stroke on the ellipse is covered in the design) | --current (Gradient orange #F3892D -> #ECE040; the ring is a solid arc plus three dashes (visible spans 345.9->194.2, 211.1->239.2, 256.1->284.1, 301->329 deg incl. round caps, measured by rasterising the exported vector at r=20), round caps = small radial dots) | --pending (ring Grey 400, check Grey 300, no gradient). */
+.step__icon::before, .step__icon::after { content: ""; position: absolute; inset: -1px; background: var(--step-paint); }
+.step__icon::after { background: var(--step-check-paint, var(--step-paint)); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 42'%3E%3Cpath d='M29 15L18 26L13 21' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 42px 42px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 42 42'%3E%3Cpath d='M29 15L18 26L13 21' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 42px 42px no-repeat; }
+.step__icon::before { -webkit-mask: radial-gradient(farthest-side, transparent 18.8px, #000 19.2px, #000 20.8px, transparent 21.2px); mask: radial-gradient(farthest-side, transparent 18.8px, #000 19.2px, #000 20.8px, transparent 21.2px); }
+.step__icon--done { --step-paint: var(--alt-gradient-brand); }
+.step__icon--pending { --step-paint: var(--color-grey-400); --step-check-paint: var(--color-grey-300); }
+.step__icon--current { --step-paint: var(--gradient-orange); }
+.step__icon--current::before { mask-image: radial-gradient(circle at 17.11px 1.38px, #000 .75px, transparent 1.25px), radial-gradient(circle at 17.07px 40.61px, #000 .75px, transparent 1.25px), radial-gradient(circle at 9.82px 37.59px, #000 .75px, transparent 1.25px), radial-gradient(circle at 4.36px 32.09px, #000 .75px, transparent 1.25px), radial-gradient(circle at 1.37px 24.83px, #000 .75px, transparent 1.25px), radial-gradient(circle at 1.38px 17.11px, #000 .75px, transparent 1.25px), radial-gradient(circle at 4.39px 9.85px, #000 .75px, transparent 1.25px), radial-gradient(circle at 9.85px 4.39px, #000 .75px, transparent 1.25px), conic-gradient(#000 0deg 191.33deg, transparent 191.33deg 213.97deg, #000 213.97deg 236.33deg, transparent 236.33deg 258.97deg, #000 258.97deg 281.23deg, transparent 281.23deg 303.87deg, #000 303.87deg 326.13deg, transparent 326.13deg 348.77deg, #000 348.77deg 360deg), radial-gradient(farthest-side, transparent 18.8px, #000 19.2px, #000 20.8px, transparent 21.2px); mask-composite: add, add, add, add, add, add, add, add, intersect, add; -webkit-mask-image: radial-gradient(circle at 17.11px 1.38px, #000 .75px, transparent 1.25px), radial-gradient(circle at 17.07px 40.61px, #000 .75px, transparent 1.25px), radial-gradient(circle at 9.82px 37.59px, #000 .75px, transparent 1.25px), radial-gradient(circle at 4.36px 32.09px, #000 .75px, transparent 1.25px), radial-gradient(circle at 1.37px 24.83px, #000 .75px, transparent 1.25px), radial-gradient(circle at 1.38px 17.11px, #000 .75px, transparent 1.25px), radial-gradient(circle at 4.39px 9.85px, #000 .75px, transparent 1.25px), radial-gradient(circle at 9.85px 4.39px, #000 .75px, transparent 1.25px), conic-gradient(#000 0deg 191.33deg, transparent 191.33deg 213.97deg, #000 213.97deg 236.33deg, transparent 236.33deg 258.97deg, #000 258.97deg 281.23deg, transparent 281.23deg 303.87deg, #000 303.87deg 326.13deg, transparent 326.13deg 348.77deg, #000 348.77deg 360deg), radial-gradient(farthest-side, transparent 18.8px, #000 19.2px, #000 20.8px, transparent 21.2px); -webkit-mask-composite: source-over, source-over, source-over, source-over, source-over, source-over, source-over, source-over, source-in, source-over; }
+/* figma: 78:1845, 78:1851, 78:1863, 78:1871 (label: Manrope Regular 12 centred, y52, hug, no wrap; colour by state via .text-accent (done) / .text-warning (current) / .text-muted (pending)) */
+.step__label { position: absolute; left: 50%; top: 52px; transform: translateX(-50%); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); white-space: nowrap; text-align: center; }
+
+/* ---------- Progress ring (72, Pipeline) and donut (140, Runs summary): static assets ---------- */
+/* figma: 78:2547, 78:2570 (ring wrapper "Frame 91": 81x81, FIXED width / FILL height, no fill; ring group 72x72 at 5,5; label placed absolutely) · measured at 81x81 */
+.ring { position: relative; flex: none; align-self: stretch; width: 81px; }
+/* figma: 78:2549, 78:2572 (assets/progress-ring-72-short.svg | -long.svg: svg 76x81 / 76x84 contain the track circle at 0,2 (r34 stroke 4) + arc + shadow -> svg at 5,3 so the circle box lands at 5,5; use the natural size) */
+.ring__img { position: absolute; left: 5px; top: 3px; }
+/* figma: 78:2548, 78:2571 (centre label: Jura Medium 20 Blue, "%" Jura Light (.numeral-light); its centre sits at x42.5 y40.5 of the wrapper (boxes 26+16.5 / 23+19.5, 34+6.5)) */
+.ring__label { position: absolute; left: 42.5px; top: 40.5px; transform: translate(-50%, -50%); font: var(--type-numeral-20); letter-spacing: var(--letter-spacing-0); white-space: nowrap; }
+/* figma: 78:1796 (donut "Group 3": 140x140 FILL/FILL group; overflow visible so the 145x152 asset shows its shadow) · measured at 140x140 */
+.donut { position: relative; flex: none; width: 140px; height: 140px; }
+/* figma: 78:1800, 78:2274 (assets/progress-ring-140.svg 145x152: track circle centre (70, 73.88) r66 stroke 8 -> circle box at (0, 3.88) of the svg -> svg at 0,-3.88; natural size) */
+.donut__img { position: absolute; left: 0; top: -3.88px; }
+/* figma: 78:1797 (centre label stack "Frame 4": V gap 12, centred, hug 75x44; centre at x69.5 y71 of the donut) */
+.donut__label { position: absolute; left: 69.5px; top: 71px; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; gap: var(--space-12); white-space: nowrap; }
+/* figma: 78:1798 (value "62%": Jura Medium 38 Blue, "%" Jura Light; box 24 high (trim) -> line-height 24px) */
+.donut__value { font: var(--type-numeral-38); line-height: 24px; letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:1799 (caption "60 out of 116": Jura SemiBold 12 Green; box 8 high (trim) -> line-height 8px) */
+.donut__caption { font: var(--type-numeral-12); line-height: 8px; letter-spacing: var(--letter-spacing-0); }
+
+/* ---------- Sidebar filter list: .filter-list / .filter-item (+ .is-active, --plain), .dots ---------- */
+/* figma: 78:1889, 78:2363 (filter list "Frame 1": V gap 4, padding 0/16/0/0, cross MIN; 218 wide = FILL of the lower area; 14 items, 501 high) · measured at 218x501 */
+.filter-list { display: flex; flex: 1 1 0; flex-direction: column; align-items: stretch; gap: var(--space-4); min-width: 0; padding: 0 var(--space-16) 0 0; }
+/* figma: 78:1890, 78:1892 (item: H gap 0, padding 8/12/8/16, main SPACE_BETWEEN cross CENTER, 202x32, radius 8, no fill, label Manrope Regular 12 Grey 100) */
+.filter-item { position: relative; display: flex; align-items: center; justify-content: space-between; height: var(--h-control); padding: var(--space-8) var(--space-12) var(--space-8) var(--space-16); border-radius: var(--radius-control); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); }
+/* figma: 78:1948 ("Activity": padding 8/16/8/16, no dots) */
+.filter-item--plain { padding: var(--space-8) var(--space-16); }
+/* figma: 78:1906 (active item 202x33: 0.5 INSIDE gradient stroke counted in layout -> border; stroke "Gradient main" (the style drawn here = ALT direction, see --alt-gradient-brand); label Medium 12 White) */
+.filter-item.is-active { height: calc(var(--h-control) + 1px); border: var(--border-thin) solid transparent; color: var(--color-text-primary); font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); --ring-gradient: var(--color-border-active-alt); --ring-width: var(--border-thin); --ring-inset: calc(-1 * var(--border-thin)); }
+/* figma: 78:1906 (gradient ring for the active item: same masked-ring helper as the nav pill; the helper rule in PART 1 does not list this selector) */
+.filter-item.is-active::before { content: ""; position: absolute; inset: var(--ring-inset, 0); border-radius: inherit; padding: var(--ring-width, var(--border-hairline)); background: var(--ring-gradient); -webkit-mask: linear-gradient(var(--color-black-900) 0 0) content-box, linear-gradient(var(--color-black-900) 0 0); -webkit-mask-composite: xor; mask: linear-gradient(var(--color-black-900) 0 0) content-box, linear-gradient(var(--color-black-900) 0 0); mask-composite: exclude; pointer-events: none; }
+/* figma: 78:1894, 78:1899 ("Frame 31" dots: H gap 4, main MAX cross CENTER, hug; 6x6 .dot children in the order red, orange, green-only) */
+.dots { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-4); }
+
+/* ---------- Action list: .action-list / .action-row ---------- */
+/* figma: 78:2438 ("Frame 99": V gap 0 padding 0, 943x396 = 12 rows x 33) · measured at 943x396 */
+.action-list { display: flex; flex-direction: column; }
+/* figma: 78:2439, 78:2442 (row: H gap 8, padding 8/0/8/0, cross CENTER, SPACE_BETWEEN when a link exists, 943x33, bottom-only 1px INSIDE stroke Grey 400 -> border-bottom, no fill; 33 = 8 + 16 + 8 + 1) */
+.action-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-8); padding: var(--space-8) 0; border-bottom: var(--border-hairline) solid var(--color-border-hairline); }
+/* figma: 78:2443, 78:2440 (dot + label group: H gap 8; "Frame 98" in link rows; label Manrope Medium 12 White) */
+.action-row__main { display: flex; align-items: center; gap: var(--space-8); font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+/* figma: 78:2446, 78:2463, 78:2471 (link "Go to ... > ": Manrope Medium 10 Blue, right aligned; copy has a trailing space) */
+.action-row__link { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-accent); white-space: pre; }
+
+/* ---------- Side panel: .panel--side (Recent Runs / Recently Added) ---------- */
+/* figma: 78:1776, 78:2250, 78:2652 (outline panel 288 wide, FILL height of its row: stretches; 254 inner width = 288 - 2 - 32) · measured at 288x1161 / 288x1068 / 288x403 */
+.panel--side { flex: none; width: var(--layout-runs-sidebar-width); }
+
+/* ---------- Row card extras: fill-width main/aside columns ---------- */
+/* figma: 78:2531, 78:1778, 78:2654, 78:2577 (row cards drawn with SPACE_BETWEEN + FILL child(ren): itemSpacing 36 is not used -> gap 0) */
+.row-card--fill { gap: 0; }
+/* figma: 78:2577, 78:2589 (client row: cross MIN) */
+.row-card--top { align-items: flex-start; }
+/* figma: 78:2532, 78:2578, 78:1779, 78:2655 (left column: FILL width, V, main CENTER, cross MIN; the inner gap comes from .stack--g*) */
+.row-card__main { display: flex; flex: 1 1 0; flex-direction: column; align-items: flex-start; justify-content: center; min-width: 0; }
+/* figma: 78:2586, 78:2597 (client row right stack "Frame 93": FILL x FILL, V gap 2, cross MAX = right aligned) */
+.row-card__aside { display: flex; flex: 1 1 0; flex-direction: column; align-items: flex-end; gap: var(--space-2); min-width: 0; }
+/* figma: 78:2541, 78:2564 (counts row: H gap 8, cross MIN, texts Regular 10 coloured Red / Red / Orange / Orange / Grey 300) */
+.count-row { display: flex; align-items: flex-start; gap: var(--space-8); font: var(--type-field-10); letter-spacing: var(--letter-spacing-0); }
+/* figma: 78:2536, 78:2559 (issue row: H gap 4, cross CENTER; icon 12 + lead Medium 10 Grey 100 + "(+n )" Regular 10 Grey 300) */
+.issue-row { display: flex; align-items: center; gap: var(--space-4); }
+/* figma: 78:2539 (lead text Manrope Medium 10 Grey 100; trailing space kept) */
+.issue-row__lead { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); white-space: pre; }
+/* figma: 78:2540 (more count Manrope Regular 10 Grey 300) */
+.issue-row__more { font: var(--type-field-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); white-space: pre; }
+
+/* ---------- Notice rows (inside .notice) ---------- */
+/* figma: 78:1958, 78:1973, 78:2431 (notice line: H gap 4, cross CENTER, hug; message + optional suffix / tags) */
+.notice__row { display: flex; align-items: center; gap: var(--space-4); }
+/* figma: 78:1973, 78:1980 (rows with inline person tags: H gap 2) */
+.notice__row--tight { gap: var(--space-2); }
+/* figma: 78:2432 (orange panel headline: Manrope Medium 12 Orange; the paragraph below uses .type-paragraph-10 + .text-label) */
+.notice__headline { font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); }
+
+/* ---------- Detail / summary cards ---------- */
+/* figma: 78:1794, 78:2268 (summary card: gradient fill, 1px INSIDE stroke, radius 16, V gap 24, padding 24/32/24/32 + stroke; FILL width of the 1196 column, hug height 307) · measured at 1196x307 */
+.summary-card { gap: var(--space-24); padding: var(--space-24) var(--space-32); }
+/* figma: 78:1795 (steps row "Frame 35": H gap 48, padding 0/0/24/0, cross CENTER, bottom-only 1px INSIDE stroke Grey 400 -> border-bottom; 165 = 140 + 24 + 1) */
+.summary-steps { display: flex; align-items: center; gap: var(--space-48); padding-bottom: var(--space-24); border-bottom: var(--border-hairline) solid var(--color-border-hairline); }
+/* figma: 78:1803 (info column "Frame 34": FILL x FILL 942x140, V, main SPACE_BETWEEN (itemSpacing 24 unused -> real gap 12 = 140 - 32 - 96)) */
+.summary-info { display: flex; flex: 1 1 0; flex-direction: column; align-self: stretch; justify-content: space-between; min-width: 0; }
+/* figma: 78:1804 (heading row "Frame 33": H, SPACE_BETWEEN, cross CENTER, 942x32; heading Manrope Medium 16 White, button group at the right) */
+.summary-info__head { display: flex; align-items: center; justify-content: space-between; }
+/* figma: 78:1809, 78:1811 ("Still Open" block: V gap 8 = label + 3 issue columns in an H gap 64 row) */
+.open-issues { display: flex; flex-direction: column; gap: var(--space-8); }
+/* figma: 78:1811 ("Frame 30": H gap 64) */
+.open-issues__cols { display: flex; align-items: flex-start; gap: var(--space-64); }
+/* figma: 78:1812, 78:1821, 78:1830 (issue column: V gap 12) */
+.open-issues__col { display: flex; flex-direction: column; gap: var(--space-12); }
+/* figma: 78:1813, 78:1814 (issue line: Manrope Medium 12 at node opacity 0.7, colour Red / Orange; hug box height 9 = cap-height trim -> line-height 9px) */
+.open-issues__line { font: var(--type-title-12); line-height: 9px; letter-spacing: var(--letter-spacing-0); opacity: var(--opacity-soft); white-space: nowrap; }
+/* figma: 78:1950, 78:2425, 78:2435 (detail card: gradient fill, V gap 8, padding 16 + stroke; fixed 977 wide; Ownership 977x841, Overview cards 977x260 / 977x472) · measured at 977x841 */
+.detail-card { gap: var(--space-8); width: var(--layout-runs-card-width); }
+/* figma: 78:2435 (card 2 "What you need to do": V gap 0) */
+.detail-card--flush { gap: 0; }
+/* figma: 78:1951, 78:2426, 78:2436 (title row: H, SPACE_BETWEEN, cross MIN, padding-bottom 4; left stack V gap 4: title Medium 14 White + subtitle Medium 10 Grey 200; right: toggle-field) */
+.detail-title { display: flex; align-items: flex-start; justify-content: space-between; padding-bottom: var(--space-4); }
+/* figma: 78:1953, 78:2428 (card title Manrope Medium 14 White) */
+.detail-title__title { font: var(--type-heading-14); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+/* figma: 78:1954, 78:2429 (card subtitle Manrope Medium 10 Grey 200) */
+.detail-title__sub { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+/* figma: 78:2485 (footer note: Manrope Medium 10 Grey 200, 943x19 FIXED, after the list, no divider) */
+.detail-card__note { height: 19px; font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+/* figma: 78:1956 (notice stack "Frame 63": V gap 4: critical, warning, info) */
+.notice-stack { display: flex; flex-direction: column; gap: var(--space-4); }
+
+/* ===== Screen-level compositions ===== */
+
+/* ---------- Screen: Pipeline (.screen-pipeline) content ---------- */
+/* figma: 78:2511 (content column "Frame 85": V gap 24, padding 0, hug 642x718, at x639 y106 = header 66 + 40) · measured at 642x718 */
+.pipeline-content { display: flex; flex-direction: column; gap: var(--space-24); width: var(--layout-pipeline-content-width); }
+/* figma: 78:2512 (greeting row: H, SPACE_BETWEEN, cross CENTER, 642x32; heading FILL (itemSpacing 211 unused -> gap 0) + CTA hug) */
+.greeting-row { display: flex; align-items: center; justify-content: space-between; gap: 0; }
+/* figma: 78:2513 (heading Manrope Medium 16 White, FILL width) */
+.greeting-row__text { flex: 1 1 0; min-width: 0; font: var(--type-heading-16); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+/* figma: 78:2515 (KPI row "Frame 84": H gap 24, cross CENTER, 642x106; 4 cards FILL: 4 x 142.5 + 3 x 24) */
+.kpi-row { display: flex; align-items: center; gap: var(--space-24); }
+/* figma: 78:2516, 78:2519, 78:2522, 78:2525 (KPI card FILL width in the row) */
+.kpi-row > .kpi { flex: 1 1 0; min-width: 0; }
+
+/* ---------- Screen: Wallet Check (.screen-wallet) content and form ---------- */
+/* figma: 78:2624 (content "Frame 107": H gap 38, hug 984x403, cross MIN -> the right panel is FILL height; at x468 y106) · measured at 984x403 */
+.wallet-content { display: flex; align-items: stretch; gap: var(--space-38); }
+/* figma: 78:2625 (left column "Frame 85": V gap 24, 658 wide FIXED, hug height) */
+.wallet-form { display: flex; flex: none; flex-direction: column; gap: var(--space-24); width: var(--layout-wallet-form-width); }
+/* figma: 78:2626 (page header "Frame 79": V gap 8: heading Medium 16 White + sub Medium 14 Grey 300; 658x49) */
+.wallet-form__head { display: flex; flex-direction: column; gap: var(--space-8); }
+/* figma: 78:2629 (form card: filled panel, V gap 24 (panel default is 16), padding 16 + stroke; 658x330) */
+.form-card { gap: var(--space-24); }
+/* figma: 78:2630, 78:2636, 78:2642 (form field "Frame 102/103/104": V gap 8, FILL x HUG, 64 high = 24 label row + 8 + 32 control) */
+.form-field { display: flex; flex-direction: column; gap: var(--space-8); }
+/* figma: 78:2631, 78:2637, 78:2643 (label row "Frame 103": H gap 8, cross CENTER, 24 high; step chip 24x24 + label) */
+.form-field__label { display: flex; align-items: center; gap: var(--space-8); height: var(--h-control-sm); }
+/* figma: 78:2634, 78:2640, 78:2646 (label text: FILL x FILL 584x24, Manrope Medium 12 Grey 100) */
+.form-field__text { flex: 1 1 0; min-width: 0; font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); }
+/* figma: 78:2646 (mixed-fill label "Label and note (optional)": segment 2 " " Grey 200) */
+.form-field__sep { color: var(--color-text-secondary); }
+/* figma: 78:2646 (segment 3 "(optional)" Grey 300) */
+.form-field__optional { color: var(--color-text-muted); }
+/* figma: 78:2647 (inputs row "Frame 105": H gap 16, FILL x HUG, 624x32: narrow 193 FIXED + wide FILL 415) */
+.form-field__row { display: flex; align-items: flex-start; gap: var(--space-16); }
+/* figma: 78:2648 (narrow Input 193x32 FIXED) */
+.form-field__row > .input--narrow { flex: none; width: 193px; }
+/* figma: 78:2649 (wide Input FILL width) */
+.form-field__row > .input--fill { flex: 1 1 0; width: auto; min-width: 0; }
+/* figma: 78:2650 (action row "Frame 106": V gap 10, main SPACE_BETWEEN, cross MAX (button right aligned), FILL x FIXED 624x32) */
+.form-actions { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: var(--space-10); height: var(--h-control); }
+
+/* ---------- Screen: Runs / Ownership + Runs / Overview (.screen-runs-ownership, .screen-runs-overview) content ---------- */
+/* figma: 78:1775, 78:2249 (content "Frame 62": H gap 16, hug, 1500 wide, at x210 y90; left panel FILL height; Ownership 1500x1161, Overview 1500x1068) · measured at 1500x1161 / 1500x1068 */
+.runs-content { display: flex; align-items: stretch; gap: var(--space-16); width: var(--layout-runs-content-width); }
+/* figma: 78:1793, 78:2267 (main column "Frame 61": V gap 13, 1196 wide) */
+.runs-main { display: flex; flex: none; flex-direction: column; gap: var(--space-13); width: var(--layout-runs-main-width); }
+/* figma: 78:1888, 78:2362 (lower area "Frame 60": H gap 1, cross MIN, 1196 wide: sidebar 218 + 1 + card 977) */
+.runs-lower { display: flex; align-items: flex-start; gap: var(--space-1); }
+/* figma: 78:2424 (Overview right stack "Frame 97": V gap 16, hug 977x748) */
+.runs-stack { display: flex; flex: none; flex-direction: column; gap: var(--space-16); width: var(--layout-runs-card-width); }
+
+/* ===== PART 3: DRAWN STATES added by the owner in Figma (2026-11-16) + EXTENDED states/components (approved expand rows, 2026-11-16) ===== */
+/* Order matters inside this part: hover -> focus -> error -> disabled (later rules win at equal specificity). Every state has a real pseudo-class and a forced twin class (.is-hover, .is-focus, .is-open, .is-error, .is-disabled, .is-pressed). */
+
+/* ---------- Fields: hover / focus / error / disabled (Select, Search, Input, Textarea) ---------- */
+/* figma: 101:100, 101:106, 101:112 (DRAWN hover: the 1px INSIDE border goes Grey 400 -> Grey 300; fill, text, radius unchanged) */
+.select:is(:hover, .is-hover), .search:is(:hover, .is-hover), .input:is(:hover, .is-hover), .textarea:is(:hover, .is-hover) { border-color: var(--color-action-field-hover-border); }
+/* EXTENDED — not in design: rows 1+9, owner decision — while focused / being typed in / (Select) open, the 1px border becomes the brand gradient ring (gradient on the border box under the fill). Select: :focus-visible, .is-open, [aria-expanded="true"]; Input/Textarea: :focus; Search: :focus-within */
+.select:is(:focus-visible, .is-focus, .is-open, [aria-expanded="true"]),
+.input:is(:focus, .is-focus), .textarea:is(:focus, .is-focus), .search:is(:focus-within, .is-focus) { outline: none; border-color: transparent; background: linear-gradient(var(--color-action-field-bg), var(--color-action-field-bg)) padding-box, var(--gradient-brand) border-box; }
+.search__input:focus { outline: none; }
+/* EXTENDED — not in design: row 3 — typed value colour = White (the White the Select instances override to); placeholder stays Grey 300 */
+.input:not(:placeholder-shown), .input.has-value, .textarea:not(:placeholder-shown), .textarea.has-value, .search__input:not(:placeholder-shown), .search__input.has-value { color: var(--color-action-field-value); }
+/* EXTENDED — not in design: row 7 — field error: the 1px border becomes Red (overrides hover and the focus gradient); helper text below, Manrope Regular 10 Red, gap 4 */
+.select:is(.is-error, [aria-invalid="true"]), .input:is(.is-error, [aria-invalid="true"]), .textarea:is(.is-error, [aria-invalid="true"]), .search:is(.is-error, :has([aria-invalid="true"])) { border-color: var(--color-ext-error); background: var(--color-action-field-bg); }
+.form-field__helper { margin-top: calc(-1 * var(--space-4)); font: var(--type-field-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); }
+.form-field__helper.is-error { color: var(--color-ext-error); }
+/* figma: 101:114, 101:119, 101:124 (DRAWN disabled: fill Grey 400, 1px INSIDE border Grey 300, text Grey 300; Select chevron strokes and Search icon stroke flat Grey 300, the Search icon's blue fill removed -> assets/select-chevron-down-disabled.svg, assets/search-disabled.svg; no opacity) */
+.select:is(:disabled, .is-disabled, [aria-disabled="true"]), .search:is(.is-disabled, [aria-disabled="true"], :has(:disabled)), .input:is(:disabled, .is-disabled, [aria-disabled="true"]), .textarea:is(:disabled, .is-disabled, [aria-disabled="true"]) { background: var(--color-action-field-disabled-bg); border-color: var(--color-action-field-disabled-border); color: var(--color-action-field-disabled-text); cursor: not-allowed; }
+.select:is(:disabled, .is-disabled, [aria-disabled="true"]) .select__label { color: var(--color-action-field-disabled-text); }
+.select:is(:disabled, .is-disabled, [aria-disabled="true"]) .select__chevron { content: url("assets/select-chevron-down-disabled.svg"); }
+.search:is(.is-disabled, [aria-disabled="true"], :has(:disabled)) .search__icon { content: url("assets/search-disabled.svg"); }
+.search__input:disabled, .input:disabled, .textarea:disabled { color: var(--color-action-field-disabled-text); cursor: not-allowed; }
+/* EXTENDED — not in design: row 8 — Textarea = the Input recipe (fill Grey 500, 1px border Grey 400, radius 8, padding 8/12, Manrope Regular 12 like the Input, placeholder Grey 300); height from rows/content, no fixed height invented */
+.textarea { display: block; width: var(--w-field); padding: var(--space-8) var(--space-12); background: var(--color-action-field-bg); border: var(--border-hairline) solid var(--color-action-field-border); border-radius: var(--radius-control); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-action-field-placeholder); resize: vertical; }
+.textarea::placeholder { color: var(--color-action-field-placeholder); opacity: 1; }
+.textarea--fill { width: 100%; }
+
+/* ---------- Select open list (dropdown menu) ---------- */
+/* EXTENDED — not in design: row 9 (owner: list exactly as wide as the trigger; open trigger shows the gradient border, see the focus rule above) — wrapper .select-wrap holds the trigger and an absolutely positioned .select-menu (width 100% = trigger width, 4px below) */
+.select-wrap { position: relative; display: inline-block; }
+.select-menu { position: absolute; z-index: 10; top: calc(100% + var(--space-4)); left: 0; width: 100%; display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-4); background: var(--color-action-field-bg); border: var(--border-hairline) solid var(--color-border-hairline); border-radius: var(--radius-control); }
+/* items use the sidebar filter-item recipe (height 32, padding 8/12/8/16, Manrope Regular 12, Grey 100 label) but FILL the list width instead of 202 */
+.select-menu__item { display: flex; align-items: center; height: var(--h-control); padding: var(--space-8) var(--space-12) var(--space-8) var(--space-16); border-radius: var(--radius-control); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); cursor: pointer; }
+.select-menu__item:is(:hover, .is-hover, :focus-visible) { background: var(--color-ext-hover-item); outline: none; }
+/* selected item: 0.5px INSIDE brand-gradient ring counted in layout (33 high), label Medium 12 White — as the active nav pill / filter item */
+.select-menu__item:is(.is-selected, [aria-selected="true"]) { height: calc(var(--h-control) + 1px); border: var(--border-thin) solid transparent; background: linear-gradient(var(--color-action-field-bg), var(--color-action-field-bg)) padding-box, var(--gradient-brand) border-box; color: var(--color-text-primary); font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); }
+
+/* ---------- Buttons: disabled (DRAWN) and pressed (EXTENDED) ---------- */
+/* figma: 101:80 (DRAWN CTA disabled: fill Grey 100 #A6ACB6 instead of White, label Black 900, no opacity; no hover/pressed gradient) */
+.btn--cta:is(:disabled, .is-disabled, [aria-disabled="true"]) { background: var(--color-action-cta-disabled-bg); cursor: not-allowed; }
+/* figma: 101:82, 101:84 (DRAWN Outline / Outline+icon disabled: fill Grey 500, 1px stroke Grey 400, label and icon Grey 300; no hover ring) */
+.btn--outline:is(:disabled, .is-disabled, [aria-disabled="true"]) { background: var(--color-action-outline-disabled-bg); box-shadow: inset 0 0 0 var(--border-hairline) var(--color-action-outline-disabled-stroke); color: var(--color-action-outline-disabled-text); cursor: not-allowed; }
+.btn--outline:is(:disabled, .is-disabled, [aria-disabled="true"])::before { display: none; }
+.btn--outline:is(:disabled, .is-disabled, [aria-disabled="true"]) .btn__label { background: none; -webkit-text-fill-color: currentColor; color: var(--color-action-outline-disabled-text); }
+/* EXTENDED — not in design: row 5 — pressed = the drawn hover recipe of the same button, no further change (no darker token exists) */
+.btn--cta:is(:active, .is-pressed):not(:disabled, .is-disabled, [aria-disabled="true"]) { background: var(--color-action-cta-hover-bg); }
+.btn--outline:is(:active, .is-pressed):not(:disabled, .is-disabled, [aria-disabled="true"]) { box-shadow: none; --ring-gradient: var(--color-action-outline-hover-stroke); --ring-width: var(--border-thin); }
+.btn--has-icon:is(:active, .is-pressed):not(:disabled, .is-disabled, [aria-disabled="true"]) { --ring-gradient: var(--color-action-outline-icon-hover-stroke); }
+.btn--outline:is(:active, .is-pressed):not(:disabled, .is-disabled, [aria-disabled="true"])::before { content: ""; position: absolute; inset: var(--ring-inset, 0); border-radius: inherit; padding: var(--ring-width, var(--border-hairline)); background: var(--ring-gradient); -webkit-mask: linear-gradient(var(--color-black-900) 0 0) content-box, linear-gradient(var(--color-black-900) 0 0); -webkit-mask-composite: xor; mask: linear-gradient(var(--color-black-900) 0 0) content-box, linear-gradient(var(--color-black-900) 0 0); mask-composite: exclude; pointer-events: none; }
+.btn--outline:is(:active, .is-pressed):not(:disabled, .is-disabled, [aria-disabled="true"]) .btn__label { background: var(--color-action-outline-hover-text); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+.btn--outline:is(:active, .is-pressed):not(:disabled, .is-disabled, [aria-disabled="true"]) .icon--download { background: center / contain no-repeat url("assets/download-variant2.svg"); -webkit-mask: none; mask: none; }
+
+/* ---------- Tabs: disabled (DRAWN) and inactive-tab hover (EXTENDED) ---------- */
+/* figma: 101:88, 101:94 (DRAWN Tabs disabled: track Grey 400 unchanged; the ACTIVE tab fill becomes Grey 300 with a Grey 400 label; inactive tab label stays Grey 300) */
+.tabs:is(.is-disabled, [aria-disabled="true"]) { cursor: not-allowed; }
+.tabs:is(.is-disabled, [aria-disabled="true"]) .tab.is-active, .tabs:is(.is-disabled, [aria-disabled="true"]) .tab[aria-selected="true"] { background: var(--color-action-tab-disabled-active-bg); color: var(--color-action-tab-disabled-active-text); }
+/* EXTENDED — not in design: row 4 — inactive tab label Grey 300 -> primary text (White) on hover; no fill/stroke change. (Nav pill: its inactive label is already White #DCE1E9 in the design, so there is nothing to change on hover.) */
+.tabs:not(.is-disabled, [aria-disabled="true"]) .tab:not(.is-active, [aria-selected="true"]):is(:hover, .is-hover) { color: var(--color-text-primary); }
+
+/* ---------- Keyboard focus ring for buttons, tabs, nav pill, toggle (EXTENDED row 2, owner: gradient ring instead of blue) ---------- */
+/* EXTENDED — not in design: row 2 — a 1px brand-gradient ring drawn OUTSIDE the control: its outer edge is 3px outside the control (so 2px of gap), radius = component radius + 3 (pill/toggle stay round). ::after on buttons / tabs group / nav pill (their ::before is used by the hover/active gradient ring); ::before on the toggle (its ::after is the knob). Fields have no outer ring: their focus look is the gradient border above. */
+.tabs { position: relative; }
+.btn:is(:focus-visible, .is-focus)::after, .nav-pill:is(:focus-visible, .is-focus)::after, .tabs:is(.is-focus, :has(.tab:focus-visible))::after, .toggle:is(:focus-visible, .is-focus)::before {
+  content: ""; position: absolute; inset: calc(-1 * var(--size-ext-focus-ring-offset)); border-radius: calc(var(--radius-control) + var(--size-ext-focus-ring-offset)); padding: var(--size-ext-focus-ring-width);
+  background: var(--color-ext-focus-ring);
+  -webkit-mask: linear-gradient(var(--color-black-900) 0 0) content-box, linear-gradient(var(--color-black-900) 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(var(--color-black-900) 0 0) content-box, linear-gradient(var(--color-black-900) 0 0); mask-composite: exclude;
+  pointer-events: none;
+}
+.nav-pill:not(.is-active):is(:focus-visible, .is-focus)::after, .toggle:is(:focus-visible, .is-focus)::before { border-radius: var(--radius-round); }
+.btn:focus-visible, .tab:focus-visible, .nav-pill:focus-visible, .toggle:focus-visible { outline: none; }
+
+/* ---------- Disabled for the not-drawn controls (EXTENDED row 6, owner may redraw later) and interactive row hover (EXTENDED row 10) ---------- */
+/* EXTENDED — not in design: row 6 — toggle, nav pill, interactive rows: whole control at opacity 0.5 (the value the design uses on the Select chevron), not-allowed cursor, no hover/focus effects */
+.toggle-field:is(.is-disabled, [aria-disabled="true"]), .toggle:is(:disabled, .is-disabled, [aria-disabled="true"]), .nav-pill:is(:disabled, .is-disabled, [aria-disabled="true"]), .row-card.is-disabled, .filter-item.is-disabled, .data-table__row.is-disabled { opacity: var(--opacity-ext-disabled); cursor: not-allowed; }
+.toggle:is(:disabled, .is-disabled, [aria-disabled="true"])::before, .nav-pill:is(:disabled, .is-disabled, [aria-disabled="true"])::after { display: none; }
+/* EXTENDED — not in design: row 10 (owner: Grey 400, same as the dropdown item hover) — interactive row hover fill Grey 400; no stroke change; the drawn selected ring is kept. Opt-in: .is-interactive on a row card / table body row; every sidebar .filter-item is interactive */
+.row-card.is-interactive:not(.is-disabled):is(:hover, .is-hover), .filter-item:not(.is-active, .is-disabled):is(:hover, .is-hover), .data-table__row.is-interactive:not(.data-table__row--head, .is-disabled):is(:hover, .is-hover) { background: var(--color-ext-hover-row); }
+
+/* ---------- Tooltip (EXTENDED row 11, owner revised: Grey 400 fill, NO border, light-grey text) ---------- */
+/* EXTENDED — not in design: row 11 — fill Grey 400, no border, radius 8, padding 8/12, Manrope Regular 12 Grey 100, no shadow, no arrow; positioning is the developer's */
+.tooltip { display: inline-block; width: max-content; padding: var(--space-8) var(--space-12); background: var(--color-ext-tooltip-bg); border-radius: var(--radius-control); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-ext-tooltip-text); }
+
+/* ---------- Toast (EXTENDED row 12, owner: top-right, 12px text, four colours by information) ---------- */
+/* EXTENDED — not in design: row 12 — a notice panel (.notice--critical | --warning | --info drawn, --success = success-pill recipe) fixed to the TOP-RIGHT corner, 40px from top and right, text Manrope Medium 12 (the notice headline size), stacked with gap 8, no shadow, no animation. Display time is the developer's decision. */
+.toast-stack { position: fixed; z-index: 200; top: var(--size-ext-toast-offset); right: var(--size-ext-toast-offset); display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-8); }
+.toast { width: max-content; max-width: var(--size-ext-toast-max-width); font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); }
+.notice--success { background: var(--color-ext-toast-success-bg); color: var(--color-ext-toast-success-text); }
+
+/* ---------- Modal (DRAWN by the owner: Figma 105:131) ---------- */
+/* figma: 105:400 (scrim: Black 900 at 25% + BACKGROUND_BLUR 12, covers the page from y=70 down, i.e. NOT the 66px header (4px of page show above it); content centred) */
+.modal-scrim { position: fixed; z-index: 100; inset: var(--layout-scrim-top) 0 0 0; display: grid; place-items: center; background: var(--color-surface-scrim); -webkit-backdrop-filter: blur(var(--blur-scrim)); backdrop-filter: blur(var(--blur-scrim)); }
+/* figma: 105:411 (dialog: hugs content (254x149 in the example), fill Grey 400, no stroke, radius 8, padding 24, V gap 32, no shadow) */
+.modal { display: flex; flex-direction: column; gap: var(--space-32); width: max-content; padding: var(--space-24); background: var(--color-surface-modal); border-radius: var(--radius-control); }
+/* figma: 105:401, 105:402, 105:403 (text block V gap 4: title Manrope Medium 14 White, text Manrope Medium 10 Grey 200) */
+.modal__text { display: flex; flex-direction: column; gap: var(--space-4); }
+.modal__title { font: var(--type-heading-14); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+.modal__body { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+/* figma: 105:404 (button row: H gap 24, left aligned: Outline Button + CTA Button instances) */
+.modal__actions { display: flex; align-items: center; gap: var(--space-24); }
+
+/* ---------- Scrollbar (EXTENDED row 14, owner picked option B) ---------- */
+/* EXTENDED — not in design: row 14 — the design draws no scrollbar. .scroll = a scrollable container (give it a height / max-height): thin 6px bar, no track, no arrow buttons, thumb Grey 300 at the existing 0.5 opacity, thumb hover Grey 300, fully round. Chrome/Safari/Edge use the ::-webkit-scrollbar rules; Firefox gets the standard properties (thin, same colours, no hover colour). */
+.scroll { overflow: auto; }
+.scroll::-webkit-scrollbar { width: var(--size-ext-scroll-width); height: var(--size-ext-scroll-width); }
+.scroll::-webkit-scrollbar-track { background: transparent; }
+.scroll::-webkit-scrollbar-button { display: none; }
+.scroll::-webkit-scrollbar-thumb { background: var(--color-ext-scroll-thumb); border-radius: var(--radius-round); }
+.scroll::-webkit-scrollbar-thumb:hover { background: var(--color-ext-scroll-thumb-hover); }
+@supports not selector(::-webkit-scrollbar) { .scroll { scrollbar-width: thin; scrollbar-color: var(--color-ext-scroll-thumb) transparent; } }
+
+/* ===== PART 4: EXTENDED rows 15-20 — General information tab (owner approved 2026-11-17). Everything below is NOT in the design; derived from existing tokens. ===== */
+
+/* ---------- Interactive pill (row 16) ---------- */
+/* EXTENDED — not in design: row 16 — a status pill that opens the "why this status" drawer is a <button class="pill pill--… pill--action">; same fill/text as the static pill, pointer cursor, hover/focus = 1px ring in the pill's own text colour. The trailing "›" is part of the label text. */
+.pill--action { border: 0; cursor: pointer; }
+.pill--action:is(:hover, .is-hover, :focus-visible) { outline: none; box-shadow: 0 0 0 var(--border-hairline) currentColor; }
+/* EXTENDED — not in design: row 18 — neutral pill ("Declared"): Grey 400 fill, Grey 200 text */
+.pill--neutral { background: var(--color-ext-pill-neutral-bg); color: var(--color-ext-pill-neutral-text); }
+
+/* ---------- Source chip (row 17) ---------- */
+/* EXTENDED — not in design: row 17 — clickable source chip ("Account opening form p.3 · image"): Grey 400 fill, Grey 100 text, Manrope Regular 10, 18 high, radius 4, padding 0/8 (the pill recipe in neutral colours); hover/focus = label White. A "✓" (verified text) is a child .chip__ok in Green. */
+.chip { display: inline-flex; align-items: center; gap: var(--space-4); height: var(--h-pill); padding: 0 var(--space-8); border: 0; border-radius: var(--radius-pill); background: var(--color-ext-chip-bg); color: var(--color-ext-chip-text); font: var(--type-pill-10); letter-spacing: var(--letter-spacing-0); white-space: nowrap; cursor: pointer; }
+.chip:is(:hover, .is-hover, :focus-visible) { color: var(--color-text-primary); outline: none; }
+.chip__ok { color: var(--color-text-success); }
+.chips { display: flex; flex-wrap: wrap; gap: var(--space-4); }
+
+/* ---------- Field rows: expandable list of "label | value + sources | status" (row 15) ---------- */
+/* EXTENDED — not in design: row 15 — .field-list is the data-table frame (1px Grey 400, radius 8); each .field-row = caret + label (224 wide) | value (+ source chips below) | status pill, padding 12/16, bottom hairline, interactive row hover Grey 400 (row 10). Caret = the owner-drawn arrow icons (arrow-right closed, arrow-down open) as plain background images in their drawn colour (Grey 100); not masks, so they also render when the page is opened from file://. */
+.field-group { display: flex; flex-direction: column; gap: var(--space-8); }
+.field-group__title { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+.field-list { display: flex; flex-direction: column; border: var(--border-hairline) solid var(--color-border-hairline); border-radius: var(--radius-control); overflow: hidden; }
+.field-row { display: grid; grid-template-columns: 224px minmax(0, 1fr) auto; gap: var(--space-16); align-items: start; padding: var(--space-12) var(--space-16); border-bottom: var(--border-hairline) solid var(--color-border-hairline); cursor: pointer; }
+.field-row:last-child { border-bottom: 0; }
+.field-row:is(:hover, .is-hover) { background: var(--color-ext-hover-field-row); }
+.field-row__label { display: flex; align-items: flex-start; gap: var(--space-4); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); }
+.field-row__caret { flex: none; width: 16px; height: 16px; background: url("assets/arrow-right.svg") center / contain no-repeat; }
+.field-row.is-open .field-row__caret { background-image: url("assets/arrow-down.svg"); }
+.field-row__req { color: var(--color-text-muted); }
+.field-row__main { display: flex; flex-direction: column; gap: var(--space-8); min-width: 0; }
+.field-row__value { font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+.field-row__value.is-empty { color: var(--color-text-muted); }
+.field-row__status { display: flex; justify-content: flex-end; min-width: 96px; }
+/* EXTENDED — not in design: row 15 — expanded row: a full-width detail block under the row (headline Medium 12 White, explanation Regular 12 Grey 100, optional note Regular 12 Grey 200, an Outline button that opens the source pages); hidden until .is-open. */
+.field-row__detail { display: none; grid-column: 1 / -1; flex-direction: column; align-items: flex-start; gap: var(--space-8); padding-top: var(--space-12); border-top: var(--border-hairline) solid var(--color-border-hairline); cursor: default; }
+.field-row.is-open .field-row__detail { display: flex; }
+.field-row__why { font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); }
+.field-row__note { font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+
+/* ---------- Radio (row 20) ---------- */
+/* EXTENDED — not in design: row 20 — 16px circle, 1px Grey 300 border, no fill; checked = brand-gradient ring with a 6px brand-gradient dot (Grey 500 gap). Label Manrope Regular 12 White beside it (.radio-field). Focus = the gradient ring of row 2. */
+.radio-field { display: inline-flex; align-items: center; gap: var(--space-8); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); cursor: pointer; }
+.radio { appearance: none; -webkit-appearance: none; flex: none; width: var(--size-ext-radio); height: var(--size-ext-radio); margin: 0; border: var(--border-hairline) solid var(--color-action-field-hover-border); border-radius: var(--radius-round); background: none; cursor: pointer; }
+.radio:checked { border-color: transparent; background: var(--gradient-brand) border-box; box-shadow: inset 0 0 0 4px var(--color-action-field-bg); }
+.radio:focus-visible { outline: var(--border-hairline) solid var(--color-text-secondary); outline-offset: var(--space-2); }
+
+/* ---------- Drawer (row 19) ---------- */
+/* EXTENDED — not in design: row 19 — the Modal recipe anchored to the right: scrim = the .modal-scrim recipe (Black 900 25% + blur 12, from y=70); panel = Grey 500 field fill with a 1px Grey 400 left border, full height, width 960 (--size-ext-drawer-width), padding 24, V gap 16, scrolls (.scroll). No shadow, no animation. Header = section caption + heading 14 + Close (Outline button). */
+.drawer-scrim { position: fixed; z-index: 100; inset: var(--layout-scrim-top) 0 0 0; display: flex; justify-content: flex-end; background: var(--color-surface-scrim); -webkit-backdrop-filter: blur(var(--blur-scrim)); backdrop-filter: blur(var(--blur-scrim)); }
+.drawer-scrim[hidden] { display: none; }
+.drawer { display: flex; flex-direction: column; gap: var(--space-16); width: var(--size-ext-drawer-width); max-width: 100%; height: 100%; padding: var(--space-24); overflow: auto; background: var(--color-surface-field); border-left: var(--border-hairline) solid var(--color-border-hairline); }
+.drawer__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-16); }
+.drawer__title { font: var(--type-heading-14); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+.drawer__caption { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+.drawer__section { display: flex; flex-direction: column; gap: var(--space-12); padding: var(--space-16); border: var(--border-hairline) solid var(--color-border-hairline); border-radius: var(--radius-card); }
+.drawer__page { display: grid; place-items: center; height: 320px; border-radius: var(--radius-control); background: var(--color-surface-raised); font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); }
+
+/* ---------- Long ownership tree (EXTENDED row 21) ---------- */
+/* EXTENDED — not in design: row 21 — the drawn tree is a fixed 6-row drawing (absolute rows). .tree--long is the same tree with rows in normal flow (same 18 high rows, 12 gap, same level indents 24 / 48 / 71, same hairline spines) so it can hold any number of parties. Spines run to the bottom of the box. */
+.tree--long .tree__rows { display: flex; flex-direction: column; gap: var(--space-12); height: auto; }
+.tree--long .tree-row { position: relative; top: auto; left: auto; margin-left: var(--tree-left, 0); }
+.tree--long .tree__spine--1 { height: calc(100% - 18px); }
+.tree--long .tree__spine--2 { height: calc(100% - 48px); }
+.tree--long .tree__spine--3 { height: calc(100% - 80px); }
+/* EXTENDED — not in design: row 22 — the "Below threshold" pill = the neutral pill (row 18) */
+
+/* ---------- Text action (EXTENDED row 23) ---------- */
+/* EXTENDED — not in design: row 23 — inline action in a notice or row ("Accept gap…", "Undo…"): no box, Manrope Medium 10, Blue accent text (the design uses Blue for links), underline on hover/focus */
+.link-action { padding: 0; border: 0; background: none; font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-accent); cursor: pointer; }
+.link-action:is(:hover, .is-hover, :focus-visible) { text-decoration: underline; outline: none; }
+/* EXTENDED — not in design: row 23 variant — .link-action--light: the same text action in primary text (White), for links on a coloured notice where Blue is too strong */
+.link-action--light { color: var(--color-text-primary); }
+
+/* ---------- Revealed personal data (EXTENDED row 24) ---------- */
+/* EXTENDED — not in design: row 24 — "Show personal details": a person tag (or data tag) whose placeholder is replaced by the real value loses the blue chip and reads as plain primary text, like the old platform. Add .is-revealed on .pill--tag; the text swap is the developer's. */
+.pill--tag.is-revealed { display: inline; height: auto; padding: 0; background: none; color: var(--color-text-primary); font: inherit; letter-spacing: inherit; white-space: normal; }
+.pill--tag.is-revealed .pill__label { opacity: 1; }
+
+/* ---------- Dynamic progress ring (EXTENDED row 25) ---------- */
+/* EXTENDED — not in design: row 25 (owner chose a dynamic ring over the static drawings) — same 72px ring, 4px stroke, Black 900 track and brand-gradient arc as the drawn Pipeline ring, but the arc length follows --pct (0-100) so it always matches the label. Use <span class="ring__dyn" style="--pct:54"></span> instead of the <img class="ring__img"> inside .ring. Drawn ring starts at 12 o'clock and runs clockwise. Differences from the drawing: butt caps (CSS cannot round the arc ends) and the gradient runs along the arc (conic) instead of the drawn diagonal; the drawn drop shadow (-2/2, blur 3, 48% black) is kept. */
+.ring__dyn { position: absolute; left: 5px; top: 7px; width: var(--size-ext-ring); height: var(--size-ext-ring); filter: drop-shadow(-2px 2px 3px rgba(8, 9, 10, 0.48)); }
+.ring__dyn::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, var(--color-ext-ring-arc-start) 0, var(--color-ext-ring-arc-end) calc(var(--pct, 0) * 1%), var(--color-ext-ring-track) calc(var(--pct, 0) * 1%) 100%); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - var(--size-ext-ring-stroke)), #000 calc(100% - var(--size-ext-ring-stroke) + 0.5px)); mask: radial-gradient(farthest-side, transparent calc(100% - var(--size-ext-ring-stroke)), #000 calc(100% - var(--size-ext-ring-stroke) + 0.5px)); }
+
+/* EXTENDED — not in design: row 25 (donut variant) — the Runs summary donut, dynamic like the ring: 140px, 8px stroke, same track/arc/shadow as the drawn donut; use <span class="donut__dyn" style="--pct:54"></span> instead of the <img class="donut__img">. */
+.donut__dyn { position: absolute; left: 0; top: 0; width: 140px; height: 140px; filter: drop-shadow(-3px 3px 4px rgba(8, 9, 10, 0.48)); }
+.donut__dyn::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: conic-gradient(from 0deg, var(--color-ext-ring-arc-start) 0, var(--color-ext-ring-arc-end) calc(var(--pct, 0) * 1%), var(--color-ext-ring-track) calc(var(--pct, 0) * 1%) 100%); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 7.5px)); mask: radial-gradient(farthest-side, transparent calc(100% - 8px), #000 calc(100% - 7.5px)); }
+/* prototype-friendly: link text inside an action row is clickable */
+.action-row__link[data-goto] { cursor: pointer; }
+.action-row__link[data-goto]:is(:hover, :focus-visible) { text-decoration: underline; }
+
+/* EXTENDED — not in design: row 26 — long text values in a field row (company history, description of activities): shown clamped to 3 lines with an ellipsis, in full once the row is open (.is-open). Add .field-row__value--clamp next to .field-row__value. */
+.field-row__value--clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }
+.field-row.is-open .field-row__value--clamp { display: block; overflow: visible; }
+
+/* EXTENDED — not in design: row 27 (owner: the 10px notice paragraph was too small to read) — .type-paragraph-12 = the notice paragraph (Manrope Medium, Grey 100 via .text-label) two points larger: Medium 12 with a 20px line-height (the 10px paragraph has 16). Person tags inside keep their own 10px pill size. */
+.type-paragraph-12 { font: var(--type-title-12); line-height: 20px; letter-spacing: var(--letter-spacing-0); }
+
+/* ---------- Financial figure tables (EXTENDED row 28) ---------- */
+/* EXTENDED — not in design: row 28 — tables of figures (Key financial figures, Bank statements) built on .data-table: add .data-table--fig and give --table-cols inline. Header cells and values are right-aligned in numeric columns (.data-table__cell--num); .fin-group = a full-width label row ("Income statement"); .fin-num = a clickable number with a 6px status dot after it (green = confirmed, orange = one source / unclear / not found / arithmetic to check, red = sources disagree); .fin-legend = the muted legend line under a table. */
+.data-table--fig .data-table__cell { justify-content: center; }
+.data-table__cell--num { align-items: flex-end; text-align: right; }
+.fin-group { grid-column: 1 / -1; padding: var(--space-8); font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+.fin-label { font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); }
+.fin-num { display: inline-flex; align-items: center; gap: var(--space-6); padding: 0; border: 0; background: none; font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); cursor: pointer; }
+.fin-num:is(:hover, .is-hover, :focus-visible) { text-decoration: underline; outline: none; }
+.fin-num.is-missing { color: var(--color-text-muted); }
+.fin-plain { font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+.fin-sub { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); }
+.fin-legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-16); font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); }
+.fin-legend > span { display: inline-flex; align-items: center; gap: var(--space-6); }
+
+/* ---------- Score meter (EXTENDED row 29) ---------- */
+/* EXTENDED — not in design: row 29 (owner: add a thin meter) — a 4px bar for a score out of 10: Grey 400 track, fill in "Gradient orange" up to --pct (0-100). Use <span class="meter" style="--pct:50"></span> under the score text. */
+.meter { display: block; width: var(--size-ext-meter-width); height: var(--size-ext-meter-height); border-radius: var(--radius-pill); background: var(--color-surface-raised); overflow: hidden; }
+.meter::after { content: ""; display: block; width: calc(var(--pct, 0) * 1%); height: 100%; background: var(--color-gradient-orange); }
+
+/* ---------- Documents to request (EXTENDED row 30) ---------- */
+/* EXTENDED — not in design: row 30 — a list of parties, each with its missing documents: .req-party = party name (heading 14) + role (Grey 200) and its items; .req-item = status pill + document title (Medium 12) with a muted explanation under it. Parties are separated by a hairline with 24 above the name; 16 between name and items and between items; 8 between an item title and its explanation (owner: more air). */
+.req-party { display: flex; flex-direction: column; gap: var(--space-16); padding-top: var(--space-24); border-top: var(--border-hairline) solid var(--color-border-hairline); }
+.req-item { display: flex; flex-direction: column; gap: var(--space-8); }
+
+/* ---------- Risk factors (EXTENDED row 31) ---------- */
+/* EXTENDED — not in design: row 31 — a numbered checklist row: .factor = number | title (+ optional EDD neutral pill) with a muted explanation | state pill + who set it; under it the actions (.link-action "Tick it" / "Clear it" / "Undo") and, once opened, a comment form (Textarea + CTA Save + Outline Cancel). Rows sit in a .field-list frame (1 px Grey 400, radius 8) with a hairline between rows. States: waiting = warning pill, not ticked = neutral pill, ticked = danger pill, cleared = success pill. */
+.factor { display: grid; grid-template-columns: 24px minmax(0, 1fr) 200px; gap: var(--space-8) var(--space-16); align-items: start; padding: var(--space-12) var(--space-16); border-bottom: var(--border-hairline) solid var(--color-border-hairline); }
+.factor:last-child { border-bottom: 0; }
+.factor__no { padding-top: var(--space-2); font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); }
+.factor__main { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.factor__title { display: flex; align-items: center; gap: var(--space-8); font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+.factor__state { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-4); }
+.factor__actions { grid-column: 2 / 4; display: flex; align-items: center; gap: var(--space-16); }
+.factor__form { grid-column: 2 / 4; display: flex; flex-direction: column; gap: var(--space-8); }
+
+/* EXTENDED — not in design: row 28 addition (owner: columns looked messy) — .data-table--aligned makes every row share ONE set of column tracks (CSS subgrid), so content-sized columns (max-content, e.g. an "Assess" button column) are as wide as the widest cell in the whole table and all rows line up. Without it each row sizes its own columns. */
+.data-table--aligned { display: grid; grid-template-columns: var(--table-cols); }
+.data-table--aligned > .data-table__row { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; }
+
+/* EXTENDED — not in design: row 23 size variant — .link-action--md = the text action two points larger (Medium 12), for a table where the action is the only thing to click (owner: Assess in the Country risk table). */
+.link-action--md { font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); }
+
+/* ---------- Tally list (EXTENDED row 32) ---------- */
+/* EXTENDED — not in design: row 32 (owner chose option B for the Files "Identified as" list) — a plain list of "label ... count" with no frame: .tally = two equal columns (gap 48), .tally__row = label (Manrope Regular 12, Grey 100) left and count (Jura Medium 14, Blue) right, padding 10 0, one hairline under each row; .tally__row--warn colours both Orange. Rows hug their content in height; columns share the width equally. */
+.tally { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-48); align-items: start; }
+.tally__row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-16); padding: var(--space-10) 0; border-bottom: var(--border-hairline) solid var(--color-border-hairline); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); }
+.tally__count { font: var(--type-numeral-14); letter-spacing: var(--letter-spacing-0); color: var(--color-text-accent); }
+.tally__row--warn, .tally__row--warn .tally__count { color: var(--color-text-warning); }
+
+/* ---------- Timeline (EXTENDED row 33) ---------- */
+/* EXTENDED — not in design: row 33 — a dated activity log: .timeline > .timeline__day (date, Medium 10 Grey 200) followed by .timeline__item entries = time (Jura SemiBold 12, Grey 300) | marker dot on a hairline | content (title Medium 12 White, detail Medium 10 Grey 200). Marker colours reuse the dot colours: done = Green, stage = Blue, user action = Purple, failed = Red, neutral = Grey 300. */
+.timeline { display: flex; flex-direction: column; }
+.timeline__day { padding: var(--space-16) 0 var(--space-8); font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+.timeline__day:first-child { padding-top: 0; }
+.timeline__item { display: grid; grid-template-columns: 64px 12px minmax(0, 1fr); column-gap: var(--space-12); }
+.timeline__time { padding-top: var(--space-2); font: var(--type-numeral-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); }
+.timeline__mark { position: relative; display: flex; justify-content: center; }
+.timeline__mark::before { content: ""; position: absolute; top: var(--space-6); bottom: calc(-1 * var(--space-1)); width: var(--border-hairline); background: var(--color-border-hairline); }
+.timeline__item:last-child .timeline__mark::before { display: none; }
+.timeline__mark i { position: relative; z-index: 1; width: 6px; height: 6px; margin-top: var(--space-4); border-radius: 50%; background: var(--color-grey-300); }
+.timeline__mark i.is-done { background: var(--color-green); }
+.timeline__mark i.is-stage { background: var(--color-blue); }
+.timeline__mark i.is-user { background: var(--color-purple); }
+.timeline__mark i.is-fail { background: var(--color-red); }
+.timeline__body { display: flex; flex-direction: column; gap: var(--space-2); padding-bottom: var(--space-12); min-width: 0; }
+.timeline__title { font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+.timeline__detail { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+
+/* EXTENDED — not in design: owner 2026-11-18 — a list of rows inside a framed panel does not need a separator after its last row (the panel's own border closes it): .panel > .action-row:last-child has no bottom border. The Overview action list (.action-list) keeps its drawn last separator. */
+.panel > .action-row:last-child { border-bottom: 0; }
+/* EXTENDED — not in design: owner 2026-11-18 — rows inside a framed panel are centred between their separators: the panel gap is 0 (set gap:0 on that .panel, the default panel gap of 16 pushed each row towards the line below it) and each row has 12 above and below its content (the drawn Overview action list keeps 8). */
+.panel > .action-row { padding: var(--space-12) 0; }
+
+/* ---------- Charts (EXTENDED rows 34-36, owner 2026-11-18: "simple, in your palette") ---------- */
+/* EXTENDED — not in design: row 34 — chart card: .chart-card = a .panel with a head (.chart-card__title Medium 12 White + .chart-card__sub Medium 10 Grey 200, and a "Table" / "Chart" .link-action at the right that swaps the chart for a table of the same figures), the chart, and for 2+ series a legend (.chart-legend with line keys). Text in charts wears the text tokens (never the series colour). */
+.chart-card { display: flex; flex-direction: column; gap: var(--space-16); min-width: 0; }
+.chart-card__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-16); }
+.chart-card__title { font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+.chart-card__sub { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+.chart-card.is-table .chart-view { display: none; }
+.chart-card:not(.is-table) .chart-table { display: none; }
+.chart-legend { display: flex; flex-wrap: wrap; gap: var(--space-16); font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+.chart-legend span { display: inline-flex; align-items: center; gap: var(--space-6); }
+.chart-legend i { width: 12px; height: 2px; border-radius: 1px; background: var(--c); }
+/* EXTENDED — not in design: row 35 — horizontal bar rows: label (Regular 12 Grey 100) | thin 8 px bar on a Grey 400 track, brand-gradient fill anchored at the left with a 4 px rounded data end | value (Jura Medium 14 Blue). 2 px surface gap between rows comes from the row padding. */
+.hbars { display: flex; flex-direction: column; }
+.hbar { display: grid; grid-template-columns: minmax(0, 40%) minmax(0, 1fr) 40px; align-items: center; column-gap: var(--space-12); padding: var(--space-6) 0; }
+.hbar__label { font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); }
+.hbar__label small { margin-left: var(--space-4); font: var(--type-label-10); color: var(--color-text-muted); }
+.hbar__track { display: block; height: var(--space-8); border-radius: var(--radius-pill); background: var(--color-surface-raised); }
+.hbar__fill { display: block; height: 100%; width: var(--pct, 0%); border-radius: 0 var(--radius-pill) var(--radius-pill) 0; background: var(--gradient-brand); }
+.hbar__val { text-align: right; font: var(--type-numeral-14); letter-spacing: var(--letter-spacing-0); color: var(--color-text-accent); }
+.hbar:is(:hover, :focus-visible) .hbar__label { color: var(--color-text-primary); }
+/* EXTENDED — not in design: row 36 — SVG charts (line, columns): hairline gridlines in Grey 400, axis text Medium 10 Grey 300, 2 px lines with round joins, a hover crosshair (hairline Grey 300) and a tooltip (the .tooltip component) listing every series at that position. */
+.chart-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart-svg .grid { stroke: var(--color-border-hairline); stroke-width: 1; }
+.chart-svg .axis text { fill: var(--color-text-muted); font: var(--type-label-10); }
+.chart-svg .line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart-svg .cross { stroke: var(--color-text-muted); stroke-width: 1; pointer-events: none; }
+.chart-svg .col { fill: var(--color-ext-ring-arc-start); }
+.chart-svg .col:hover { fill: var(--color-ext-ring-arc-end); }
+.chart-tip { position: fixed; z-index: 300; pointer-events: none; display: flex; flex-direction: column; gap: var(--space-4); }
+.chart-tip b { font: var(--type-title-12); color: var(--color-text-primary); }
+.chart-tip span { display: flex; align-items: center; gap: var(--space-6); font: var(--type-label-10); color: var(--color-text-secondary); }
+.chart-tip i { width: 10px; height: 2px; background: var(--c); }
+.kpi__sub { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-muted); }
+
+/* EXTENDED — not in design: owner 2026-11-18 — .data-table--roomy = taller rows for a short list that is the point of the page section (Admin Dashboard "Needs attention"): 16 on every side of each cell's content instead of 8 (rows ~50 high instead of ~33; owner asked for wider left/right margins too). */
+.data-table--roomy .data-table__cell { padding: var(--space-16); justify-content: center; }
+
+/* ---------- Checkbox, date input, avatar chip (EXTENDED rows 37-39, owner 2026-11-18) ---------- */
+/* EXTENDED — not in design: row 37 (owner: "new checkbox") — .checkbox-field > input.checkbox + label text: 16 px square, 1 px Grey 300 border (the field hover border), radius 4; checked = brand-gradient fill with a Black 900 check drawn in CSS; label Regular 12 White; focus = the gradient ring of row 2 is not drawn here (outline Grey 200 offset 2). */
+.checkbox-field { display: inline-flex; align-items: center; gap: var(--space-8); font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); cursor: pointer; }
+.checkbox { appearance: none; -webkit-appearance: none; position: relative; flex: none; width: 16px; height: 16px; margin: 0; border: var(--border-hairline) solid var(--color-action-field-hover-border); border-radius: var(--radius-pill); background: none; cursor: pointer; }
+.checkbox:checked { border-color: transparent; background: var(--gradient-brand); }
+.checkbox:checked::after { content: ""; position: absolute; left: 4.5px; top: 1px; width: 4px; height: 8px; border: solid var(--color-black-900); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.checkbox:focus-visible { outline: var(--border-hairline) solid var(--color-text-secondary); outline-offset: var(--space-2); }
+/* EXTENDED — not in design: row 38 (owner: "take the standard date picker from the web and customize it with my colour scheme") — the browser's own <input type="date"> styled as an Input (fill Grey 500, 1 px Grey 400 border, radius 8, Regular 12, 32 high) with the dark colour scheme and the accent in Blue-ish; the popup calendar is the browser's. */
+.input[type="date"] { color-scheme: dark; accent-color: var(--color-ext-ring-arc-start); width: auto; min-width: 150px; color: var(--color-action-field-value); }
+.input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 0.6; }
+/* EXTENDED — not in design: row 39 — .avatar-chip = initials in a 32 px circle (Grey 400 fill, Grey 100 Medium 10 text); .person-stats = a wrapping line of "number label" pairs (number Medium 12 White, label Medium 10 Grey 200). */
+.avatar-chip { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: var(--radius-round); background: var(--color-surface-raised); font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); }
+.person-stats { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-16); }
+.person-stats span { font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); color: var(--color-text-secondary); }
+.person-stats b { margin-right: var(--space-4); font: var(--type-title-12); color: var(--color-text-primary); }
+
+/* ---------- Date picker (EXTENDED row 40, replaces row 38; owner 2026-11-18) ---------- */
+/* figma: 183:1139 (Default), 183:1141 (hover), 183:1146 (Variant3) — the FIELD is drawn: fill Grey 500, 1 px Grey 400 border, radius 8, 32 high, padding 8/12, gap 32, text "dd/mm/yyyy" Manrope Regular 12 Grey 300, 16 px calendar icon (assets/calendar.svg, gradient) at the right; hover = border Grey 300 (the Input hover). EXTENDED — not in design: the calendar popup is NOT drawn; row 40 derives it from tokens: .calendar = panel (fill Grey 500, 1 px Grey 400 border, radius 16, padding 16, gap 12) under the field, title Medium 12 White, month arrows = the owner's arrow icons (Grey 100) in 24 px buttons, weekday letters Regular 10 Grey 300, 7-column day grid (32 high cells, radius 8; hover Grey 400; today = 0.5 px Grey 200 ring; selected = brand gradient with a Black 900 Medium 12 label; days of other months Grey 300), footer "Clear" / "Today" as text actions. Weeks start on Monday. */
+.datefield { position: relative; display: inline-block; }
+.datefield__input { width: 143px; padding-right: 36px; cursor: pointer; }
+.datefield__icon { position: absolute; right: var(--space-12); top: var(--space-8); width: 16px; height: 16px; pointer-events: none; }
+.datefield:is(:hover, .is-open) .datefield__input { border-color: var(--color-action-field-hover-border); }
+.calendar { position: absolute; z-index: 60; top: calc(100% + var(--space-4)); left: 0; display: flex; flex-direction: column; gap: var(--space-12); width: 280px; padding: var(--space-16); background: var(--color-surface-field); border: var(--border-hairline) solid var(--color-border-hairline); border-radius: var(--radius-card); }
+.calendar[hidden] { display: none; }
+.calendar__head { display: flex; align-items: center; justify-content: space-between; }
+.calendar__title { font: var(--type-title-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-primary); }
+.calendar__nav { display: flex; gap: var(--space-4); }
+.calendar__navbtn { width: 24px; height: 24px; padding: 0; border: 0; border-radius: var(--radius-control); background: url("assets/arrow-right.svg") center / 16px 16px no-repeat; cursor: pointer; }
+.calendar__navbtn--prev { transform: rotate(180deg); }
+.calendar__navbtn:is(:hover, :focus-visible) { background-color: var(--color-surface-raised); outline: none; }
+.calendar__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--space-2); text-align: center; }
+.calendar__dow { height: 24px; font: var(--type-label-10); letter-spacing: var(--letter-spacing-0); line-height: 24px; color: var(--color-text-muted); }
+.calendar__day { height: 32px; padding: 0; border: 0; border-radius: var(--radius-control); background: none; font: var(--type-body-12); letter-spacing: var(--letter-spacing-0); color: var(--color-text-label); cursor: pointer; }
+.calendar__day:is(:hover, :focus-visible) { background: var(--color-surface-raised); color: var(--color-text-primary); outline: none; }
+.calendar__day.is-out { color: var(--color-text-muted); }
+.calendar__day.is-today { box-shadow: inset 0 0 0 var(--border-thin) var(--color-text-secondary); }
+.calendar__day.is-selected { background: var(--gradient-brand); color: var(--color-text-inverse); font: var(--type-title-12); box-shadow: none; }
+.calendar__foot { display: flex; justify-content: space-between; padding-top: var(--space-8); border-top: var(--border-hairline) solid var(--color-border-hairline); }
+
+/* EXTENDED — not in design: row 40b (owner 2026-11-18) — sticky header: .app-header--sticky keeps the header at the top while the page scrolls underneath it. The design draws no header fill, so it is filled with the page background (Black 900) to cover what scrolls under it; z-index 40 (above content, below the drawer scrim 100 and toasts 200). The frame must not clip (no overflow hidden on the screen). */
+.app-header--sticky { position: sticky; top: 0; z-index: 40; background: var(--color-surface-base); }
+
+/* ---------- Animated background (EXTENDED row 41, owner 2026-11-18: "rebuild as animated lines") ---------- */
+.bg-photo:has(.bg-grid)::before { display: none; }
+
+/* EXTENDED — not in design: row 41 — interactive dot grid on the Pipeline background (replaces the still picture from Figma 78:2487, owner decision 2026-11-17; the static ::before picture is hidden when .bg-grid is present) (idea: nocodecommunity.nl). <canvas class="bg-grid"> fills .bg-photo: a 20 px grid of 2 px dots at 7% opacity; within 210 px of the pointer the dots light up (to 85%), grow slightly and ease up to 12 px away from it; pointer follows with easing, grid breathes about 1 px. Static with "reduce motion". Dots are Grey 100 (#DCE1E9). */
+.bg-grid { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+/* EXTENDED — not in design: row 42 — clickable row card (run cards) hover fill is softer than the shared row hover. */
+.row-card.is-interactive:not(.is-disabled):is(:hover, .is-hover) { background: var(--color-ext-hover-row-card); }
