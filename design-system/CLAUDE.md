@@ -38,8 +38,8 @@ Exact design paint-style names (30). CSS var = `--color-<kebab name>`. Alpha ent
 | Token (CSS var) | Design name | Value | Use |
 |---|---|---|---|
 | `--color-black-900` | Black 900 | #08090A | screen background, KPI card, text on bright fills |
-| `--color-grey-500` | Grey 500 | #111213 | control fill, row card, filled panel, header border |
-| `--color-grey-400` | Grey 400 | #1C1E1F | hairline borders, tab track, step chip |
+| `--color-grey-500` | Grey 500 | #171819 | control fill, row card, filled panel, header border |
+| `--color-grey-400` | Grey 400 | #2C2E2F | hairline borders, tab track, step chip |
 | `--color-grey-300` | Grey 300 | #62666D | muted text, placeholders |
 | `--color-grey-200` | Grey 200 | #8A8F98 | secondary text (the outline button is White since 2026-11-17) |
 | `--color-grey-100` | Grey 100 | #A6ACB6 | label text, form labels, toggle OFF track and label |

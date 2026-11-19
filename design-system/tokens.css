@@ -9,8 +9,8 @@
   --color-blue-25: rgba(89, 188, 250, 0.25); /* paint style "Blue 25%": logo line 3 stroke — 78:2498 */
   --color-blue-15: rgba(89, 188, 250, 0.15); /* paint style "Blue 15%": person-tag pill fill, search icon ellipse — 78:1974, I78:2635;78:1708 */
   --color-black-900: #08090A; /* paint style "Black 900": screen background, KPI cards, text on bright fills — 78:2486, 78:2516, I78:2514;10:169 */
-  --color-grey-500: #111213; /* paint style "Grey 500": control fill (Select/Search/Input), inner row cards, header bottom border — 78:2510, 78:2531, 78:2488 */
-  --color-grey-400: #1C1E1F; /* paint style "Grey 400": hairline border on panels/controls/rows, tab-track fill, step-chip fill — 78:2516, 78:1995, 78:2632 */
+  --color-grey-500: #171819; /* paint style "Grey 500" (owner changed #111213 -> #171819 2026-11-19, more contrast on Windows): control fill (Select/Search/Input), inner row cards, header bottom border — 78:2510, 78:2531, 78:2488 */
+  --color-grey-400: #2C2E2F; /* paint style "Grey 400" (owner changed #1C1E1F -> #2C2E2F 2026-11-19, more contrast on Windows): hairline border on panels/controls/rows, tab-track fill, step-chip fill — 78:2516, 78:1995, 78:2632 */
   --color-grey-300: #62666D; /* paint style "Grey 300": muted text, captions, placeholders, — 78:2518, I78:2635;73:1664, I78:1955;21:59 */
   --color-grey-200: #8A8F98; /* paint style "Grey 200": secondary text, outline-button stroke + label — 78:2585, 18:227, 18:226 */
   --color-grey-100: #A6ACB6; /* paint style "Grey 100": tertiary/label text, form labels, toggle OFF track + label — 78:2539, 78:2634 */

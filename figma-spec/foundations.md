@@ -51,8 +51,8 @@ Every colour in the four finals comes from the 30 local paint styles except 4 ra
 | Blue 25% | #59BCFA @0.25 | `S:a6c14623ba8b86d1097b990dc83f02bb7f8b4be7,` | logo line 3 stroke (`78:2498`) |
 | Blue 15% | #59BCFA @0.15 | `S:d4490bcfb5d8630b35db266db6008beb6f1846ca,` | person-tag pill fill (`78:1974`), search icon ellipse (`I78:2635;78:1708`) |
 | Black 900 | #08090A | `S:7774f5c6f177ae6a9bfb5d0b450b030ac8eba7f0,` | screen background; KPI cards; deepest surface; text on bright fills (button label) |
-| Grey 500 | #111213 | `S:0187b185aaa2a944065d24f73aef9414f7191627,` | control fill (Select/Search/Input), inner row cards, header bottom border |
-| Grey 400 | #1C1E1F | `S:7f06bc71069190c0a42a2eb4123713a66fef4704,` | hairline border colour on panels/controls/table rows; tab-track fill; step-number chip fill |
+| Grey 500 | #171819 (was #111213) | `S:0187b185aaa2a944065d24f73aef9414f7191627,` | control fill (Select/Search/Input), inner row cards, header bottom border |
+| Grey 400 | #2C2E2F (was #1C1E1F) | `S:7f06bc71069190c0a42a2eb4123713a66fef4704,` | hairline border colour on panels/controls/table rows; tab-track fill; step-number chip fill |
 | Grey 300 | #62666D | `S:b5ce2d3ee5bca4ab6864f9f6fd3bdcb28b477736,` | muted text, section captions, placeholders, toggle-off track |
 | Grey 200 | #8A8F98 | `S:59ecbb960d83a332e0fdaa330f88e06a9696dd4c,` | secondary text, outline-button border+label |
 | Grey 100 | #A6ACB6 | `S:89c1fd6d3cb4acb098cd5ed55a5cf6d7762cd46b,` | tertiary/label text, form labels |
